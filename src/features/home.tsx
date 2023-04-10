@@ -13,7 +13,7 @@ const Form1 = () => {
   // const handleClick = () => setShow(!show);
   return (
     <Box>
-      <OrderedList>
+      <OrderedList color={'blue.400'}>
         <ListItem><Link to="/face">フェイスシートの登録・確認</Link></ListItem>
         <ListItem><Link to="/reserve">準備</Link></ListItem>
         <ListItem><Link to="/check/pure-tone">聞こえチェック 純音</Link></ListItem>
