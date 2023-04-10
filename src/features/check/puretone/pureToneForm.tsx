@@ -1,4 +1,4 @@
-import { useState } from 'react';
+// import { useState } from 'react';
 import { useLocation } from "react-router-dom"
 import {
   Box,
@@ -23,10 +23,10 @@ const Form1 = () => {
           {`純音 ${hzValue}Hz ${site}`} 
         </Heading>
         <Text as="p">
-          チェック開始ボタンをタップして音が鳴るまで待ってください
+          チェック開始ボタンをタップして音が鳴るまで待ってください。
         </Text>
         <Text as="p">
-          音が聴こえたら聴こえたボタンをタップしてください．
+          音が聴こえたら聴こえたボタンをタップしてください。
         </Text>
       </Box>
     </>
@@ -34,8 +34,8 @@ const Form1 = () => {
 };
 
 export const PureToneFormPage = () => {
-  const [step, setStep] = useState(1);
-  const [progress, setProgress] = useState(33.33);
+  // const [step, setStep] = useState(1);
+  // const [progress, setProgress] = useState(33.33);
   return (
     <>
       <Box
@@ -47,29 +47,23 @@ export const PureToneFormPage = () => {
         m="10px auto"
         as="form">
         <Form1 />
-        <ButtonGroup mt="5%" w="100%">
+        <ButtonGroup mt="2%" w="100%">
           <Flex w="100%" justifyContent="space-between">
             <Flex>
               <Button
                 onClick={() => {
-                  setStep(step - 1);
-                  setProgress(progress - 33.33);
+                  console.log("onClick")
                 }}
-                isDisabled={step === 1}
+                // isDisabled={step === 1}
                 colorScheme="teal"
                 variant="solid"
                 mr="5%">
                 チェック開始
               </Button>
               <Button
-                isDisabled={step === 3}
+                // isDisabled={step === 3}
                 onClick={() => {
-                  setStep(step + 1);
-                  if (step === 3) {
-                    setProgress(100);
-                  } else {
-                    setProgress(progress + 33.33);
-                  }
+                  console.log("onClick")
                 }}
                 mr="5%"
                 colorScheme="teal"
@@ -78,10 +72,9 @@ export const PureToneFormPage = () => {
               </Button>
               <Button
                 onClick={() => {
-                  setStep(step - 1);
-                  setProgress(progress - 33.33);
+                  console.log("onClick")
                 }}
-                isDisabled={step === 1}
+                // isDisabled={step === 1}
                 colorScheme="teal"
                 variant="solid"
                 >
@@ -91,12 +84,12 @@ export const PureToneFormPage = () => {
           </Flex>
         </ButtonGroup>
         <Box mt="2%">
-          <Text as="p">
+          <Text as="p" fontWeight={'bold'}>
             暗騒音レベル：
           </Text>
           <Button
             mt="2%"
-            isDisabled={step === 3}
+            // isDisabled={step === 3}
             onClick={() => {
               console.log("back")
             }}

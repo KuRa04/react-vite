@@ -53,26 +53,26 @@ const Form1 = () => {
       </Box>
       <FormControl mt="2%">
         <FormLabel htmlFor="" fontWeight={'bold'}>
-          聴こえに関してあてはまるものにチェックしてください
+          聴こえに関してあてはまるものにチェックしてください。
         </FormLabel>
         <Stack spacing={5} bg={"gray.100"} padding={'16px'}>
           <Checkbox colorScheme='green' defaultChecked>
-            テレビの音が大きいと言われる
+            テレビの音が大きいと言われる。
           </Checkbox>
           <Checkbox colorScheme='green' defaultChecked>
-            会議で相手の発言が聞き取りにくい
+            会議で相手の発言が聞き取りにくい。
           </Checkbox>
           <Checkbox colorScheme='green' defaultChecked>
-            聞き間違えることが多い
+            聞き間違えることが多い。
           </Checkbox>
           <Checkbox colorScheme='green' defaultChecked>
-            会話が聞き取れず、聞き返してしまう
+            会話が聞き取れず、聞き返してしまう。
           </Checkbox>
           <Checkbox colorScheme='green' defaultChecked>
-            病院などで呼ばれても気づかないことがある
+            病院などで呼ばれても気づかないことがある。
           </Checkbox>
           <Checkbox colorScheme='green' defaultChecked>
-            後ろから呼ばれても気づかない
+            後ろから呼ばれても気づかない。
           </Checkbox>
         </Stack>
       </FormControl>

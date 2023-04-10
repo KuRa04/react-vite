@@ -18,13 +18,13 @@ const Form1 = () => {
         聴こえチェック純音
         </Heading>
         <Text as="p">
-        純音をどの程度聴きとれるか調べる検査です
+        純音をどの程度聴きとれるか調べる検査です。
         </Text>
         <Text as="p">
-        イヤホン・ヘッドホンを着用してください
+        イヤホン・ヘッドホンを着用してください。
         </Text>
         <Text as="p">
-        検査したい耳，周波数を選んで検査を開始してください
+        検査したい耳，周波数を選んで検査を開始してください。
         </Text>
       </Box>
       <Box>
@@ -32,7 +32,7 @@ const Form1 = () => {
           {siteArray.map((site, index) => {
             return (
               <Box key={`${site}-${index}`} mt="2%">
-                <Text as="p">
+                <Text as="p" fontWeight={'bold'}>
                   {site}
                 </Text>
                 <HStack>
