@@ -10,7 +10,7 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "lint": "eslint src",
-    "test": "firebase emulators:exec --only firestore 'vitest run'"
+    "test": "vitest run"
   },
   "dependencies": {
     "@chakra-ui/icons": "^2.0.18",

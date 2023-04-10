@@ -1,4 +1,4 @@
-import { useState } from 'react';
+// import { useState } from 'react';
 import { useLocation } from "react-router-dom"
 import {
   Box,
@@ -12,10 +12,10 @@ import {
   Input
 } from '@chakra-ui/react';
 
-import { useToast } from '@chakra-ui/react';
+// import { useToast } from '@chakra-ui/react';
 
 const Form1 = () => {
-  const [show, setShow] = useState(false);
+  // const [show, setShow] = useState(false);
   // const [value, setValue] = useState('1')
   // const handleClick = () => setShow(!show);
   const search = useLocation().search;
@@ -37,9 +37,9 @@ const Form1 = () => {
 };
 
 export const VoiceFormPage = () => {
-  const toast = useToast();
-  const [step, setStep] = useState(1);
-  const [progress, setProgress] = useState(33.33);
+  // const toast = useToast();
+  // const [step, setStep] = useState(1);
+  // const [progress, setProgress] = useState(33.33);
   return (
     <>
       <Box
@@ -112,7 +112,7 @@ export const VoiceFormPage = () => {
           </Text>
           <Button
             mt="2%"
-            isDisabled={step === 3}
+            // isDisabled={step === 3}
             onClick={() => {
               console.log("back")
             }}
