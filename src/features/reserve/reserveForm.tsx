@@ -1,4 +1,4 @@
-import { useState } from 'react';
+// import { useState } from 'react';
 import {
   Box,
   ButtonGroup,
@@ -13,7 +13,7 @@ import {
   Input
 } from '@chakra-ui/react';
 
-import { useToast } from '@chakra-ui/react';
+// import { useToast } from '@chakra-ui/react';
 
 const Form1 = () => {
   // const [show, setShow] = useState(false);
@@ -52,9 +52,9 @@ const Form1 = () => {
 };
 
 export const ReserveFormPage = () => {
-  const toast = useToast();
-  const [step, setStep] = useState(1);
-  const [progress, setProgress] = useState(33.33);
+  // const toast = useToast();
+  // const [step, setStep] = useState(1);
+  // const [progress, setProgress] = useState(33.33);
   return (
     <>
       <Box
@@ -99,7 +99,7 @@ export const ReserveFormPage = () => {
           </Text>
           <Button
             mt="2%"
-            isDisabled={step === 3}
+            // isDisabled={step === 3}
             onClick={() => {
               console.log("back")
             }}
