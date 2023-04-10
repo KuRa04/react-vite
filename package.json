@@ -13,9 +13,19 @@
     "test": "firebase emulators:exec --only firestore 'vitest run'"
   },
   "dependencies": {
+    "@chakra-ui/icons": "^2.0.18",
+    "@chakra-ui/react": "^2.5.5",
+    "@emotion/react": "^11.10.6",
+    "@emotion/styled": "^11.10.6",
+    "@types/styled-components": "^5.1.26",
     "firebase": "^9.19.1",
+    "framer-motion": "^4.1.17",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-hook-form": "^7.43.9",
+    "react-icons": "^4.8.0",
+    "react-router-dom": "^6.10.0",
+    "styled-components": "^5.3.9"
   },
   "devDependencies": {
     "@babel/core": "^7.21.4",
