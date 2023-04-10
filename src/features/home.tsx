@@ -1,32 +1,16 @@
-import { useState } from 'react';
+// import { useState } from 'react';
 import {
-  Progress,
   Box,
-  Stack,
-  ButtonGroup,
-  Button,
-  Heading,
-  Text,
-  List,
   ListItem,
-  ListIcon,
   OrderedList,
-  Flex,
-  FormControl,
-  GridItem,
-  FormLabel,
-  Input
 } from '@chakra-ui/react';
 
 import { Link } from "react-router-dom";
 
-
-import { useToast } from '@chakra-ui/react';
-
 const Form1 = () => {
-  const [show, setShow] = useState(false);
-  const [value, setValue] = useState('1')
-  const handleClick = () => setShow(!show);
+  // const [show, setShow] = useState(false);
+  // const [value, setValue] = useState('1')
+  // const handleClick = () => setShow(!show);
   return (
     <Box>
       <OrderedList>
@@ -42,9 +26,6 @@ const Form1 = () => {
 };
 
 export const HomePage = () => {
-  const toast = useToast();
-  const [step, setStep] = useState(1);
-  const [progress, setProgress] = useState(33.33);
   return (
     <>
       <Box

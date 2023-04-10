@@ -1,19 +1,14 @@
 import { useState } from 'react';
 import {
-  Progress,
   Box,
-  Stack,
   ButtonGroup,
   Button,
   Heading,
   Text,
-  List,
   ListItem,
-  ListIcon,
   OrderedList,
   Flex,
   FormControl,
-  GridItem,
   FormLabel,
   Input
 } from '@chakra-ui/react';
@@ -21,9 +16,8 @@ import {
 import { useToast } from '@chakra-ui/react';
 
 const Form1 = () => {
-  const [show, setShow] = useState(false);
-  const [value, setValue] = useState('1')
-  const handleClick = () => setShow(!show);
+  // const [show, setShow] = useState(false);
+  // const handleClick = () => setShow(!show);
   return (
     <>
       <Box>
@@ -37,7 +31,7 @@ const Form1 = () => {
           <Input id="background-noise" placeholder="db値 例：32.1" />
         </FormControl>
       </Box>
-      <Box>
+      <Box mt="2%">
         <Heading as="h3" w="100%" textAlign={'left'} fontWeight="normal" mb="2%">
         2. キャリブレーション
         </Heading>

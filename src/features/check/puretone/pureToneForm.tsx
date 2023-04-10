@@ -1,35 +1,21 @@
 import { useState } from 'react';
-import { useLocation, useSearchParams } from "react-router-dom"
+import { useLocation } from "react-router-dom"
 import {
-  Progress,
   Box,
-  Stack,
   ButtonGroup,
   Button,
   Heading,
   Text,
-  List,
-  ListItem,
-  ListIcon,
-  OrderedList,
-  Flex,
-  FormControl,
-  GridItem,
-  FormLabel,
-  Input
+  Flex
 } from '@chakra-ui/react';
 
-import { useToast } from '@chakra-ui/react';
 
 const Form1 = () => {
-  const [show, setShow] = useState(false);
-  const [value, setValue] = useState('1')
-  const handleClick = () => setShow(!show);
+  // const handleClick = () => setShow(!show);
   const search = useLocation().search;
   const query = new URLSearchParams(search);
   const site = query.get('site')
   const hzValue = query.get('hzValue')
-  console.log(site)
   return (
     <>
       <Box>
@@ -48,7 +34,6 @@ const Form1 = () => {
 };
 
 export const PureToneFormPage = () => {
-  const toast = useToast();
   const [step, setStep] = useState(1);
   const [progress, setProgress] = useState(33.33);
   return (
