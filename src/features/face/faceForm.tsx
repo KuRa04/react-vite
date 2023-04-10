@@ -22,25 +22,25 @@ const Form1 = () => {
   // const handleClick = () => setShow(!show);
   return (
     <>
-      <Heading w="100%" textAlign={'center'} fontWeight="normal" mb="2%">
+      <Heading w="100%" textAlign={'center'} fontWeight={'normal'} mb={'2%'}>
       フェイスシートの登録
       </Heading>
       <Box>
         <FormControl mt="2%">
-          <FormLabel htmlFor="name" fontWeight={'normal'}>
-            氏名：
+          <FormLabel htmlFor="name" fontWeight={'bold'}>
+            氏名
           </FormLabel>
           <Input id="name" placeholder="山田太郎" />
         </FormControl>
         <FormControl mt="2%">
-          <FormLabel htmlFor="date-of-birth" fontWeight={'normal'}>
-            生年月：
+          <FormLabel htmlFor="date-of-birth" fontWeight={'bold'}>
+            生年月
           </FormLabel>
           <Input id="date-of-birth" placeholder="yyyy-mm" />
         </FormControl>
         <FormControl mt="2%">
-          <FormLabel htmlFor="" fontWeight={'normal'}>
-            性別：
+          <FormLabel htmlFor="" fontWeight={'bold'}>
+            性別
           </FormLabel>
           <RadioGroup onChange={setValue} value={value}>
           <Stack direction='row'>
@@ -52,10 +52,10 @@ const Form1 = () => {
         </FormControl>
       </Box>
       <FormControl mt="2%">
-        <FormLabel htmlFor="" fontWeight={'normal'}>
+        <FormLabel htmlFor="" fontWeight={'bold'}>
           聴こえに関してあてはまるものにチェックしてください
         </FormLabel>
-        <Stack spacing={5}>
+        <Stack spacing={5} bg={"gray.100"} padding={'16px'}>
           <Checkbox colorScheme='green' defaultChecked>
             テレビの音が大きいと言われる
           </Checkbox>
@@ -85,67 +85,50 @@ export const FaceFormPage = () => {
   const [step, setStep] = useState(1);
   const [progress, setProgress] = useState(33.33);
   return (
-    <>
-      <Box
-        borderWidth="1px"
-        rounded="lg"
-        shadow="1px 1px 3px rgba(0,0,0,0.3)"
-        maxWidth={800}
-        p={6}
-        m="10px auto"
-        as="form">
-        <Form1 />
-        <ButtonGroup mt="5%" w="100%">
-          <Flex w="100%" justifyContent="space-between">
-            <Flex>
-              <Button
-                onClick={() => {
-                  setStep(step - 1);
-                  setProgress(progress - 33.33);
-                }}
-                isDisabled={step === 1}
-                colorScheme="teal"
-                variant="solid"
-                w="7rem"
-                mr="5%">
-                登録
-              </Button>
-              <Button
-                w="7rem"
-                isDisabled={step === 3}
-                onClick={() => {
-                  setStep(step + 1);
-                  if (step === 3) {
-                    setProgress(100);
-                  } else {
-                    setProgress(progress + 33.33);
-                  }
-                }}
-                colorScheme="teal"
-                variant="outline">
-                戻る
-              </Button>
-            </Flex>
-            {step === 3 ? (
-              <Button
-                w="7rem"
-                colorScheme="red"
-                variant="solid"
-                onClick={() => {
-                  toast({
-                    title: 'Account created.',
-                    description: "We've created your account for you.",
-                    status: 'success',
-                    duration: 3000,
-                    isClosable: true,
-                  });
-                }}>
-                Submit
-              </Button>
-            ) : null}
+    <Box
+      borderWidth="1px"
+      rounded="lg"
+      shadow="1px 1px 3px rgba(0,0,0,0.3)"
+      maxWidth={800}
+      p={6}
+      m="10px auto"
+      as="form">
+      <Form1 />
+      <ButtonGroup mt="5%" w="100%">
+        <Flex w="100%" justifyContent="space-between">
+          <Flex>
+            <Button
+              onClick={() => {
+                // setStep(step - 1);
+                // setProgress(progress - 33.33);
+                console.log("onClick")
+              }}
+              // isDisabled={step === 1}
+              colorScheme="teal"
+              variant="solid"
+              w="7rem"
+              mr="5%">
+              登録
+            </Button>
+            <Button
+              w="7rem"
+              // isDisabled={step === 3}
+              onClick={() => {
+                // setStep(step + 1);
+                // if (step === 3) {
+                //   setProgress(100);
+                // } else {
+                //   setProgress(progress + 33.33);
+                // }
+                console.log("onClick")
+              }}
+              colorScheme="teal"
+              variant="outline">
+              戻る
+            </Button>
           </Flex>
-        </ButtonGroup>
-      </Box>
-    </>
+        </Flex>
+      </ButtonGroup>
+    </Box>
   );
 }
