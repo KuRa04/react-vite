@@ -85,7 +85,7 @@ export const PureToneFormPage = () => {
         </ButtonGroup>
         <Box mt="2%">
           <Text as="p" fontWeight={'bold'}>
-            暗騒音レベル：
+            暗騒音レベル
           </Text>
           <Button
             mt="2%"

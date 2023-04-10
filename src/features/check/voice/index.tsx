@@ -12,7 +12,7 @@ const Form1 = () => {
     <>
       <Box>
         <Heading as="h1" w="100%" textAlign={'left'} fontWeight="normal" mb="2%">
-          4. 聴こえチェック 音声
+          聴こえチェック 音声
         </Heading>
         <Text as="p">
           語音をどの程度聴きとれるか調べる検査です。

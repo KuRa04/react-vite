@@ -21,7 +21,7 @@ const Form1 = () => {
   return (
     <>
       <Box>
-        <Heading as="h3" w="100%" textAlign={'left'} fontWeight="normal" mb="2%">
+        <Heading as="h3" fontSize={'24px'} w="100%" textAlign={'left'} fontWeight="bold" mb="2%">
         1. 暗騒音レベルの計測
         </Heading>
         <FormControl mt="2%">
@@ -32,18 +32,18 @@ const Form1 = () => {
         </FormControl>
       </Box>
       <Box mt="2%">
-        <Heading as="h3" w="100%" textAlign={'left'} fontWeight="normal" mb="2%">
+        <Heading as="h3" fontSize={'24px'} w="100%" textAlign={'left'} fontWeight="bold" mb="2%">
         2. キャリブレーション
         </Heading>
         <Text as="p" fontWeight={'bold'}>
-          以下の手順に従ってキャリブレーションを行ってください
+          以下の手順に従ってキャリブレーションを行ってください。
         </Text>
         <Box bg={"gray.100"} mt={'2%'} padding={'16px'}>
           <OrderedList>
-            <ListItem>使っているタブレット端末をヘッドフォンに接続してください</ListItem>
-            <ListItem>開始ボタンをタップすると音（1 kHz の純音）が流れます</ListItem>
-            <ListItem>サウンドレベル測定アプリSLA Liteを使って44 dBになるように<br />スピーカーのボリュームを調整してください</ListItem>
-            <ListItem>停止ボタンをタップすると音が止まります</ListItem>
+            <ListItem>使っているタブレット端末をヘッドフォンに接続してください。</ListItem>
+            <ListItem>開始ボタンをタップすると音（1 kHz の純音）が流れます。</ListItem>
+            <ListItem>SLA Liteを使って44 dBになるようにスピーカーのボリュームを調整してください。</ListItem>
+            <ListItem>停止ボタンをタップすると音が止まります。</ListItem>
           </OrderedList>
         </Box>
       </Box>
@@ -94,8 +94,8 @@ export const ReserveFormPage = () => {
           </Flex>
         </ButtonGroup>
         <Box mt="2%">
-          <Text as="p">
-            暗騒音レベルの計測とキャリブレーションが終わったら，チェックを開始してください
+          <Text as="p" fontWeight="bold">
+            暗騒音レベルの計測とキャリブレーションが終わったら，チェックを開始してください。
           </Text>
           <Button
             mt="2%"
