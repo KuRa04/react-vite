@@ -10,7 +10,7 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "lint": "eslint src",
-    "test": "vitest run"
+    "test": "firebase emulators:exec --only firestore 'vitest run'"
   },
   "dependencies": {
     "firebase": "^9.19.1",
@@ -19,6 +19,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.21.4",
+    "@firebase/rules-unit-testing": "^2.0.7",
     "@storybook/addon-essentials": "^7.0.2",
     "@storybook/addon-interactions": "^7.0.2",
     "@storybook/addon-links": "^7.0.2",
