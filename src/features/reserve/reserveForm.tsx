@@ -25,8 +25,8 @@ const Form1 = () => {
         1. 暗騒音レベルの計測
         </Heading>
         <FormControl mt="2%">
-          <FormLabel htmlFor="background-noise" fontWeight={'normal'}>
-            暗騒音レベル：
+          <FormLabel htmlFor="background-noise" fontWeight={'bold'}>
+            暗騒音レベル
           </FormLabel>
           <Input id="background-noise" placeholder="db値 例：32.1" />
         </FormControl>
@@ -35,15 +35,17 @@ const Form1 = () => {
         <Heading as="h3" w="100%" textAlign={'left'} fontWeight="normal" mb="2%">
         2. キャリブレーション
         </Heading>
-        <Text as="p">
+        <Text as="p" fontWeight={'bold'}>
           以下の手順に従ってキャリブレーションを行ってください
         </Text>
-        <OrderedList>
-          <ListItem>使っているタブレット端末をヘッドフォンに接続してください</ListItem>
-          <ListItem>開始ボタンをタップすると音（1 kHz の純音）が流れます</ListItem>
-          <ListItem>サウンドレベル測定アプリSLA Liteを使って44 dBになるように<br />スピーカーのボリュームを調整してください</ListItem>
-          <ListItem>停止ボタンをタップすると音が止まります</ListItem>
-        </OrderedList>
+        <Box bg={"gray.100"} mt={'2%'} padding={'16px'}>
+          <OrderedList>
+            <ListItem>使っているタブレット端末をヘッドフォンに接続してください</ListItem>
+            <ListItem>開始ボタンをタップすると音（1 kHz の純音）が流れます</ListItem>
+            <ListItem>サウンドレベル測定アプリSLA Liteを使って44 dBになるように<br />スピーカーのボリュームを調整してください</ListItem>
+            <ListItem>停止ボタンをタップすると音が止まります</ListItem>
+          </OrderedList>
+        </Box>
       </Box>
     </>
   );
@@ -64,15 +66,14 @@ export const ReserveFormPage = () => {
         m="10px auto"
         as="form">
         <Form1 />
-        <ButtonGroup mt="5%" w="100%">
+        <ButtonGroup mt="2%" w="100%">
           <Flex w="100%" justifyContent="space-between">
             <Flex>
               <Button
                 onClick={() => {
-                  setStep(step - 1);
-                  setProgress(progress - 33.33);
+                  console.log("onClick")
                 }}
-                isDisabled={step === 1}
+                // isDisabled={step === 1}
                 colorScheme="teal"
                 variant="solid"
                 w="7rem"
@@ -81,39 +82,16 @@ export const ReserveFormPage = () => {
               </Button>
               <Button
                 w="7rem"
-                isDisabled={step === 3}
+                // isDisabled={step === 3}
                 onClick={() => {
-                  setStep(step + 1);
-                  if (step === 3) {
-                    setProgress(100);
-                  } else {
-                    setProgress(progress + 33.33);
-                  }
+                  console.log("onClick")
                 }}
                 colorScheme="teal"
                 variant="outline">
                 停止
               </Button>
             </Flex>
-            {step === 3 ? (
-              <Button
-                w="7rem"
-                colorScheme="red"
-                variant="solid"
-                onClick={() => {
-                  toast({
-                    title: 'Account created.',
-                    description: "We've created your account for you.",
-                    status: 'success',
-                    duration: 3000,
-                    isClosable: true,
-                  });
-                }}>
-                Submit
-              </Button>
-            ) : null}
           </Flex>
-          
         </ButtonGroup>
         <Box mt="2%">
           <Text as="p">
@@ -126,7 +104,8 @@ export const ReserveFormPage = () => {
               console.log("back")
             }}
             colorScheme="teal"
-            variant="outline">
+            variant="outline"
+          >
             聴こえチェックへ
           </Button>
         </Box>

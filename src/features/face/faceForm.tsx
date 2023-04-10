@@ -14,7 +14,7 @@ import {
   Checkbox,
 } from '@chakra-ui/react';
 
-import { useToast } from '@chakra-ui/react';
+// import { useToast } from '@chakra-ui/react';
 
 const Form1 = () => {
   // const [show, setShow] = useState(false);
@@ -81,9 +81,9 @@ const Form1 = () => {
 };
 
 export const FaceFormPage = () => {
-  const toast = useToast();
-  const [step, setStep] = useState(1);
-  const [progress, setProgress] = useState(33.33);
+  // const toast = useToast();
+  // const [step, setStep] = useState(1);
+  // const [progress, setProgress] = useState(33.33);
   return (
     <Box
       borderWidth="1px"
@@ -94,7 +94,7 @@ export const FaceFormPage = () => {
       m="10px auto"
       as="form">
       <Form1 />
-      <ButtonGroup mt="5%" w="100%">
+      <ButtonGroup mt="2%" w="100%">
         <Flex w="100%" justifyContent="space-between">
           <Flex>
             <Button
