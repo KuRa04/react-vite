@@ -1,34 +1,28 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { SignUpPage } from './features/auth/signUp';
+// import { SignInPage } from './features/auth/signIn';
+import { FaceFormPage } from './features/face/faceForm';
+import { ReserveFormPage } from './features/reserve/reserveForm';
+import { PureTonePage } from './features/check/puretone';
+import { PureToneFormPage } from './features/check/puretone/pureToneForm';
+import { VoicePage } from './features/check/voice';
+import { VoiceFormPage } from './features/check/voice/voiceForm';
+import { HomePage } from './features/home';
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank" rel="noopener noreferrer">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank" rel="noopener noreferrer">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route index element={<HomePage />} />
+        <Route path="sign-up" element={<SignUpPage />} />
+        <Route path="face" element={<FaceFormPage />} /> 
+        <Route path="reserve" element={<ReserveFormPage />} /> 
+        <Route path="check/pure-tone" element={<PureTonePage />} />
+        <Route path="check/pure-tone/detail" element={<PureToneFormPage />} />
+        <Route path="check/voice" element={<VoicePage />} />
+        <Route path="check/voice/detail" element={<VoiceFormPage />} />
+      </Routes>
+  </BrowserRouter>
   )
 }
 
