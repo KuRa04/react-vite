@@ -16,7 +16,7 @@ import { firebase } from '../../firebase';
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 export const SignInPage: React.FC = () => {
-  const auth = getAuth(firebase);
+  const auth = getAuth(firebase.app);
 
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
