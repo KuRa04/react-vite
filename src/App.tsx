@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { SignUpPage } from './features/auth/signUp';
-// import { SignInPage } from './features/auth/signIn';
+import { SignInPage } from './features/auth/signIn';
 import { FaceFormPage } from './features/face/faceForm';
 import { ReserveFormPage } from './features/reserve/reserveForm';
 import { PureTonePage } from './features/check/puretone';
@@ -15,6 +15,7 @@ function App() {
       <Routes>
         <Route index element={<HomePage />} />
         <Route path="sign_up" element={<SignUpPage />} />
+        <Route path="sign_in" element={<SignInPage />} />
         <Route path="face" element={<FaceFormPage />} /> 
         <Route path="reserve" element={<ReserveFormPage />} /> 
         <Route path="check/pure_tone" element={<PureTonePage />} />

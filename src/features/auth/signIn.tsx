@@ -12,15 +12,28 @@ import {
   Avatar,
   FormControl,
 } from '@chakra-ui/react';
+import { firebase } from '../../firebase';
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 export const SignInPage: React.FC = () => {
+  const auth = getAuth(firebase);
+
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
-  const handleSubmit = async () => {
-    console.log("")
+  const handleSubmit = async (e: Event) => {
+    e.preventDefault()
+    await signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        const user = userCredential.user
+        console.log(`Logged in as ${user.email}`);
+    })
+    .catch((error) => {
+      const errorCode = error.code
+      const errorMessage = error.message
+      console.error(`Login failed with error ${errorCode}: ${errorMessage}`)
+    })
   };
-
   return (
     <Flex
       flexDirection="column"
@@ -71,7 +84,7 @@ export const SignInPage: React.FC = () => {
               variant="solid"
               colorScheme="teal"
               width="full"
-              onClick={handleSubmit}
+              onClick={() => handleSubmit}
             >
               Sign In
             </Button>

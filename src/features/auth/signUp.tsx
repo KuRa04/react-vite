@@ -13,7 +13,7 @@ import {
   FormControl,
 } from '@chakra-ui/react';
 import { firebase } from '../../firebase';
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
 export const SignUpPage: React.FC = () => {
   const auth = getAuth(firebase);
@@ -33,7 +33,6 @@ export const SignUpPage: React.FC = () => {
       const errorMessage = error.message
       console.error(`Login failed with error ${errorCode}: ${errorMessage}`)
     })
-    console.log("")
   };
 
   return (
