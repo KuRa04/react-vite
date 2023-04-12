@@ -14,11 +14,11 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route index element={<HomePage />} />
-        <Route path="sign-up" element={<SignUpPage />} />
+        <Route path="sign_up" element={<SignUpPage />} />
         <Route path="face" element={<FaceFormPage />} /> 
         <Route path="reserve" element={<ReserveFormPage />} /> 
-        <Route path="check/pure-tone" element={<PureTonePage />} />
-        <Route path="check/pure-tone/detail" element={<PureToneFormPage />} />
+        <Route path="check/pure_tone" element={<PureTonePage />} />
+        <Route path="check/pure_tone/detail" element={<PureToneFormPage />} />
         <Route path="check/voice" element={<VoicePage />} />
         <Route path="check/voice/detail" element={<VoiceFormPage />} />
       </Routes>
