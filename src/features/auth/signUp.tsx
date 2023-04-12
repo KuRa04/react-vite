@@ -14,18 +14,34 @@ import {
 } from '@chakra-ui/react';
 import { firebase } from '../../firebase';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { collection, addDoc } from "firebase/firestore";
 
 export const SignUpPage: React.FC = () => {
   const auth = getAuth(firebase.app);
-
+  
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  
+  const createUserData = async () => {
+    const userCollection = collection(firebase.fireStore, "users");
+    console.log(userCollection)
+    const newUser = { email: email, password: password };
 
-  const handleSubmit = async (e: Event) => {
-    e.preventDefault()
+    try {
+      const docRef = await addDoc(userCollection, newUser);
+      console.log(docRef.id)
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  const handleSubmit = async () => {
+    // e.preventDefault()
+    console.log(`Logged in as ${email}`);
     await createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user
+        createUserData()
         console.log(`Logged in as ${user.email}`);
     })
     .catch((error) => {
@@ -85,7 +101,7 @@ export const SignUpPage: React.FC = () => {
               variant="solid"
               colorScheme="teal"
               width="full"
-              onClick={() => handleSubmit}
+              onClick={handleSubmit}
             >
               SignUp
             </Button>
