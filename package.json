@@ -25,7 +25,8 @@
     "react-hook-form": "^7.43.9",
     "react-icons": "^4.8.0",
     "react-router-dom": "^6.10.0",
-    "styled-components": "^5.3.9"
+    "styled-components": "^5.3.9",
+    "use-sound": "^4.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.21.4",
