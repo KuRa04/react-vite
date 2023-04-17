@@ -40,7 +40,7 @@ const Form1 = () => {
                     return (
                       <Link key={`${hzValue}-${index}`} to={`detail?site=${site}&hzValue=${hzValue}`}>
                         <Text color={'blue.400'}>
-                          {hzValue}hz
+                          {hzValue}Hz
                         </Text>
                       </Link>
                     )  
