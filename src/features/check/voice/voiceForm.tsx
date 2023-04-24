@@ -34,35 +34,45 @@ const Form1 = () => {
 };
 
 export const VoiceFormPage = () => {
-  // const toast = useToast();
-  // const [step, setStep] = useState(1);
-  // const [progress, setProgress] = useState(33.33);
-
-
   let randomIndex = Math.floor(Math.random() * wordVoices.length); // 配列のランダムなインデックスを生成
 
   const [selectedItem, setSelectedItem] = useState<string>(wordVoices[randomIndex]); // 選択されたアイテムをstateとして保持
   const [lastSelectedItem, setLastSelectedItem] = useState<string>(''); // 前回選択されたアイテムをstateとして保持
-  const [audio, setAudio] = useState<HTMLAudioElement | null>(null);
+  const [audio, setAudio] = useState<HTMLAudioElement | null>(new Audio(wordVoices[randomIndex]));
 
   const handleSelect = () => {
+    if (!audio) return
+    audio.pause()
     while (wordVoices[randomIndex] === lastSelectedItem) { // 前回選択されたアイテムと同じ場合は再度ランダムなインデックスを生成
       randomIndex = Math.floor(Math.random() * wordVoices.length);
     }
     setSelectedItem(wordVoices[randomIndex]); // stateにランダムに選択されたアイテムをセット
     setLastSelectedItem(wordVoices[randomIndex]); // 今回選択されたアイテムを前回選択されたアイテムとして保存
-    const audio = new Audio(selectedItem);
-    setAudio(audio);
+    const newAudio = new Audio(selectedItem)
+    newAudio.volume = 0.1; 
+    setAudio(newAudio);
   };
-
 
   const onVoiceStart = (audio: HTMLAudioElement) => {
     audio.play()
-}
-
+  }
+ 
   const onVoicePause = (audio: HTMLAudioElement) => {
     audio.pause()
+    audio.currentTime = 0
   }
+  
+  const checkVoiceEnded = () => {
+    if (!audio) return
+    if (audio.ended && audio.volume < 0.9) {
+      audio.currentTime = 0;
+      audio.volume += 0.1
+      audio.play();
+    }
+    requestAnimationFrame(checkVoiceEnded);
+  }
+
+  checkVoiceEnded()
 
   return (
     <>
