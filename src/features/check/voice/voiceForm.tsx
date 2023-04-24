@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useLocation } from "react-router-dom"
-import useSound from 'use-sound';
 import { wordVoices } from '../../../util/audio';
 
 import {
@@ -15,12 +14,7 @@ import {
   Input
 } from '@chakra-ui/react';
 
-// import { useToast } from '@chakra-ui/react';
-
 const Form1 = () => {
-  // const [show, setShow] = useState(false);
-  // const [value, setValue] = useState('1')
-  // const handleClick = () => setShow(!show);
   const search = useLocation().search;
   const query = new URLSearchParams(search);
   const site = query.get('site')
@@ -40,24 +34,48 @@ const Form1 = () => {
 };
 
 export const VoiceFormPage = () => {
-  // const toast = useToast();
-  // const [step, setStep] = useState(1);
-  // const [progress, setProgress] = useState(33.33);
-
   let randomIndex = Math.floor(Math.random() * wordVoices.length); // 配列のランダムなインデックスを生成
+  const initialAudio = new Audio(wordVoices[randomIndex])
+  initialAudio.volume = 0.1
 
   const [selectedItem, setSelectedItem] = useState<string>(wordVoices[randomIndex]); // 選択されたアイテムをstateとして保持
   const [lastSelectedItem, setLastSelectedItem] = useState<string>(''); // 前回選択されたアイテムをstateとして保持
+  const [audio, setAudio] = useState<HTMLAudioElement | null>(initialAudio);
 
   const handleSelect = () => {
+    if (!audio) return
+    audio.pause()
     while (wordVoices[randomIndex] === lastSelectedItem) { // 前回選択されたアイテムと同じ場合は再度ランダムなインデックスを生成
       randomIndex = Math.floor(Math.random() * wordVoices.length);
     }
     setSelectedItem(wordVoices[randomIndex]); // stateにランダムに選択されたアイテムをセット
     setLastSelectedItem(wordVoices[randomIndex]); // 今回選択されたアイテムを前回選択されたアイテムとして保存
+    const newAudio = new Audio(selectedItem)
+    newAudio.volume = 0.1; 
+    setAudio(newAudio);
   };
 
-  const [play, { stop }] = useSound(selectedItem);
+  const onVoiceStart = (audio: HTMLAudioElement) => {
+    audio.play()
+  }
+ 
+  const onVoicePause = (audio: HTMLAudioElement) => {
+    audio.pause()
+    audio.currentTime = 0
+  }
+  
+  const checkVoiceEnded = () => {
+    if (!audio) return
+    if (audio.ended && audio.volume < 0.9) {
+      audio.currentTime = 0;
+      audio.volume += 0.1
+      audio.play();
+    }
+    requestAnimationFrame(checkVoiceEnded);
+  }
+
+  checkVoiceEnded()
+
   return (
     <>
       <Box
@@ -74,8 +92,8 @@ export const VoiceFormPage = () => {
             <Flex>
               <Button
                 onClick={() => {
-                  handleSelect()
-                  play()
+                  if (!audio) return
+                  onVoiceStart(audio)
                 }}
                 // isDisabled={step === 1}
                 colorScheme="teal"
@@ -86,7 +104,8 @@ export const VoiceFormPage = () => {
               <Button
                 // isDisabled={step === 3}
                 onClick={() => {
-                  stop()
+                  if (!audio) return
+                  onVoicePause(audio)
                 }}
                 mr="5%"
                 colorScheme="teal"
@@ -95,7 +114,7 @@ export const VoiceFormPage = () => {
               </Button>
               <Button
                 onClick={() => {
-                  console.log("onClick")
+                  handleSelect()
                 }}
                 // isDisabled={step === 1}
                 colorScheme="teal"

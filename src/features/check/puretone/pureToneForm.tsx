@@ -9,33 +9,50 @@ import {
   Flex
 } from '@chakra-ui/react';
 
-
-const Form1 = () => {
-  // const handleClick = () => setShow(!show);
+export const PureToneFormPage = () => {
+  // const [step, setStep] = useState(1);
+  // const [progress, setProgress] = useState(33.33);
   const search = useLocation().search;
   const query = new URLSearchParams(search);
   const site = query.get('site')
   const hzValue = query.get('hzValue')
-  return (
-    <>
-      <Box>
-        <Heading as="h1" w="100%" textAlign={'left'} fontWeight="normal" mb="2%">
-          {`純音 ${hzValue}Hz ${site}`} 
-        </Heading>
-        <Text as="p">
-          チェック開始ボタンをタップして音が鳴るまで待ってください。
-        </Text>
-        <Text as="p">
-          音が聴こえたら聴こえたボタンをタップしてください。
-        </Text>
-      </Box>
-    </>
-  );
-};
 
-export const PureToneFormPage = () => {
-  // const [step, setStep] = useState(1);
-  // const [progress, setProgress] = useState(33.33);
+  const context = new AudioContext();
+  let oscillator: OscillatorNode | null = null;
+  const frequency = Number(hzValue);
+  const duration = 2; // 2秒間再生
+  
+  oscillator = context.createOscillator();
+  oscillator.type = 'sine';
+  oscillator.frequency.value = frequency;
+  
+  const gainNode = context.createGain();
+  
+  gainNode.gain.value = 0.1;
+  gainNode.gain.setValueAtTime(0, context.currentTime);
+  gainNode.gain.linearRampToValueAtTime(1, context.currentTime + 0.1);
+  gainNode.gain.linearRampToValueAtTime(0, context.currentTime + duration - 0.1);
+  gainNode.connect(context.destination);
+  
+  oscillator.connect(gainNode);
+
+  const onClickStart = () => {
+    if (!oscillator) return
+    oscillator.start(0);
+  }
+
+  // const onHandleEnded = () => {
+  //   if (!oscillator) return
+  //   if (oscillator.onended) {
+  //     oscillator.stop(0);
+  //     oscillator.disconnect();
+  //     oscillator = null;
+  //     onClickStart();
+  //   }
+  //   requestAnimationFrame(onHandleEnded);
+  // }
+
+  // onHandleEnded()
   return (
     <>
       <Box
@@ -46,13 +63,23 @@ export const PureToneFormPage = () => {
         p={6}
         m="10px auto"
         as="form">
-        <Form1 />
+        <Box>
+        <Heading as="h1" w="100%" textAlign={'left'} fontWeight="normal" mb="2%">
+          {`純音 ${hzValue}Hz ${site}`} 
+        </Heading>
+        <Text as="p">
+          チェック開始ボタンをタップして音が鳴るまで待ってください。
+        </Text>
+        <Text as="p">
+          音が聴こえたら聴こえたボタンをタップしてください。
+        </Text>
+      </Box>
         <ButtonGroup mt="2%" w="100%">
           <Flex w="100%" justifyContent="space-between">
             <Flex>
               <Button
                 onClick={() => {
-                  console.log("onClick")
+                  onClickStart()
                 }}
                 // isDisabled={step === 1}
                 colorScheme="teal"
