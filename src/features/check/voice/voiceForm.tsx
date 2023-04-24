@@ -35,10 +35,12 @@ const Form1 = () => {
 
 export const VoiceFormPage = () => {
   let randomIndex = Math.floor(Math.random() * wordVoices.length); // 配列のランダムなインデックスを生成
+  const initialAudio = new Audio(wordVoices[randomIndex])
+  initialAudio.volume = 0.1
 
   const [selectedItem, setSelectedItem] = useState<string>(wordVoices[randomIndex]); // 選択されたアイテムをstateとして保持
   const [lastSelectedItem, setLastSelectedItem] = useState<string>(''); // 前回選択されたアイテムをstateとして保持
-  const [audio, setAudio] = useState<HTMLAudioElement | null>(new Audio(wordVoices[randomIndex]));
+  const [audio, setAudio] = useState<HTMLAudioElement | null>(initialAudio);
 
   const handleSelect = () => {
     if (!audio) return
