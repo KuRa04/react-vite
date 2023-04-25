@@ -22,21 +22,21 @@ export const PureToneFormPage = () => {
   const frequency = Number(hzValue);
   const duration = 2; // 2秒間再生
   
-  oscillator = context.createOscillator();
-  oscillator.type = 'sine';
-  oscillator.frequency.value = frequency;
-  
-  const gainNode = context.createGain();
-  
-  gainNode.gain.value = 0.1;
-  gainNode.gain.setValueAtTime(0, context.currentTime);
-  gainNode.gain.linearRampToValueAtTime(1, context.currentTime + 0.1);
-  gainNode.gain.linearRampToValueAtTime(0, context.currentTime + duration - 0.1);
-  gainNode.connect(context.destination);
-  
-  oscillator.connect(gainNode);
 
   const onClickStart = () => {
+    oscillator = context.createOscillator();
+    oscillator.type = 'sine';
+    oscillator.frequency.value = frequency;
+    
+    const gainNode = context.createGain();
+    
+    gainNode.gain.value = 0.1;
+    gainNode.gain.setValueAtTime(0, context.currentTime);
+    gainNode.gain.linearRampToValueAtTime(1, context.currentTime + 0.1);
+    gainNode.gain.linearRampToValueAtTime(0, context.currentTime + duration - 0.1);
+    gainNode.connect(context.destination);
+    
+    oscillator.connect(gainNode);
     if (!oscillator) return
     oscillator.start(0);
   }
