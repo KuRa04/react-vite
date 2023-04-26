@@ -19,6 +19,7 @@ export const PureToneFormPage = () => {
 
   const context = new AudioContext();
   let oscillator: OscillatorNode | null = null;
+  let intervalId: NodeJS.Timeout | null;
   const frequency = Number(hzValue);
   const duration = 2; // 2秒間再生
   
@@ -30,7 +31,7 @@ export const PureToneFormPage = () => {
     
     const gainNode = context.createGain();
     
-    gainNode.gain.value = 0.1;
+    gainNode.gain.value = 0.01;
     gainNode.gain.setValueAtTime(0, context.currentTime);
     gainNode.gain.linearRampToValueAtTime(1, context.currentTime + 0.1);
     gainNode.gain.linearRampToValueAtTime(0, context.currentTime + duration - 0.1);
@@ -39,7 +40,19 @@ export const PureToneFormPage = () => {
     oscillator.connect(gainNode);
     if (!oscillator) return
     oscillator.start(0);
+
+    intervalId = setInterval(() => {
+      oscillator?.stop(0);
+      oscillator = null;
+      onClickStart();
+    }, (duration + 0.5) * 1000);
   }
+
+  // const onClickStop = () => {
+  //   oscillator?.stop(0);
+  //   oscillator = null;
+  //   clearInterval(intervalId);
+  // }
 
   // const onHandleEnded = () => {
   //   if (!oscillator) return

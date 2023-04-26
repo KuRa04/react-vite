@@ -36,7 +36,8 @@ const Form1 = () => {
 export const VoiceFormPage = () => {
   let randomIndex = Math.floor(Math.random() * wordVoices.length); // 配列のランダムなインデックスを生成
   const initialAudio = new Audio(wordVoices[randomIndex])
-  initialAudio.volume = 0.1
+  // 元のアプリが0.01ずつ増加
+  initialAudio.volume = 0.01
 
   const [selectedItem, setSelectedItem] = useState<string>(wordVoices[randomIndex]); // 選択されたアイテムをstateとして保持
   const [lastSelectedItem, setLastSelectedItem] = useState<string>(''); // 前回選択されたアイテムをstateとして保持
@@ -51,7 +52,7 @@ export const VoiceFormPage = () => {
     setSelectedItem(wordVoices[randomIndex]); // stateにランダムに選択されたアイテムをセット
     setLastSelectedItem(wordVoices[randomIndex]); // 今回選択されたアイテムを前回選択されたアイテムとして保存
     const newAudio = new Audio(selectedItem)
-    newAudio.volume = 0.1; 
+    newAudio.volume = 0.; 
     setAudio(newAudio);
   };
 
@@ -66,9 +67,9 @@ export const VoiceFormPage = () => {
   
   const checkVoiceEnded = () => {
     if (!audio) return
-    if (audio.ended && audio.volume < 0.9) {
+    if (audio.ended && audio.volume <= 0.1) {
       audio.currentTime = 0;
-      audio.volume += 0.1
+      audio.volume += 0.01
       audio.play();
     }
     requestAnimationFrame(checkVoiceEnded);
