@@ -18,6 +18,7 @@ const Form1 = () => {
         <ListItem><Link to="/reserve">準備</Link></ListItem>
         <ListItem><Link to="/check/pure_tone">聞こえチェック 純音</Link></ListItem>
         <ListItem><Link to="/check/voice">聞こえチェック 音声</Link></ListItem>
+        <ListItem><Link to="/experiment/pure_tone">音圧の増加量チェック 純音</Link></ListItem>
         {/* <ListItem><Link to="/face">フェイスシートの履歴</Link></ListItem> */}
         {/* <ListItem><Link to="/face">ログアウト</Link></ListItem> */}
       </OrderedList>
