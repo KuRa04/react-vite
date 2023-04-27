@@ -9,12 +9,13 @@ import {
 
 export const ExperimentPureToneFormPage = () => {
   const gainArray = Array.from({ length: 10 }, (_, i) => (i + 1) / 1000);
+  // useStateで配列の初期値を変更できるようにする
 
   const context = new AudioContext();
   let oscillator: OscillatorNode | null = null;
   let intervalId: NodeJS.Timeout | null;
   const frequency = 1000;
-  const duration = 10; // 10秒間再生
+  const duration = 60; // 10秒間再生
 
   const onClickStart = (gainValue: number) => {
     oscillator = context.createOscillator();
