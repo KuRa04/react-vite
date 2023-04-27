@@ -27,7 +27,7 @@ export const ExperimentPureToneFormPage = () => {
     gainNode.gain.value = gainValue;
     gainNode.gain.setValueAtTime(0, context.currentTime);
     gainNode.gain.linearRampToValueAtTime(1, context.currentTime + 0.1);
-    gainNode.gain.linearRampToValueAtTime(0, context.currentTime + duration - 0.1);
+    // gainNode.gain.linearRampToValueAtTime(0, context.currentTime + duration - 0.1);
     gainNode.connect(context.destination);
   
     oscillator.connect(gainNode);
