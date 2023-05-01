@@ -8,7 +8,7 @@ import {
 } from '@chakra-ui/react';
 
 export const ExperimentPureToneFormPage = () => {
-  const gainArray = Array.from({ length: 10 }, (_, i) => (i + 1) / 100);
+  const gainArray = Array.from({ length: 10 }, (_, i) => (i + 1) / 10);
   // useStateで配列の初期値を変更できるようにする
 
   const context = new AudioContext();
