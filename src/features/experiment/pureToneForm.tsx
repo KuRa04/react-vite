@@ -24,13 +24,15 @@ export const ExperimentPureToneFormPage = () => {
   
     const gainNode = context.createGain();
   
-    gainNode.gain.value = gainValue;
+    console.log(gainNode.gain.value)
     gainNode.gain.setValueAtTime(0, context.currentTime);
     gainNode.gain.linearRampToValueAtTime(1, context.currentTime + 0.1);
     // gainNode.gain.linearRampToValueAtTime(0, context.currentTime + duration - 0.1);
-    gainNode.connect(context.destination);
-  
+    
     oscillator.connect(gainNode);
+    gainNode.connect(context.destination);
+    gainNode.gain.value = gainValue;
+
     if (!oscillator) return
     oscillator.start(0);
   
@@ -81,6 +83,7 @@ export const ExperimentPureToneFormPage = () => {
                     <Button
                       key={`button-${index}`}
                       onClick={() => {
+                        console.log(item)
                         onClickStart(item)
                       }}
                       // isDisabled={step === 1}
