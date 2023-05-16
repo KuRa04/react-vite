@@ -24,17 +24,16 @@ export const PureToneFormPage = () => {
   const duration = 2; // 2秒間再生
   
 
-  const onClickStart = () => {
+  const onClickStart = (gainValue: number) => {
     oscillator = context.createOscillator();
     oscillator.type = 'sine';
     oscillator.frequency.value = frequency;
     
     const gainNode = context.createGain();
     
-    gainNode.gain.value = 0.01;
-    gainNode.gain.setValueAtTime(0, context.currentTime);
-    gainNode.gain.linearRampToValueAtTime(1, context.currentTime + 0.1);
-    gainNode.gain.linearRampToValueAtTime(0, context.currentTime + duration - 0.1);
+    gainNode.gain.value = 0;
+    gainNode.gain.setValueAtTime(gainValue, context.currentTime);
+    gainNode.gain.linearRampToValueAtTime(gainValue, context.currentTime + 0.1);
     gainNode.connect(context.destination);
     
     oscillator.connect(gainNode);
@@ -44,8 +43,13 @@ export const PureToneFormPage = () => {
     intervalId = setInterval(() => {
       oscillator?.stop(0);
       oscillator = null;
-      onClickStart();
-    }, (duration + 0.5) * 1000);
+      const newGainValue = gainValue + 0.01
+      if (newGainValue > 0.1) {
+        return
+      }
+      onClickStart(newGainValue);
+    }, (duration + 0.5) * 2000);
+
   }
 
   // const onClickStop = () => {
@@ -92,7 +96,7 @@ export const PureToneFormPage = () => {
             <Flex>
               <Button
                 onClick={() => {
-                  onClickStart()
+                  onClickStart(0.01)
                 }}
                 // isDisabled={step === 1}
                 colorScheme="teal"
