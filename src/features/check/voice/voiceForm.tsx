@@ -14,26 +14,19 @@ import {
   Input
 } from '@chakra-ui/react';
 
-const Form1 = () => {
+import { firebase } from '../../../firebase';
+import { addDoc, collection } from "firebase/firestore";
+
+export const VoiceFormPage = () => {
+  const [gainState, setGainState] = useState(0)
+
+  const { fireStore } = firebase
+
   const search = useLocation().search;
   const query = new URLSearchParams(search);
   const site = query.get('site')
-  return (
-    <Box>
-      <Heading as="h1" w="100%" textAlign={'left'} fontWeight="normal" mb="2%">
-        {`音声 ${site}`} 
-      </Heading>
-      <Text as="p">
-        チェック開始ボタンをタップして声が聴こえるまで待ってください
-      </Text>
-      <Text as="p">
-        声が聴こえたら聴こえたボタンをタップして，聴こえた言葉を入力してください
-      </Text>
-    </Box>
-  );
-};
 
-export const VoiceFormPage = () => {
+
   let randomIndex = Math.floor(Math.random() * wordVoices.length); // 配列のランダムなインデックスを生成
   const initialAudio = new Audio(wordVoices[randomIndex])
   // 元のアプリが0.01ずつ増加
@@ -77,8 +70,23 @@ export const VoiceFormPage = () => {
 
   checkVoiceEnded()
 
+  const postVoiceData = () => {
+    if (!audio) return
+    console.log("onClick")
+    const ansersCollectionRef = collection(fireStore, 'answers');
+    addDoc(ansersCollectionRef, {
+      kind: '音声',
+      site: site,
+      gainState: audio.volume,
+    })
+
+    handleSelect()
+  }
+
+
   return (
     <>
+
       <Box
         borderWidth="1px"
         rounded="lg"
@@ -87,7 +95,17 @@ export const VoiceFormPage = () => {
         p={6}
         m="10px auto"
         as="form">
-        <Form1 />
+        <Box>
+          <Heading as="h1" w="100%" textAlign={'left'} fontWeight="normal" mb="2%">
+            {`音声 ${site}`} 
+          </Heading>
+          <Text as="p">
+            チェック開始ボタンをタップして声が聴こえるまで待ってください
+          </Text>
+          <Text as="p">
+            声が聴こえたら聴こえたボタンをタップして，聴こえた言葉を入力してください
+          </Text>
+        </Box>
         <ButtonGroup mt="2%" w="100%">
           <Flex w="100%" justifyContent="space-between">
             <Flex>
@@ -115,7 +133,7 @@ export const VoiceFormPage = () => {
               </Button>
               <Button
                 onClick={() => {
-                  handleSelect()
+                  postVoiceData()
                 }}
                 // isDisabled={step === 1}
                 colorScheme="teal"

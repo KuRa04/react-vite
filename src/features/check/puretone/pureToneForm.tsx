@@ -16,7 +16,7 @@ export const PureToneFormPage = () => {
   // const [progress, setwProgress] = useState(33.33);
   const [gainState, setGainState] = useState(0)
 
-  const { app, fireStore } = firebase
+  const { fireStore } = firebase
 
   const search = useLocation().search;
   const query = new URLSearchParams(search);

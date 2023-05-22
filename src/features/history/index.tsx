@@ -75,7 +75,7 @@ export const HistoryPage = () => {
             colorScheme="teal"
             variant="solid"
             mr="5%">
-            チェック開始
+            履歴取得
           </Button>
           <Button
             onClick={() => {
