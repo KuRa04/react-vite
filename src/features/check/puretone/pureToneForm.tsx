@@ -1,4 +1,4 @@
-// import { useState } from 'react';
+import { useState } from 'react';
 import { useLocation } from "react-router-dom"
 import {
   Box,
@@ -8,10 +8,16 @@ import {
   Text,
   Flex
 } from '@chakra-ui/react';
+import { firebase } from '../../../firebase';
+import { addDoc, collection } from "firebase/firestore";
 
 export const PureToneFormPage = () => {
   // const [step, setStep] = useState(1);
-  // const [progress, setProgress] = useState(33.33);
+  // const [progress, setwProgress] = useState(33.33);
+  const [gainState, setGainState] = useState(0)
+
+  const { app, fireStore } = firebase
+
   const search = useLocation().search;
   const query = new URLSearchParams(search);
   const site = query.get('site')
@@ -25,6 +31,8 @@ export const PureToneFormPage = () => {
   
 
   const onClickStart = (gainValue: number) => {
+    setGainState(gainValue)
+
     oscillator = context.createOscillator();
     oscillator.type = 'sine';
     oscillator.frequency.value = frequency;
@@ -32,7 +40,7 @@ export const PureToneFormPage = () => {
     const gainNode = context.createGain();
     
     gainNode.gain.value = 0;
-    gainNode.gain.setValueAtTime(gainValue, context.currentTime);
+    gainNode.gain.setValueAtTime(0, context.currentTime);
     gainNode.gain.linearRampToValueAtTime(gainValue, context.currentTime + 0.1);
     gainNode.connect(context.destination);
     
@@ -58,18 +66,16 @@ export const PureToneFormPage = () => {
   //   clearInterval(intervalId);
   // }
 
-  // const onHandleEnded = () => {
-  //   if (!oscillator) return
-  //   if (oscillator.onended) {
-  //     oscillator.stop(0);
-  //     oscillator.disconnect();
-  //     oscillator = null;
-  //     onClickStart();
-  //   }
-  //   requestAnimationFrame(onHandleEnded);
-  // }
+  const postPureToneData = () => {
+    console.log("onClick")
+    const ansersCollectionRef = collection(fireStore, 'answers');
+    addDoc(ansersCollectionRef, {
+      gainState: gainState,
+      hzValue: hzValue
+    })
+  }
 
-  // onHandleEnded()
+
   return (
     <>
       <Box
@@ -117,6 +123,7 @@ export const PureToneFormPage = () => {
               <Button
                 onClick={() => {
                   console.log("onClick")
+                  postPureToneData()
                 }}
                 // isDisabled={step === 1}
                 colorScheme="teal"
