@@ -13,40 +13,93 @@ import {
   RadioGroup,
   Checkbox,
 } from '@chakra-ui/react';
+import { useNavigate } from "react-router-dom";
 
-// import { useToast } from '@chakra-ui/react';
+import { firebase } from '../../firebase';
+import { addDoc, collection } from "firebase/firestore";
 
-const Form1 = () => {
-  // const [show, setShow] = useState(false);
-  const [value, setValue] = useState('1')
-  // const handleClick = () => setShow(!show);
+interface UserStatus  {
+  id: string;
+  age: string;
+  sex: string;
+}
+
+export const FaceFormPage = () => {
+  const [id, setId] = useState('')
+  const [age, setAge] = useState('')
+  const [sex, setSex] = useState('')
+  const [checkbox, setCheckBox] = useState([''])
+
+  const [userStatus, setUserStatus] = useState<UserStatus>({
+    id: '',
+    age: '',
+    sex: ''
+  })
+
+  const handleIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setId(e.target.value)
+  }
+
+  const handleAgeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setAge(e.target.value)
+  }
+
+  const handleSexChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSex(e.target.value)
+  }
+
+
+  const navigate = useNavigate();
+  const { fireStore } = firebase
+
+  const goBack = () => {
+    navigate(-1)
+  }
+
+  const postUserStatusData = () => {
+    // if (!bgnValue) return
+    const usersCollectionRef = collection(fireStore, 'users');
+    addDoc(usersCollectionRef, {
+      id,
+      age,
+      sex
+    })
+  }
+
   return (
-    <>
+    <Box
+      borderWidth="1px"
+      rounded="lg"
+      shadow="1px 1px 3px rgba(0,0,0,0.3)"
+      maxWidth={800}
+      p={6}
+      m="10px auto"
+      as="form">
       <Heading w="100%" textAlign={'center'} fontWeight={'normal'} mb={'2%'}>
       フェイスシートの登録
       </Heading>
       <Box>
         <FormControl mt="2%">
           <FormLabel htmlFor="name" fontWeight={'bold'}>
-            氏名
+            ID
           </FormLabel>
-          <Input id="name" placeholder="山田太郎" />
+          <Input id="name" placeholder="0000" onChange={(e) => handleIdChange(e)}/>
         </FormControl>
         <FormControl mt="2%">
           <FormLabel htmlFor="date-of-birth" fontWeight={'bold'}>
-            生年月
+            年齢
           </FormLabel>
-          <Input id="date-of-birth" placeholder="yyyy-mm" />
+          <Input id="date-of-birth" placeholder="20" onChange={(e) => handleAgeChange(e)}/>
         </FormControl>
         <FormControl mt="2%">
           <FormLabel htmlFor="" fontWeight={'bold'}>
             性別
           </FormLabel>
-          <RadioGroup onChange={setValue} value={value}>
+          <RadioGroup onChange={setSex} value={sex}>
           <Stack direction='row'>
-            <Radio value='1'>男性</Radio>
-            <Radio value='2'>女性</Radio>
-            <Radio value='3'>その他</Radio>
+            <Radio value='男性'>男性</Radio>
+            <Radio value='女性'>女性</Radio>
+            <Radio value='その他'>その他</Radio>
           </Stack>
         </RadioGroup>
         </FormControl>
@@ -76,34 +129,13 @@ const Form1 = () => {
           </Checkbox>
         </Stack>
       </FormControl>
-    </>
-  );
-};
-
-export const FaceFormPage = () => {
-  // const toast = useToast();
-  // const [step, setStep] = useState(1);
-  // const [progress, setProgress] = useState(33.33);
-  return (
-    <Box
-      borderWidth="1px"
-      rounded="lg"
-      shadow="1px 1px 3px rgba(0,0,0,0.3)"
-      maxWidth={800}
-      p={6}
-      m="10px auto"
-      as="form">
-      <Form1 />
       <ButtonGroup mt="2%" w="100%">
         <Flex w="100%" justifyContent="space-between">
           <Flex>
             <Button
               onClick={() => {
-                // setStep(step - 1);
-                // setProgress(progress - 33.33);
-                console.log("onClick")
+                postUserStatusData()
               }}
-              // isDisabled={step === 1}
               colorScheme="teal"
               variant="solid"
               w="7rem"
@@ -112,15 +144,8 @@ export const FaceFormPage = () => {
             </Button>
             <Button
               w="7rem"
-              // isDisabled={step === 3}
               onClick={() => {
-                // setStep(step + 1);
-                // if (step === 3) {
-                //   setProgress(100);
-                // } else {
-                //   setProgress(progress + 33.33);
-                // }
-                console.log("onClick")
+                goBack()
               }}
               colorScheme="teal"
               variant="outline">
