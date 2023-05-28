@@ -13,48 +13,14 @@ import {
   Input
 } from '@chakra-ui/react';
 
-// import { useToast } from '@chakra-ui/react';
-
-const Form1 = () => {
-  // const [show, setShow] = useState(false);
-  // const handleClick = () => setShow(!show);
-  return (
-    <>
-      <Box>
-        <Heading as="h3" fontSize={'24px'} w="100%" textAlign={'left'} fontWeight="bold" mb="2%">
-        1. 暗騒音レベルの計測
-        </Heading>
-        <FormControl mt="2%">
-          <FormLabel htmlFor="background-noise" fontWeight={'bold'}>
-            暗騒音レベル
-          </FormLabel>
-          <Input id="background-noise" placeholder="db値 例：32.1" />
-        </FormControl>
-      </Box>
-      <Box mt="2%">
-        <Heading as="h3" fontSize={'24px'} w="100%" textAlign={'left'} fontWeight="bold" mb="2%">
-        2. キャリブレーション
-        </Heading>
-        <Text as="p" fontWeight={'bold'}>
-          以下の手順に従ってキャリブレーションを行ってください。
-        </Text>
-        <Box bg={"gray.100"} mt={'2%'} padding={'16px'}>
-          <OrderedList>
-            <ListItem>使っているタブレット端末をヘッドフォンに接続してください。</ListItem>
-            <ListItem>開始ボタンをタップすると音（1 kHz の純音）が流れます。</ListItem>
-            <ListItem>SLA Liteを使って44 dBになるようにスピーカーのボリュームを調整してください。</ListItem>
-            <ListItem>停止ボタンをタップすると音が止まります。</ListItem>
-          </OrderedList>
-        </Box>
-      </Box>
-    </>
-  );
-};
+import { useNavigate } from "react-router-dom";
 
 export const ReserveFormPage = () => {
-  // const toast = useToast();
-  // const [step, setStep] = useState(1);
-  // const [progress, setProgress] = useState(33.33);
+  const navigate = useNavigate();
+
+  const goBack = () => {
+    navigate("/")
+  }
   return (
     <>
       <Box
@@ -65,7 +31,33 @@ export const ReserveFormPage = () => {
         p={6}
         m="10px auto"
         as="form">
-        <Form1 />
+          <Box>
+          <Heading as="h3" fontSize={'24px'} w="100%" textAlign={'left'} fontWeight="bold" mb="2%">
+          1. 暗騒音レベルの計測
+          </Heading>
+          <FormControl mt="2%">
+            <FormLabel htmlFor="background-noise" fontWeight={'bold'}>
+              暗騒音レベル
+            </FormLabel>
+            <Input id="background-noise" placeholder="db値 例：32.1" />
+          </FormControl>
+        </Box>
+        <Box mt="2%">
+          <Heading as="h3" fontSize={'24px'} w="100%" textAlign={'left'} fontWeight="bold" mb="2%">
+          2. キャリブレーション
+          </Heading>
+          <Text as="p" fontWeight={'bold'}>
+            以下の手順に従ってキャリブレーションを行ってください。
+          </Text>
+          <Box bg={"gray.100"} mt={'2%'} padding={'16px'}>
+            <OrderedList>
+              <ListItem>使っているタブレット端末をヘッドフォンに接続してください。</ListItem>
+              <ListItem>開始ボタンをタップすると音（1 kHz の純音）が流れます。</ListItem>
+              <ListItem>SLA Liteを使って44 dBになるようにスピーカーのボリュームを調整してください。</ListItem>
+              <ListItem>停止ボタンをタップすると音が止まります。</ListItem>
+            </OrderedList>
+          </Box>
+        </Box>
         <ButtonGroup mt="2%" w="100%">
           <Flex w="100%" justifyContent="space-between">
             <Flex>
@@ -101,7 +93,7 @@ export const ReserveFormPage = () => {
             mt="2%"
             // isDisabled={step === 3}
             onClick={() => {
-              console.log("back")
+              goBack()
             }}
             colorScheme="teal"
             variant="outline"

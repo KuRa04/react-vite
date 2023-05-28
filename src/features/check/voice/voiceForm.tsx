@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useLocation } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 import { wordVoices } from '../../../util/audio';
 
 import {
@@ -18,6 +18,7 @@ import { firebase } from '../../../firebase';
 import { addDoc, collection } from "firebase/firestore";
 
 export const VoiceFormPage = () => {
+  const navigate = useNavigate();
   const [gainState, setGainState] = useState(0)
 
   const { fireStore } = firebase
@@ -35,6 +36,10 @@ export const VoiceFormPage = () => {
   const [selectedItem, setSelectedItem] = useState<string>(wordVoices[randomIndex]); // 選択されたアイテムをstateとして保持
   const [lastSelectedItem, setLastSelectedItem] = useState<string>(''); // 前回選択されたアイテムをstateとして保持
   const [audio, setAudio] = useState<HTMLAudioElement | null>(initialAudio);
+
+  const goBack = () => {
+    navigate(-1)
+  }
 
   const handleSelect = () => {
     if (!audio) return
@@ -86,7 +91,6 @@ export const VoiceFormPage = () => {
 
   return (
     <>
-
       <Box
         borderWidth="1px"
         rounded="lg"
@@ -171,7 +175,7 @@ export const VoiceFormPage = () => {
             mt="2%"
             // isDisabled={step === 3}
             onClick={() => {
-              console.log("back")
+              goBack()
             }}
             colorScheme="teal"
             variant="outline">

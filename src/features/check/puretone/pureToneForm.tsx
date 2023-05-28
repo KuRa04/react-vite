@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { useLocation } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
+
 import {
   Box,
   ButtonGroup,
@@ -12,8 +13,8 @@ import { firebase } from '../../../firebase';
 import { addDoc, collection } from "firebase/firestore";
 
 export const PureToneFormPage = () => {
-  // const [step, setStep] = useState(1);
-  // const [progress, setwProgress] = useState(33.33);
+  const navigate = useNavigate();
+
   const [gainState, setGainState] = useState(0)
 
   const { fireStore } = firebase
@@ -58,6 +59,10 @@ export const PureToneFormPage = () => {
       onClickStart(newGainValue);
     }, (duration + 0.5) * 2000);
 
+  }
+
+  const goBack = () => {
+    navigate(-1)
   }
 
   // const onClickStop = () => {
@@ -142,7 +147,7 @@ export const PureToneFormPage = () => {
             mt="2%"
             // isDisabled={step === 3}
             onClick={() => {
-              console.log("back")
+              goBack()
             }}
             colorScheme="teal"
             variant="outline">
