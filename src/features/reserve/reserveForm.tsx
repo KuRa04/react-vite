@@ -1,4 +1,4 @@
-// import { useState } from 'react';
+import { useState } from 'react';
 import {
   Box,
   ButtonGroup,
@@ -15,12 +15,66 @@ import {
 
 import { useNavigate } from "react-router-dom";
 
+import { firebase } from '../../firebase';
+import { addDoc, collection } from "firebase/firestore";
+
 export const ReserveFormPage = () => {
+  const [bgnValue, setBgnValue] = useState('')
+
   const navigate = useNavigate();
+  const { fireStore } = firebase
 
   const goBack = () => {
     navigate("/")
   }
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setBgnValue(e.target.value)
+  }
+
+  const postBgnData = () => {
+    if (!bgnValue) return
+    const ansersCollectionRef = collection(fireStore, 'answers');
+    addDoc(ansersCollectionRef, {
+      bgn: bgnValue
+    })
+  }
+
+  const context = new AudioContext();
+  let oscillator: OscillatorNode | null = null;
+  const frequency = 1000;
+  const duration = 1000; // 2秒間再生
+  
+
+  const onClickStart = () => {
+
+    oscillator = context.createOscillator();
+    oscillator.type = 'sine';
+    oscillator.frequency.value = frequency;
+    
+    const gainNode = context.createGain();
+    
+    gainNode.gain.value = 0;
+    gainNode.gain.setValueAtTime(0, context.currentTime);
+    gainNode.gain.linearRampToValueAtTime(0.01, context.currentTime + 0.1);
+    gainNode.connect(context.destination);
+    
+    oscillator.connect(gainNode);
+    if (!oscillator) return
+    oscillator.start(0);
+
+    setInterval(() => {
+      oscillator?.stop(0);
+      oscillator = null;
+      onClickStart();
+    }, (duration + 0.5) * 2000);
+  }
+
+  const onClickStop = () => {
+    oscillator?.stop(0);
+    oscillator = null;
+  }
+
   return (
     <>
       <Box
@@ -39,7 +93,19 @@ export const ReserveFormPage = () => {
             <FormLabel htmlFor="background-noise" fontWeight={'bold'}>
               暗騒音レベル
             </FormLabel>
-            <Input id="background-noise" placeholder="db値 例：32.1" />
+            <Input id="background-noise" placeholder="db値 例：32.1" onChange={(e) => handleChange(e)}/>
+            <Button
+                onClick={() => {
+                  postBgnData()
+                }}
+                // isDisabled={step === 1}
+                mt="2%"
+                colorScheme="teal"
+                variant="solid"
+                w="7rem"
+                mr="5%">
+                登録
+              </Button>
           </FormControl>
         </Box>
         <Box mt="2%">
@@ -63,7 +129,7 @@ export const ReserveFormPage = () => {
             <Flex>
               <Button
                 onClick={() => {
-                  console.log("onClick")
+                  onClickStart()
                 }}
                 // isDisabled={step === 1}
                 colorScheme="teal"
@@ -76,7 +142,7 @@ export const ReserveFormPage = () => {
                 w="7rem"
                 // isDisabled={step === 3}
                 onClick={() => {
-                  console.log("onClick")
+                  onClickStop()
                 }}
                 colorScheme="teal"
                 variant="outline">
