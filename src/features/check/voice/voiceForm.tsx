@@ -50,7 +50,7 @@ export const VoiceFormPage = () => {
     setSelectedItem(wordVoices[randomIndex]); // stateにランダムに選択されたアイテムをセット
     setLastSelectedItem(wordVoices[randomIndex]); // 今回選択されたアイテムを前回選択されたアイテムとして保存
     const newAudio = new Audio(selectedItem)
-    newAudio.volume = 0.; 
+    newAudio.volume = 0; 
     setAudio(newAudio);
   };
 
