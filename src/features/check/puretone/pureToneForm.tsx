@@ -15,7 +15,7 @@ import { addDoc, collection } from "firebase/firestore";
 export const PureToneFormPage = () => {
   const navigate = useNavigate();
 
-  const [gainState, setGainState] = useState(0)
+  const [gainState, setGainState] = useState(0.01)
   const [isPlaying, setPlaying] = useState(false)
 
   const { fireStore } = firebase
@@ -28,10 +28,11 @@ export const PureToneFormPage = () => {
   const context = new AudioContext();
   let oscillator: OscillatorNode | null = null;
   const frequency = Number(hzValue);
-  const duration = 6000; // 2秒間再生
+  const duration = 2; // 2秒間再生
+  let intervalId;
   
 
-  const onPlay = () => {
+  const onPlay = (gainValue: number) => {
     oscillator = context.createOscillator();
     oscillator.type = 'sine';
     oscillator.frequency.value = frequency;
@@ -40,17 +41,21 @@ export const PureToneFormPage = () => {
     
     gainNode.gain.value = 0;
     gainNode.gain.setValueAtTime(0, context.currentTime);
-    gainNode.gain.linearRampToValueAtTime(0.01, context.currentTime + 0.1);
+    gainNode.gain.linearRampToValueAtTime(gainValue, context.currentTime + 0.1);
     gainNode.connect(context.destination);
     
     oscillator.connect(gainNode);
     if (!oscillator) return
     oscillator.start(0);
 
-    setInterval(() => {
+    intervalId = setInterval(() => {
       oscillator?.stop(0);
       oscillator = null;
-      onPlay();
+      const newGainValue = gainValue + 0.01
+      if (newGainValue > 0.1) {
+        return
+      }
+      onPlay(newGainValue);
     }, (duration + 0.5) * 2000);
   }
 
@@ -59,7 +64,7 @@ export const PureToneFormPage = () => {
     setPlaying(false)
     oscillator?.stop(0);
     oscillator = null;
-    // clearInterval(intervalId);
+    clearInterval(intervalId);
   }
 
   const goBack = () => {
@@ -68,7 +73,6 @@ export const PureToneFormPage = () => {
   }
 
   const postPureToneData = () => {
-    console.log("onClick")
     const ansersCollectionRef = collection(fireStore, 'answers');
     addDoc(ansersCollectionRef, {
       gainState: gainState,
@@ -102,7 +106,7 @@ export const PureToneFormPage = () => {
             <Flex>
               <Button
                 onClick={() => {
-                  onPlay()
+                  onPlay(gainState)
                 }}
                 isDisabled={isPlaying}
                 colorScheme="teal"
