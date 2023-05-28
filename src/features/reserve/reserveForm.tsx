@@ -46,8 +46,7 @@ export const ReserveFormPage = () => {
   const duration = 1000; // 2秒間再生
   
 
-  const onClickStart = () => {
-
+  const onPlay = () => {
     oscillator = context.createOscillator();
     oscillator.type = 'sine';
     oscillator.frequency.value = frequency;
@@ -66,7 +65,7 @@ export const ReserveFormPage = () => {
     setInterval(() => {
       oscillator?.stop(0);
       oscillator = null;
-      onClickStart();
+      onPlay();
     }, (duration + 0.5) * 2000);
   }
 
@@ -129,7 +128,7 @@ export const ReserveFormPage = () => {
             <Flex>
               <Button
                 onClick={() => {
-                  onClickStart()
+                  onPlay()
                 }}
                 // isDisabled={step === 1}
                 colorScheme="teal"

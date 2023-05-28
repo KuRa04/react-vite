@@ -54,7 +54,7 @@ export const VoiceFormPage = () => {
     setAudio(newAudio);
   };
 
-  const onVoiceStart = (audio: HTMLAudioElement) => {
+  const onPlay = (audio: HTMLAudioElement) => {
     audio.play()
   }
  
@@ -116,7 +116,7 @@ export const VoiceFormPage = () => {
               <Button
                 onClick={() => {
                   if (!audio) return
-                  onVoiceStart(audio)
+                  onPlay(audio)
                 }}
                 // isDisabled={step === 1}
                 colorScheme="teal"
