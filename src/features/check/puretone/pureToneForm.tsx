@@ -29,10 +29,11 @@ export const PureToneFormPage = () => {
   let oscillator: OscillatorNode | null = null;
   const frequency = Number(hzValue);
   const duration = 2; // 2秒間再生
-  let intervalId;
+  // let intervalId;
   
 
   const onPlay = (gainValue: number) => {
+    setGainState(gainValue)
     oscillator = context.createOscillator();
     oscillator.type = 'sine';
     oscillator.frequency.value = frequency;
@@ -48,7 +49,7 @@ export const PureToneFormPage = () => {
     if (!oscillator) return
     oscillator.start(0);
 
-    intervalId = setInterval(() => {
+    setInterval(() => {
       oscillator?.stop(0);
       oscillator = null;
       const newGainValue = gainValue + 0.01
@@ -64,7 +65,7 @@ export const PureToneFormPage = () => {
     setPlaying(false)
     oscillator?.stop(0);
     oscillator = null;
-    clearInterval(intervalId);
+    // clearInterval(intervalId);
   }
 
   const goBack = () => {
