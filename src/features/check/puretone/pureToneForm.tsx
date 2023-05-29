@@ -11,11 +11,15 @@ import {
 } from '@chakra-ui/react';
 import { firebase } from '../../../firebase';
 import { addDoc, collection } from "firebase/firestore";
+import { freq1000HzDataSet } from '../../../util/freqDataSets/freqDataSet';
 
 export const PureToneFormPage = () => {
   const navigate = useNavigate();
+  const initialState = [0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1];
+  console.log(freq1000HzDataSet[0.02])
 
-  const [gainState, setGainState] = useState(0.01)
+  const [gainState, setGainState] = useState<number[]>(initialState)
+  const [index, setIndex] = useState<number>(0)
   const [isPlaying, setPlaying] = useState(false)
 
   const { fireStore } = firebase
@@ -32,8 +36,7 @@ export const PureToneFormPage = () => {
   // let intervalId;
   
 
-  const onPlay = (gainValue: number) => {
-    setGainState(gainValue)
+  const onPlay = () => {
     oscillator = context.createOscillator();
     oscillator.type = 'sine';
     oscillator.frequency.value = frequency;
@@ -42,7 +45,7 @@ export const PureToneFormPage = () => {
     
     gainNode.gain.value = 0;
     gainNode.gain.setValueAtTime(0, context.currentTime);
-    gainNode.gain.linearRampToValueAtTime(gainValue, context.currentTime + 0.1);
+    gainNode.gain.linearRampToValueAtTime(initialState[index], context.currentTime + 0.1);
     gainNode.connect(context.destination);
     
     oscillator.connect(gainNode);
@@ -52,11 +55,8 @@ export const PureToneFormPage = () => {
     setInterval(() => {
       oscillator?.stop(0);
       oscillator = null;
-      const newGainValue = gainValue + 0.01
-      if (newGainValue > 0.1) {
-        return
-      }
-      onPlay(newGainValue);
+      setIndex((prevIndex) => prevIndex + 1)
+      onPlay();
     }, (duration + 0.5) * 2000);
   }
 
@@ -75,9 +75,12 @@ export const PureToneFormPage = () => {
 
   const postPureToneData = () => {
     const ansersCollectionRef = collection(fireStore, 'answers');
+    const selectIndex = initialState[index].toString()
+    console.log(selectIndex)
     addDoc(ansersCollectionRef, {
-      gainState: gainState,
-      hzValue: hzValue
+      dB: freq1000HzDataSet[selectIndex],
+      hzValue: hzValue,
+      site
     })
   }
 
@@ -107,7 +110,7 @@ export const PureToneFormPage = () => {
             <Flex>
               <Button
                 onClick={() => {
-                  onPlay(gainState)
+                  onPlay()
                 }}
                 isDisabled={isPlaying}
                 colorScheme="teal"
