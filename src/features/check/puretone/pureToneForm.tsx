@@ -11,20 +11,13 @@ import {
 } from '@chakra-ui/react';
 import { firebase } from '../../../firebase';
 import { addDoc, collection } from "firebase/firestore";
-import { 
-  freq250HzDataSet, 
-  freq500HzDataSet,
-  freq1000HzDataSet,
-  freq2000HzDataSet,
-  freq3000HzDataSet,
-  freq4000HzDataSet,
-  freq8000HzDataSet
-} from '../../../util/freqDataSets/freqDataSet';
+
+import { hzValueObj } from '../../../util/freqDataSets/haValueObj';
 
 export const PureToneFormPage = () => {
   const navigate = useNavigate();
   const initialState = [0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1];
-  console.log(freq1000HzDataSet[0.02])
+
 
   // const [gainState, setGainState] = useState<number[]>(initialState)
   const [index, setIndex] = useState<number>(0)
@@ -36,17 +29,6 @@ export const PureToneFormPage = () => {
   const query = new URLSearchParams(search);
   const site = query.get('site')
   const hzValue = query.get('hzValue')
-
-  const hzValueObj: {[key: string]: {[key: string]: number}} = {
-    '250': freq250HzDataSet,
-    '500': freq500HzDataSet,
-    '1000': freq1000HzDataSet,
-    '2000': freq2000HzDataSet,
-    '3000': freq3000HzDataSet,
-    '4000': freq4000HzDataSet,
-    '8000': freq8000HzDataSet
-  }
-
 
   const context = new AudioContext();
   let oscillator: OscillatorNode | null = null;

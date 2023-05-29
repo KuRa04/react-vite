@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useLocation } from "react-router-dom"
 
 import {
@@ -9,12 +10,20 @@ import {
   Flex
 } from '@chakra-ui/react';
 
+import { firebase } from '../../firebase';
+import { addDoc, collection } from "firebase/firestore";
+
+import { hzValueObj } from "../../util/freqDataSets/haValueObj";
+
 export const ExperimentPureToneFormPage = () => {
+  const { fireStore } = firebase
+
+  const [gainState, setGainState] = useState<number>(0.01)
   const search = useLocation().search;
   const query = new URLSearchParams(search);
   const hzValue = query.get('hzValue')
 
-  const gainArray = Array.from({ length: 10 }, (_, i) => (i + 1) / 100);
+  const gainArray = Array.from({ length: 9 }, (_, i) => (i + 1) / 100);
   const gainRowArray = Array.from({ length: 10 }, (_, i) => (i + 1) / 10);
 
   // useStateで配列の初期値を変更できるようにする
@@ -26,6 +35,8 @@ export const ExperimentPureToneFormPage = () => {
   const duration = 60; // 10秒間再生
 
   const onClickStart = (gainValue: number) => {
+    setGainState(gainValue)
+
     oscillator = context.createOscillator();
     oscillator.type = 'sine';
     oscillator.frequency.value = frequency;
@@ -58,6 +69,18 @@ export const ExperimentPureToneFormPage = () => {
       clearTimeout(intervalId);
       intervalId = null;
     }
+  }
+
+  const postPureToneData = () => {
+    if (!hzValue) return
+    const ansersCollectionRef = collection(fireStore, 'answers');
+    const selectIndex = gainState.toString()
+    const selectFreqHzObj = hzValueObj[hzValue]
+    addDoc(ansersCollectionRef, {
+      dB: selectFreqHzObj[selectIndex],
+      HzValue: hzValue,
+      appVolume: gainState
+    })
   }
 
   return (
@@ -135,6 +158,18 @@ export const ExperimentPureToneFormPage = () => {
             variant="solid"
           >
             キャンセル
+          </Button>
+          <Button
+            ml="2%"
+            colorScheme="red"
+            onClick={() => {
+              console.log("onClick")
+              postPureToneData()
+            }}
+            // isDisabled={step === 1}
+            variant="solid"
+            >
+            聴こえた
           </Button>
         </Box>
       </Box>
