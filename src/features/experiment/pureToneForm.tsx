@@ -16,7 +16,7 @@ export const ExperimentPureToneFormPage = () => {
   const context = new AudioContext();
   let oscillator: OscillatorNode | null = null;
   let intervalId: NodeJS.Timeout | null;
-  const frequency = 1000;
+  const frequency = 2000;
   const duration = 60; // 10秒間再生
 
   const onClickStart = (gainValue: number) => {
@@ -66,7 +66,7 @@ export const ExperimentPureToneFormPage = () => {
         as="form">
         <Box>
         <Heading as="h1" w="100%" textAlign={'left'} fontWeight="normal" mb="2%">
-          純音 ${frequency}Hz
+          純音 {frequency}Hz
         </Heading>
         <Text as="p">
           チェック開始ボタンをタップして音が鳴るまで待ってください。
