@@ -37,7 +37,7 @@ export const ExperimentPureToneFormPage = () => {
   let oscillator: OscillatorNode | null = null;
   let intervalId: NodeJS.Timeout | null;
   const frequency = Number(hzValue);
-  const duration = 60; // 10秒間再生
+  const duration = 10; // 5秒間再生
 
   const onClickStart = (gainValue: number) => {
     setGainState(gainValue)
@@ -59,21 +59,19 @@ export const ExperimentPureToneFormPage = () => {
     if (!oscillator) return
     oscillator.start(0);
   
-    intervalId = setTimeout(() => {
+    setTimeout(() => {
       onClickStop();
     }, duration * 1000);
   }
 
   const onClickStop = () => {
-    if (oscillator) {
-      oscillator.stop();
-      oscillator.disconnect();
+      oscillator?.stop();
+      oscillator?.disconnect();
       oscillator = null;
-    }
-    if (intervalId) {
-      clearTimeout(intervalId);
-      intervalId = null;
-    }
+    // if (intervalId) { 
+    //   clearTimeout(intervalId);
+    //   intervalId = null;
+    // }
   }
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
