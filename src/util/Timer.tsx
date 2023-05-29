@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 
 type Props = {
   time: number
+  isPlaying: boolean
 }
 
-const Timer: React.FC<Props> = ({ time }) => {
+const Timer: React.FC<Props> = ({ time, isPlaying }) => {
   const [seconds, setSeconds] = useState(time);
 
   useEffect(() => {
+    if (!isPlaying) return
     const interval = setInterval(() => {
       setSeconds(prevSeconds => {
         if (prevSeconds === 0) {
@@ -21,7 +23,7 @@ const Timer: React.FC<Props> = ({ time }) => {
     return () => {
       clearInterval(interval);
     };
-  }, []);
+  }, [isPlaying]);
 
   return (
     <div>
