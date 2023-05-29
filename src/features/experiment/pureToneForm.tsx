@@ -17,12 +17,15 @@ import { firebase } from '../../firebase';
 import { addDoc, collection } from "firebase/firestore";
 
 import { hzValueObj } from "../../util/freqDataSets/haValueObj";
+// import Timer from "../../util/Timer";
 
 export const ExperimentPureToneFormPage = () => {
   const { fireStore } = firebase
 
   const [gainState, setGainState] = useState<number>(0.01)
   const [name, setName] = useState('')
+  // const [isPlaying, setPlaying] = useState(false)
+  // const [time, setTime] = useState(0)
 
   const search = useLocation().search;
   const query = new URLSearchParams(search);
@@ -37,9 +40,11 @@ export const ExperimentPureToneFormPage = () => {
   let oscillator: OscillatorNode | null = null;
   let intervalId: NodeJS.Timeout | null;
   const frequency = Number(hzValue);
-  const duration = 10; // 5秒間再生
+  const duration = 10; // 10秒間再生
 
   const onClickStart = (gainValue: number) => {
+    // setTime(duration)
+    // setPlaying(true)
     setGainState(gainValue)
 
     oscillator = context.createOscillator();
@@ -61,6 +66,7 @@ export const ExperimentPureToneFormPage = () => {
   
     setTimeout(() => {
       onClickStop();
+      // setPlaying(false)
     }, duration * 1000);
   }
 
@@ -120,6 +126,7 @@ export const ExperimentPureToneFormPage = () => {
           <Input id="name" placeholder="山田太郎" onChange={(e) => handleNameChange(e)}/>
         </FormControl>
       </Box>
+      {/* <Timer time={duration}/> */}
         <ButtonGroup mt="2%" w="100%">
           <Flex w="100%" justifyContent="space-between">
             <Flex>
