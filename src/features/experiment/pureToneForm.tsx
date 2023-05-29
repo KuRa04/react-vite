@@ -16,7 +16,7 @@ export const ExperimentPureToneFormPage = () => {
   const context = new AudioContext();
   let oscillator: OscillatorNode | null = null;
   let intervalId: NodeJS.Timeout | null;
-  const frequency = 250;
+  const frequency = 500;
   const duration = 60; // 10秒間再生
 
   const onClickStart = (gainValue: number) => {
