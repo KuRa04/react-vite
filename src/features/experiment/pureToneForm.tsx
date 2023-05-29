@@ -7,7 +7,10 @@ import {
   Button,
   Heading,
   Text,
-  Flex
+  Flex,
+  FormControl,
+  FormLabel,
+  Input,
 } from '@chakra-ui/react';
 
 import { firebase } from '../../firebase';
@@ -19,6 +22,8 @@ export const ExperimentPureToneFormPage = () => {
   const { fireStore } = firebase
 
   const [gainState, setGainState] = useState<number>(0.01)
+  const [name, setName] = useState('')
+
   const search = useLocation().search;
   const query = new URLSearchParams(search);
   const hzValue = query.get('hzValue')
@@ -71,14 +76,20 @@ export const ExperimentPureToneFormPage = () => {
     }
   }
 
+  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setName(e.target.value)
+  }
+
+
   const postPureToneData = () => {
     if (!hzValue) return
     const ansersCollectionRef = collection(fireStore, 'answers');
     const selectIndex = gainState.toString()
     const selectFreqHzObj = hzValueObj[hzValue]
     addDoc(ansersCollectionRef, {
-      dB: selectFreqHzObj[selectIndex],
+      name,
       HzValue: hzValue,
+      dB: selectFreqHzObj[selectIndex],
       appVolume: gainState
     })
   }
@@ -103,6 +114,13 @@ export const ExperimentPureToneFormPage = () => {
         <Text as="p">
           音が聴こえたら聴こえたボタンをタップしてください。
         </Text>
+
+        <FormControl mt="2%">
+          <FormLabel htmlFor="name" fontWeight={'bold'}>
+            名前
+          </FormLabel>
+          <Input id="name" placeholder="山田太郎" onChange={(e) => handleNameChange(e)}/>
+        </FormControl>
       </Box>
         <ButtonGroup mt="2%" w="100%">
           <Flex w="100%" justifyContent="space-between">
