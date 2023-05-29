@@ -11,7 +11,15 @@ import {
 } from '@chakra-ui/react';
 import { firebase } from '../../../firebase';
 import { addDoc, collection } from "firebase/firestore";
-import { freq1000HzDataSet } from '../../../util/freqDataSets/freqDataSet';
+import { 
+  freq250HzDataSet, 
+  freq500HzDataSet,
+  freq1000HzDataSet,
+  freq2000HzDataSet,
+  freq3000HzDataSet,
+  freq4000HzDataSet,
+  freq8000HzDataSet
+} from '../../../util/freqDataSets/freqDataSet';
 
 export const PureToneFormPage = () => {
   const navigate = useNavigate();
@@ -28,6 +36,17 @@ export const PureToneFormPage = () => {
   const query = new URLSearchParams(search);
   const site = query.get('site')
   const hzValue = query.get('hzValue')
+
+  const hzValueObj: {[key: string]: {[key: string]: number}} = {
+    '250': freq250HzDataSet,
+    '500': freq500HzDataSet,
+    '1000': freq1000HzDataSet,
+    '2000': freq2000HzDataSet,
+    '3000': freq3000HzDataSet,
+    '4000': freq4000HzDataSet,
+    '8000': freq8000HzDataSet
+  }
+
 
   const context = new AudioContext();
   let oscillator: OscillatorNode | null = null;
@@ -74,11 +93,13 @@ export const PureToneFormPage = () => {
   }
 
   const postPureToneData = () => {
+    if (!hzValue) return
     const ansersCollectionRef = collection(fireStore, 'answers');
     const selectIndex = initialState[index].toString()
+    const selectFreqHzObj = hzValueObj[hzValue]
     console.log(selectIndex)
     addDoc(ansersCollectionRef, {
-      dB: freq1000HzDataSet[selectIndex],
+      dB: selectFreqHzObj[selectIndex],
       hzValue: hzValue,
       site
     })
