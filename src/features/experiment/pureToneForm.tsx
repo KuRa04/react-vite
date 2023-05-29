@@ -9,12 +9,14 @@ import {
 
 export const ExperimentPureToneFormPage = () => {
   const gainArray = Array.from({ length: 10 }, (_, i) => (i + 1) / 100);
+  const gainRowArray = Array.from({ length: 10 }, (_, i) => (i + 1) / 10);
+
   // useStateで配列の初期値を変更できるようにする
 
   const context = new AudioContext();
   let oscillator: OscillatorNode | null = null;
   let intervalId: NodeJS.Timeout | null;
-  const frequency = 1000;
+  const frequency = 250;
   const duration = 60; // 10秒間再生
 
   const onClickStart = (gainValue: number) => {
@@ -64,7 +66,7 @@ export const ExperimentPureToneFormPage = () => {
         as="form">
         <Box>
         <Heading as="h1" w="100%" textAlign={'left'} fontWeight="normal" mb="2%">
-          純音 1000Hz 
+          純音 ${frequency}Hz
         </Heading>
         <Text as="p">
           チェック開始ボタンをタップして音が鳴るまで待ってください。
@@ -96,6 +98,27 @@ export const ExperimentPureToneFormPage = () => {
             </Flex>
           </Flex>
         </ButtonGroup> 
+        <Box mt="2%" >
+          <Flex>
+            {
+              gainRowArray.map((item, index) => {
+                return (
+                  <Button
+                    key={`button-${index}`}
+                    onClick={() => {
+                      onClickStart(item)
+                    }}
+                    // isDisabled={step === 1}
+                    colorScheme="teal"
+                    variant="solid"
+                    mr="2%">
+                    {item}
+                  </Button>    
+                )
+              })
+              }
+            </Flex>
+          </Box>
         <Box mt="2%">
 
           <Button
