@@ -8,6 +8,7 @@ import { PureToneFormPage } from './features/check/puretone/pureToneForm';
 import { VoicePage } from './features/check/voice';
 import { VoiceFormPage } from './features/check/voice/voiceForm';
 import { HistoryPage } from './features/history';
+import { ExperimentPureTonePage } from './features/experiment';
 import { ExperimentPureToneFormPage } from './features/experiment/pureToneForm';
 import { HomePage } from './features/home';
 
@@ -25,7 +26,8 @@ function App() {
         <Route path="check/voice" element={<VoicePage />} />
         <Route path="check/voice/detail" element={<VoiceFormPage />} />
         <Route path="history" element={<HistoryPage />} />
-        <Route path="experiment/pure_tone" element={<ExperimentPureToneFormPage />} />
+        <Route path="experiment/pure_tone" element={<ExperimentPureTonePage />} />
+        <Route path="experiment/pure_tone/detail" element={<ExperimentPureToneFormPage />} />
       </Routes>
   </BrowserRouter>
   )

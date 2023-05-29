@@ -1,3 +1,5 @@
+import { useLocation, useNavigate } from "react-router-dom"
+
 import {
   Box,
   ButtonGroup,
@@ -8,6 +10,10 @@ import {
 } from '@chakra-ui/react';
 
 export const ExperimentPureToneFormPage = () => {
+  const search = useLocation().search;
+  const query = new URLSearchParams(search);
+  const hzValue = query.get('hzValue')
+
   const gainArray = Array.from({ length: 10 }, (_, i) => (i + 1) / 100);
   const gainRowArray = Array.from({ length: 10 }, (_, i) => (i + 1) / 10);
 
@@ -16,7 +22,7 @@ export const ExperimentPureToneFormPage = () => {
   const context = new AudioContext();
   let oscillator: OscillatorNode | null = null;
   let intervalId: NodeJS.Timeout | null;
-  const frequency = 8000;
+  const frequency = Number(hzValue);
   const duration = 60; // 10秒間再生
 
   const onClickStart = (gainValue: number) => {
