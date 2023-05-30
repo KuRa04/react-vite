@@ -7,9 +7,12 @@ import {
 
 import { useState } from 'react';
 
+import { useRecoilState } from 'recoil';
+import { userInfoAtom } from '../../util/userInfoAtom';
+
 import { firebase } from '../../firebase';
 
-import { getDocs, collection } from "firebase/firestore";
+import { getDocs, collection, query, where } from "firebase/firestore";
 
 import {
   Chart as ChartJS,
@@ -73,12 +76,24 @@ interface Answers {
 } 
 
 export const HistoryPage = () => {
+  // faceseatで入力したIDを取得
+  const userInfo = useRecoilState(userInfoAtom)
+  
   const { fireStore } = firebase
   const [answers, setAnswers] = useState<Answers[]>([])
 
-  const getHearingData = () => {
-    const ansersCollectionRef = collection(fireStore, 'answers');
-    getDocs(ansersCollectionRef).then((querySnapshot) => {
+  const getHearingData = async () => {
+    const answersCollectionRef = collection(fireStore, 'users');
+
+    // faceIdで登録したidで検索
+    // idは一意にする
+    // TODO faceシートで登録するときにuserをgetして同じIDだったら登録できないようにする    q
+    const q = query(answersCollectionRef, where("id", "==", userInfo[0].id))
+    const querySnapShot = await getDocs(q)
+    querySnapShot.forEach((doc) => {
+      console.log(doc.id, "=>", doc.data().age)
+    })
+    getDocs(answersCollectionRef).then((querySnapshot) => {
       const AnswersList = querySnapshot.docs.map((doc, index) => {
         return  {
           docId: doc.id,

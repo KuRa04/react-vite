@@ -1,3 +1,4 @@
+import { RecoilRoot } from "recoil";
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { SignUpPage } from './features/auth/signUp';
 import { SignInPage } from './features/auth/signIn';
@@ -14,22 +15,24 @@ import { HomePage } from './features/home';
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route index element={<HomePage />} />
-        <Route path="sign_up" element={<SignUpPage />} />
-        <Route path="sign_in" element={<SignInPage />} />
-        <Route path="face" element={<FaceFormPage />} /> 
-        <Route path="reserve" element={<ReserveFormPage />} /> 
-        <Route path="check/pure_tone" element={<PureTonePage />} />
-        <Route path="check/pure_tone/detail" element={<PureToneFormPage />} />
-        <Route path="check/voice" element={<VoicePage />} />
-        <Route path="check/voice/detail" element={<VoiceFormPage />} />
-        <Route path="history" element={<HistoryPage />} />
-        <Route path="experiment/pure_tone" element={<ExperimentPureTonePage />} />
-        <Route path="experiment/pure_tone/detail" element={<ExperimentPureToneFormPage />} />
-      </Routes>
-  </BrowserRouter>
+    <RecoilRoot>
+      <BrowserRouter>
+        <Routes>
+          <Route index element={<HomePage />} />
+          <Route path="sign_up" element={<SignUpPage />} />
+          <Route path="sign_in" element={<SignInPage />} />
+          <Route path="face" element={<FaceFormPage />} /> 
+          <Route path="reserve" element={<ReserveFormPage />} /> 
+          <Route path="check/pure_tone" element={<PureTonePage />} />
+          <Route path="check/pure_tone/detail" element={<PureToneFormPage />} />
+          <Route path="check/voice" element={<VoicePage />} />
+          <Route path="check/voice/detail" element={<VoiceFormPage />} />
+          <Route path="history" element={<HistoryPage />} />
+          <Route path="experiment/pure_tone" element={<ExperimentPureTonePage />} />
+          <Route path="experiment/pure_tone/detail" element={<ExperimentPureToneFormPage />} />
+        </Routes>
+    </BrowserRouter>
+  </RecoilRoot>
   )
 }
 

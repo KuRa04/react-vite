@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import { userInfoAtom } from '../../util/userInfoAtom';
 import {
   Box,
   Stack,
@@ -25,6 +27,9 @@ interface UserStatus  {
 }
 
 export const FaceFormPage = () => {
+  const setUserInfo = useSetRecoilState(userInfoAtom)
+  const userInfo = useRecoilState(userInfoAtom)
+
   const [id, setId] = useState('')
   const [age, setAge] = useState('')
   const [sex, setSex] = useState('')
@@ -37,7 +42,7 @@ export const FaceFormPage = () => {
   })
 
   const handleIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setId(e.target.value)
+    setUserInfo({ id: e.target.value })
   }
 
   const handleAgeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -60,7 +65,7 @@ export const FaceFormPage = () => {
     // if (!bgnValue) return
     const usersCollectionRef = collection(fireStore, 'users');
     addDoc(usersCollectionRef, {
-      id,
+      id: userInfo[0].id,
       age,
       sex
     })
@@ -83,7 +88,7 @@ export const FaceFormPage = () => {
           <FormLabel htmlFor="name" fontWeight={'bold'}>
             ID
           </FormLabel>
-          <Input id="name" placeholder="0000" onChange={(e) => handleIdChange(e)}/>
+          <Input id="name" placeholder="0000" onChange={(e) => handleIdChange(e)} defaultValue={userInfo[0].id}/>
         </FormControl>
         <FormControl mt="2%">
           <FormLabel htmlFor="date-of-birth" fontWeight={'bold'}>
