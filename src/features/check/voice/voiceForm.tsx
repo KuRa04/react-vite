@@ -15,7 +15,7 @@ import {
 } from '@chakra-ui/react';
 
 import { firebase } from '../../../firebase';
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 
 export const VoiceFormPage = () => {
   const navigate = useNavigate();
@@ -83,6 +83,8 @@ export const VoiceFormPage = () => {
       kind: '音声',
       site: site,
       gainState: audio.volume,
+      created_at: serverTimestamp(),
+      updated_at: serverTimestamp()
     })
 
     handleSelect()

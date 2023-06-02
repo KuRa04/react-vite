@@ -10,7 +10,7 @@ import {
   Flex
 } from '@chakra-ui/react';
 import { firebase } from '../../../firebase';
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 
 import { hzValueObj } from '../../../util/freqDataSets/haValueObj';
 
@@ -83,7 +83,9 @@ export const PureToneFormPage = () => {
     addDoc(ansersCollectionRef, {
       dB: selectFreqHzObj[selectIndex],
       hzValue: hzValue,
-      site
+      site,
+      created_at: serverTimestamp(),
+      updated_at: serverTimestamp()
     })
   }
 

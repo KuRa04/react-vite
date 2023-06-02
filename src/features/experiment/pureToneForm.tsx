@@ -14,7 +14,7 @@ import {
 } from '@chakra-ui/react';
 
 import { firebase } from '../../firebase';
-import { getDocs, addDoc, setDoc, collection, query, where } from "firebase/firestore";
+import { getDocs, addDoc, setDoc, collection, query, where, serverTimestamp } from "firebase/firestore";
 import { useRecoilState } from 'recoil';
 import { userInfoAtom } from '../../util/userInfoAtom';
 
@@ -106,7 +106,9 @@ export const ExperimentPureToneFormPage = () => {
       name,
       HzValue: hzValue,
       dB: selectFreqHzObj[selectIndex],
-      appVolume: gainState
+      appVolume: gainState,
+      created_at: serverTimestamp(),
+      updated_at: serverTimestamp()
     })
   }
 

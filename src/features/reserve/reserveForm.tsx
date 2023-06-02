@@ -16,7 +16,7 @@ import {
 import { useNavigate } from "react-router-dom";
 
 import { firebase } from '../../firebase';
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 
 export const ReserveFormPage = () => {
   const [bgnValue, setBgnValue] = useState('')
@@ -36,7 +36,9 @@ export const ReserveFormPage = () => {
     if (!bgnValue) return
     const ansersCollectionRef = collection(fireStore, 'answers');
     addDoc(ansersCollectionRef, {
-      bgn: bgnValue
+      bgn: bgnValue,
+      created_at: serverTimestamp(),
+      updated_at: serverTimestamp()
     })
   }
 
