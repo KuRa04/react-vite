@@ -14,12 +14,15 @@ import {
 } from '@chakra-ui/react';
 
 import { firebase } from '../../firebase';
-import { addDoc, collection } from "firebase/firestore";
+import { getDocs, addDoc, setDoc, collection, query, where } from "firebase/firestore";
+import { useRecoilState } from 'recoil';
+import { userInfoAtom } from '../../util/userInfoAtom';
 
 import { hzValueObj } from "../../util/freqDataSets/haValueObj";
 import Timer from "../../util/Timer";
 
 export const ExperimentPureToneFormPage = () => {
+  const userInfo = useRecoilState(userInfoAtom)
   const { fireStore } = firebase
 
   const [gainState, setGainState] = useState<number>(0.01)
@@ -28,8 +31,8 @@ export const ExperimentPureToneFormPage = () => {
   const [time, setTime] = useState(0)
 
   const search = useLocation().search;
-  const query = new URLSearchParams(search);
-  const hzValue = query.get('hzValue')
+  const queryParams = new URLSearchParams(search);
+  const hzValue = queryParams.get('hzValue')
 
   const gainArray = Array.from({ length: 9 }, (_, i) => (i + 1) / 100);
   const gainRowArray = Array.from({ length: 10 }, (_, i) => (i + 1) / 10);
@@ -86,13 +89,20 @@ export const ExperimentPureToneFormPage = () => {
     setName(e.target.value)
   }
 
-
-  const postPureToneData = () => {
+  
+  const postPureToneData = async () => {
     if (!hzValue) return
-    const ansersCollectionRef = collection(fireStore, 'answers');
+    const usersCollectionRef = collection(fireStore, 'users');
     const selectIndex = gainState.toString()
     const selectFreqHzObj = hzValueObj[hzValue]
-    addDoc(ansersCollectionRef, {
+    // const q = query(usersCollectionRef, where("id", "==", userInfo[0].id))
+    // const querySnapShot = await getDocs(q)
+    // querySnapShot.forEach((doc) => {
+    //   setDoc(usersCollectionRef, doc.id)
+    //   console.log(doc.id, "=>", doc.data().age)
+    // })
+
+    await addDoc(usersCollectionRef, {
       name,
       HzValue: hzValue,
       dB: selectFreqHzObj[selectIndex],
