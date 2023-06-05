@@ -79,10 +79,6 @@ export const ExperimentPureToneFormPage = () => {
       oscillator = null;
       setTime(0)
       setPlaying(false)
-    // if (intervalId) { 
-    //   clearTimeout(intervalId);
-    //   intervalId = null;
-    // }
   }
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -95,12 +91,12 @@ export const ExperimentPureToneFormPage = () => {
     const usersCollectionRef = collection(fireStore, 'users');
     const selectIndex = gainState.toString()
     const selectFreqHzObj = hzValueObj[hzValue]
-    // const q = query(usersCollectionRef, where("id", "==", userInfo[0].id))
-    // const querySnapShot = await getDocs(q)
-    // querySnapShot.forEach((doc) => {
-    //   setDoc(usersCollectionRef, doc.id)
-    //   console.log(doc.id, "=>", doc.data().age)
-    // })
+    const q = query(usersCollectionRef, where("id", "==", userInfo[0].id))
+    const querySnapShot = await getDocs(q)
+    querySnapShot.forEach((doc) => {
+      // setDoc(usersCollectionRef, doc.id)
+      console.log(doc.id, "=>", doc.data().age)
+    })
 
     await addDoc(usersCollectionRef, {
       name,

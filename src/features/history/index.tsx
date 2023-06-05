@@ -12,7 +12,7 @@ import { userInfoAtom } from '../../util/userInfoAtom';
 
 import { firebase } from '../../firebase';
 
-import { getDocs, collection, query, where } from "firebase/firestore";
+import { getDoc, doc } from "firebase/firestore";
 
 import {
   Chart as ChartJS,
@@ -70,9 +70,10 @@ export const data = {
   ],
 };
 
-interface Answers {
-  docId: string;
-  gainState: number
+interface Answer {
+  id: string;
+  age: string;
+  sex: string;
 } 
 
 export const HistoryPage = () => {
@@ -80,37 +81,25 @@ export const HistoryPage = () => {
   const userInfo = useRecoilState(userInfoAtom)
   
   const { fireStore } = firebase
-  const [answers, setAnswers] = useState<Answers[]>([])
+  const [answer, setAnswer] = useState<Answer>({
+    id: '',
+    age: '',
+    sex: ''
+  })
 
   const getHearingData = async () => {
-    const answersCollectionRef = collection(fireStore, 'users');
-
-    // faceIdで登録したidで検索
-    // idは一意にする
-    // TODO faceシートで登録するときにuserをgetして同じIDだったら登録できないようにする    q
-    const q = query(answersCollectionRef, where("id", "==", userInfo[0].id))
-    const querySnapShot = await getDocs(q)
-    querySnapShot.forEach((doc) => {
-      console.log(doc.id, "=>", doc.data().age)
-    })
-    getDocs(answersCollectionRef).then((querySnapshot) => {
-      const AnswersList = querySnapshot.docs.map((doc, index) => {
-        return  {
-          docId: doc.id,
-          gainState: doc.data().gainState,
-        };
-      })
-      setAnswers(AnswersList)
-    })
+    const docRef = doc(fireStore, "users", userInfo[0].id)
+    const docSnap = await getDoc(docRef)
+    console.log(userInfo[0].id)
+    if (!docSnap.data()) return
+    setAnswer(docSnap.data() as Answer)
+    console.log(answer)
   }
 
-  function convertToCSV(objArray: Answers[]): string {
-    if (objArray.length === 0) {
-      return ''
-    }
-    const header = Object.keys(objArray[0]).join(",") + "\n";
-    const rows = objArray.map(obj => Object.values(obj).join(",")).join("\n");
-    return header + rows;
+  function convertToCSV(obj: Answer): string {
+    const header = Object.keys(obj).join(",") + "\n";
+    const values = Object.values(obj).join(",");
+    return header + values;
   }
   
   function downloadCSV(data: string, filename: string) {
@@ -121,8 +110,9 @@ export const HistoryPage = () => {
     link.download = filename;
     link.click();
   }
-
-  const csvData = convertToCSV(answers)
+   
+  if (!answer) return
+  const csvData = convertToCSV(answer)
 
   return (
     <>
@@ -161,7 +151,7 @@ export const HistoryPage = () => {
           </Button>
         </Box>
         <Box>
-          {
+          {/* {
             answers.map((answer) => {
               return (
               <Box key={`${answer.docId}`}>
@@ -174,7 +164,7 @@ export const HistoryPage = () => {
               </Box>
               )
             })
-          }
+          } */}
         </Box>
       </Box>
     </>

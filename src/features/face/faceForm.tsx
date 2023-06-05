@@ -18,28 +18,14 @@ import {
 import { useNavigate } from "react-router-dom";
 
 import { firebase } from '../../firebase';
-import { addDoc, collection } from "firebase/firestore";
-
-interface UserStatus  {
-  id: string;
-  age: string;
-  sex: string;
-}
+import { setDoc, doc } from "firebase/firestore";
 
 export const FaceFormPage = () => {
   const setUserInfo = useSetRecoilState(userInfoAtom)
   const userInfo = useRecoilState(userInfoAtom)
 
-  const [id, setId] = useState('')
   const [age, setAge] = useState('')
   const [sex, setSex] = useState('')
-  const [checkbox, setCheckBox] = useState([''])
-
-  const [userStatus, setUserStatus] = useState<UserStatus>({
-    id: '',
-    age: '',
-    sex: ''
-  })
 
   const handleIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUserInfo({ id: e.target.value })
@@ -49,11 +35,6 @@ export const FaceFormPage = () => {
     setAge(e.target.value)
   }
 
-  const handleSexChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSex(e.target.value)
-  }
-
-
   const navigate = useNavigate();
   const { fireStore } = firebase
 
@@ -62,9 +43,7 @@ export const FaceFormPage = () => {
   }
 
   const postUserStatusData = () => {
-    // if (!bgnValue) return
-    const usersCollectionRef = collection(fireStore, 'users');
-    addDoc(usersCollectionRef, {
+    setDoc(doc(fireStore, "users", userInfo[0].id), {
       id: userInfo[0].id,
       age,
       sex
