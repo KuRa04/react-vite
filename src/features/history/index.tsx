@@ -72,6 +72,16 @@ export const data = {
   ],
 };
 
+interface PuretoneData {
+  250: string,
+  500: string,
+  1000: string,
+  2000: string,
+  3000: string,
+  4000: string,
+  8000: string
+}
+
 interface UserInfo {
   userId: string
   age: string
@@ -79,10 +89,20 @@ interface UserInfo {
   bgnValue: string
 }
 
-interface PuretoneData extends UserInfo {
-  db: number
-  hzValue: string
+interface TestPuretoneData {
   site: string
+  puretoneData: PuretoneData
+}
+
+interface CsvData extends UserInfo {
+  site: string,
+  250: string,
+  500: string,
+  1000: string,
+  2000: string,
+  3000: string,
+  4000: string,
+  8000: string
 }
 
 export const HistoryPage = () => {
@@ -91,22 +111,65 @@ export const HistoryPage = () => {
   const userInfoParse = JSON.parse(userInfoJson as string) as UserInfo
   
   const { fireStore } = firebase
+
   const [userInfo, setUserInfo] = useState<UserInfo>(userInfoParse)
+  const [pureToneData, setPuretoneData] = useState<PuretoneData>()
+  const [csvTestData, setCsvTextData] = useState<CsvData>({
+    userId: userInfo.userId,
+    age: userInfo.age,
+    sex: userInfo.sex,
+    bgnValue: userInfo.bgnValue,
+    site: '',
+    250: '',
+    500: '',
+    1000: '',
+    2000: '',
+    3000: '',
+    4000: '',
+    8000: ''
+  })
+
+  const pureToneDataObj = {
+    '250': '',
+    '500': '',
+    '1000': '',
+    '2000': '',
+    '3000': '',
+    '4000': '',
+    '8000': ''
+  }
 
   const getHearingData = async () => {
     const docRef = doc(fireStore, "users", userInfo.userId)
-    const puretoneRef = collection(fireStore, "users", userInfo.userId, "puretone")
+    const puretoneRef = doc(fireStore, "users", userInfo.userId, "puretone", "left")
     const docSnap = await getDoc(docRef)
-    const puretoneSnap = await getDocs(puretoneRef)
-    puretoneSnap.forEach((doc) => {
-      console.log(doc.id, "=>", doc.data())
-    })
-    // console.log(docSnap.data())
-    if (!docSnap.data()) return
-    setUserInfo(docSnap.data() as UserInfo)
+    const puretoneSnap = await getDoc(puretoneRef)
+    if (!puretoneSnap.data() || !docSnap.data()) {
+      setPuretoneData(pureToneDataObj)
+    } else {
+      const castPuretoneSnap = puretoneSnap.data() as TestPuretoneData
+      const castUserInfoSnap = docSnap.data() as UserInfo
+      if (!castPuretoneSnap.puretoneData) return
+      setUserInfo(castUserInfoSnap)
+      setPuretoneData(castPuretoneSnap.puretoneData)
+      setCsvTextData({
+        userId: userInfo.userId,
+        age: userInfo.age,
+        sex: userInfo.sex,
+        bgnValue: userInfo.bgnValue,
+        site: castPuretoneSnap.site,
+        250: castPuretoneSnap.puretoneData[250],
+        500: castPuretoneSnap.puretoneData[500],
+        1000: castPuretoneSnap.puretoneData[1000],
+        2000: castPuretoneSnap.puretoneData[2000],
+        3000: castPuretoneSnap.puretoneData[3000],
+        4000: castPuretoneSnap.puretoneData[4000],
+        8000: castPuretoneSnap.puretoneData[8000]
+      })
+    }
   }
 
-  function convertToCSV(obj: UserInfo): string {
+  function convertToCSV(obj: CsvData): string {
     const header = Object.keys(obj).join(",") + "\n";
     const values = Object.values(obj).join(",");
     return header + values;
@@ -121,8 +184,8 @@ export const HistoryPage = () => {
     link.click();
   }
    
-  if (!userInfo) return <></>
-  const csvData = convertToCSV(userInfo)
+  if (!csvTestData) return <></>
+  const csvData = convertToCSV(csvTestData)
 
   useEffect(() => {
     getHearingData()
