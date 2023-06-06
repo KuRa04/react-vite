@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from "react-router-dom"
 
 import {
@@ -10,7 +10,7 @@ import {
   Flex
 } from '@chakra-ui/react';
 import { firebase } from '../../../firebase';
-import { getDoc, doc, addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 
 import { useRecoilState } from 'recoil';
 import { userInfoAtom } from '../../../util/userInfoAtom';
@@ -28,13 +28,25 @@ export const PureToneFormPage = () => {
 
   const navigate = useNavigate();
   const initialState = [0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1];
-
+  console.log(initialState.length)
 
   // const [gainState, setGainState] = useState<number[]>(initialState)
   const [index, setIndex] = useState<number>(0)
   const [isPlaying, setPlaying] = useState(false)
 
   const { fireStore } = firebase
+
+  const countUp = () => {
+    if (index >= 19) return
+    onStop()
+    setIndex((prevIndex) => prevIndex + 1)
+  }
+
+  const countDown = () => {
+    if (index <= 0) return
+    onStop()
+    setIndex((prevIndex) => prevIndex - 1)
+  }
 
   const search = useLocation().search;
   const query = new URLSearchParams(search);
@@ -96,7 +108,15 @@ export const PureToneFormPage = () => {
       created_at: serverTimestamp(),
       updated_at: serverTimestamp()
     })
+    onStop()
   }
+
+  useEffect(() => {
+    if (oscillator) {
+      onStop()
+    }
+    onPlay()
+  })
 
   // const getHearingData = async () => {
   //   const docRef = doc(fireStore, "users", userInfo[0].id)
@@ -131,23 +151,25 @@ export const PureToneFormPage = () => {
             <Flex>
               <Button
                 onClick={() => {
-                  onPlay()
+                  countDown()
                 }}
                 isDisabled={isPlaying}
-                colorScheme="teal"
+                colorScheme="blue"
                 variant="solid"
-                mr="5%">
-                チェック開始
+                mr="5%"
+                disabled={index === 0}
+                >
+                音量を下げる
               </Button>
               <Button
                 // isDisabled={step === 3}
                 onClick={() => {
-                  onStop()
+                  countUp()
                 }}
                 mr="5%"
-                colorScheme="teal"
-                variant="outline">
-                キャンセル
+                colorScheme="red"
+                variant="solid">
+                音量を上げる
               </Button>
               <Button
                 onClick={() => {
