@@ -20,11 +20,21 @@ import { addDoc, setDoc, updateDoc, collection, doc, serverTimestamp } from "fir
 
 import { useRecoilState } from 'recoil';
 import { userInfoAtom } from '../../util/userInfoAtom';
+import {  setLocalStorage, getLocalStorage } from '../../util/localStorage';
+
+interface UserInfo {
+  userId: string
+  age: string
+  sex: string
+  bgnValue: string
+}
 
 export const ReserveFormPage = () => {
-  const userInfo = useRecoilState(userInfoAtom)
-  const [bgnValue, setBgnValue] = useState('')
-
+  
+  const userInfoJson = getLocalStorage('userInfo')
+  const userInfoParse = JSON.parse(userInfoJson as string) as UserInfo
+  
+  const [bgnValue, setBgnValue] = useState(userInfoParse.bgnValue || '')
   const navigate = useNavigate();
   const { fireStore } = firebase
 
@@ -38,13 +48,14 @@ export const ReserveFormPage = () => {
 
   const postBgnData = () => {
     if (!bgnValue) return
-    const docRef = doc(fireStore, 'users', userInfo[0].id);
+    const docRef = doc(fireStore, 'users', userInfoParse.userId);
     // answerCollectionRef = doc(fireStore, "users", "", "Voice")
     updateDoc(docRef, {
       bgn: bgnValue,
       created_at: serverTimestamp(),
       updated_at: serverTimestamp()
     })
+    setLocalStorage('userInfo', JSON.stringify({...userInfoParse, bgnValue},))
   }
 
   const context = new AudioContext();
@@ -99,7 +110,7 @@ export const ReserveFormPage = () => {
             <FormLabel htmlFor="background-noise" fontWeight={'bold'}>
               暗騒音レベル
             </FormLabel>
-            <Input id="background-noise" placeholder="db値 例：32.1" onChange={(e) => handleChange(e)}/>
+            <Input id="background-noise" placeholder="db値 例：32.1" defaultValue={bgnValue} onChange={(e) => handleChange(e)}/>
             <Button
                 onClick={() => {
                   postBgnData()

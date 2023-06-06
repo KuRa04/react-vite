@@ -23,6 +23,7 @@ interface UserInfo {
   userId: string
   age: string
   sex: string
+  bgn: string
 }
 
 export const FaceFormPage = () => {
