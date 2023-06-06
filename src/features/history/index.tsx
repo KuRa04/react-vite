@@ -111,7 +111,7 @@ export const HistoryPage = () => {
     link.click();
   }
    
-  if (!answer) return
+  if (!answer) return <></>
   const csvData = convertToCSV(answer)
 
   useEffect(() => {
