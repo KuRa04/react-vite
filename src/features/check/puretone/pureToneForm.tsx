@@ -135,12 +135,17 @@ export const PureToneFormPage = () => {
 
   const getPureToneData = async () => {
     const puretoneDocRef = doc(fireStore, 'users', userInfoParse.userId, "puretone", site);
-    const puretoneSnap = await getDoc(puretoneDocRef)
-    if (!puretoneSnap) {
-      setPuretoneData(pureToneDataObj)
-    } else {
-      const castPuretoneSnap = puretoneSnap.data() as TestPuretoneData
-      setPuretoneData(castPuretoneSnap.puretoneData)
+    try {
+      const puretoneSnap = await getDoc(puretoneDocRef)
+      if (!puretoneSnap) {
+        setPuretoneData(pureToneDataObj)
+      } else {
+        const castPuretoneSnap = puretoneSnap.data() as TestPuretoneData
+        if (!castPuretoneSnap.puretoneData) return
+        setPuretoneData(castPuretoneSnap.puretoneData)
+      }
+    } catch(error) {
+      console.log(error)  
     }
   }
 
