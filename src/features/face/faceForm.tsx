@@ -50,8 +50,6 @@ export const FaceFormPage = () => {
     })
   }
 
-  console.log()
-
   return (
     <Box
       borderWidth="1px"

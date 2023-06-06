@@ -15,7 +15,7 @@ import {
 } from '@chakra-ui/react';
 
 import { firebase } from '../../../firebase';
-import { addDoc, setDoc, doc, collection, serverTimestamp } from "firebase/firestore";
+import { addDoc, updateDoc, doc, collection, serverTimestamp } from "firebase/firestore";
 
 import { useRecoilState } from 'recoil';
 import { userInfoAtom } from '../../../util/userInfoAtom';
@@ -83,7 +83,7 @@ export const VoiceFormPage = () => {
     if (!audio) return
 
     const collectionPath = doc(fireStore, 'users', userInfo[0].id, 'answer', 'voice')
-    setDoc(collectionPath, {
+    updateDoc(collectionPath, {
       id: userInfo[0].id,
       site: site,
       appVolume: gainState,
@@ -173,9 +173,9 @@ export const VoiceFormPage = () => {
           </Button>
         </Box>
         <Box mt="4%">
-          <Text as="p" fontWeight={'bold'}>
+          {/* <Text as="p" fontWeight={'bold'}>
             暗騒音レベル
-          </Text>
+          </Text> */}
           <Button
             mt="2%"
             // isDisabled={step === 3}

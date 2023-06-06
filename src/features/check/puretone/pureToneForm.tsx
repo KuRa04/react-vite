@@ -10,11 +10,22 @@ import {
   Flex
 } from '@chakra-ui/react';
 import { firebase } from '../../../firebase';
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { getDoc, doc, addDoc, collection, serverTimestamp } from "firebase/firestore";
+
+import { useRecoilState } from 'recoil';
+import { userInfoAtom } from '../../../util/userInfoAtom';
 
 import { hzValueObj } from '../../../util/freqDataSets/haValueObj';
 
+interface BgnType {
+  bgn: string
+}
+
 export const PureToneFormPage = () => {
+  const userInfo = useRecoilState(userInfoAtom)
+
+  const [bgn, setBgn] = useState()
+
   const navigate = useNavigate();
   const initialState = [0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1];
 
@@ -79,7 +90,6 @@ export const PureToneFormPage = () => {
     const ansersCollectionRef = collection(fireStore, 'answers');
     const selectIndex = initialState[index].toString()
     const selectFreqHzObj = hzValueObj[hzValue]
-    console.log(selectIndex)
     addDoc(ansersCollectionRef, {
       dB: selectFreqHzObj[selectIndex],
       hzValue: hzValue,
@@ -88,6 +98,13 @@ export const PureToneFormPage = () => {
       updated_at: serverTimestamp()
     })
   }
+
+  // const getHearingData = async () => {
+  //   const docRef = doc(fireStore, "users", userInfo[0].id)
+  //   const docSnap = await getDoc(docRef)
+  //   console.log(userInfo[0].id)
+  //   if (!docSnap.data()) return
+  // }
 
   return (
     <>
@@ -148,9 +165,9 @@ export const PureToneFormPage = () => {
           </Flex>
         </ButtonGroup>
         <Box mt="2%">
-          <Text as="p" fontWeight={'bold'}>
+          {/* <Text as="p" fontWeight={'bold'}>
             暗騒音レベル
-          </Text>
+          </Text> */}
           <Button
             mt="2%"
             // isDisabled={step === 3}
