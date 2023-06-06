@@ -111,7 +111,6 @@ export const PureToneFormPage = () => {
 
   const postPureToneData = () => {
     if (!hzValue) return
-    console.log("hoge")
     const puretoneDocRef = doc(fireStore, 'users', userInfoParse.userId, "puretone", `${hzValue}-${site}`);
     const selectIndex = initialState[index].toString()
     const selectFreqHzObj = hzValueObj[hzValue]
@@ -129,7 +128,7 @@ export const PureToneFormPage = () => {
     if (oscillator) {
       onStop()
     }
-    // onPlay()
+    onPlay()
   }, [index])
 
   // const getHearingData = async () => {
