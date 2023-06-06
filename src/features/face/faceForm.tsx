@@ -50,6 +50,8 @@ export const FaceFormPage = () => {
     })
   }
 
+  console.log()
+
   return (
     <Box
       borderWidth="1px"
@@ -73,13 +75,13 @@ export const FaceFormPage = () => {
           <FormLabel htmlFor="date-of-birth" fontWeight={'bold'}>
             年齢
           </FormLabel>
-          <Input id="date-of-birth" placeholder="20" onChange={(e) => handleAgeChange(e)}/>
+          <Input id="date-of-birth" placeholder="20" onChange={(e) => handleAgeChange(e)} defaultValue={age}/>
         </FormControl>
         <FormControl mt="2%">
           <FormLabel htmlFor="" fontWeight={'bold'}>
             性別
           </FormLabel>
-          <RadioGroup onChange={setSex} value={sex}>
+          <RadioGroup onChange={setSex} value={sex} defaultValue={sex}>
           <Stack direction='row'>
             <Radio value='男性'>男性</Radio>
             <Radio value='女性'>女性</Radio>

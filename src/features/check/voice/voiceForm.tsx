@@ -15,11 +15,15 @@ import {
 } from '@chakra-ui/react';
 
 import { firebase } from '../../../firebase';
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { addDoc, setDoc, doc, collection, serverTimestamp } from "firebase/firestore";
+
+import { useRecoilState } from 'recoil';
+import { userInfoAtom } from '../../../util/userInfoAtom';
 
 export const VoiceFormPage = () => {
   const navigate = useNavigate();
   const [gainState, setGainState] = useState(0)
+  const userInfo = useRecoilState(userInfoAtom)
 
   const { fireStore } = firebase
 
@@ -77,16 +81,15 @@ export const VoiceFormPage = () => {
 
   const postVoiceData = () => {
     if (!audio) return
-    console.log("onClick")
-    const ansersCollectionRef = collection(fireStore, 'answers');
-    addDoc(ansersCollectionRef, {
-      kind: '音声',
+
+    const collectionPath = doc(fireStore, 'users', userInfo[0].id, 'answer', 'voice')
+    setDoc(collectionPath, {
+      id: userInfo[0].id,
       site: site,
-      gainState: audio.volume,
+      appVolume: gainState,
       created_at: serverTimestamp(),
       updated_at: serverTimestamp()
     })
-
     handleSelect()
   }
 

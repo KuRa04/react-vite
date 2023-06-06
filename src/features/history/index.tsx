@@ -5,7 +5,7 @@ import {
   Text
 } from '@chakra-ui/react';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import { useRecoilState } from 'recoil';
 import { userInfoAtom } from '../../util/userInfoAtom';
@@ -113,6 +113,10 @@ export const HistoryPage = () => {
    
   if (!answer) return
   const csvData = convertToCSV(answer)
+
+  useEffect(() => {
+    getHearingData()
+  }, [])
 
   return (
     <>

@@ -14,7 +14,7 @@ import {
 } from '@chakra-ui/react';
 
 import { firebase } from '../../firebase';
-import { getDocs, addDoc, setDoc, collection, query, where, serverTimestamp } from "firebase/firestore";
+import { getDocs, addDoc, setDoc, doc, collection, query, where, serverTimestamp } from "firebase/firestore";
 import { useRecoilState } from 'recoil';
 import { userInfoAtom } from '../../util/userInfoAtom';
 
@@ -43,7 +43,7 @@ export const ExperimentPureToneFormPage = () => {
   let oscillator: OscillatorNode | null = null;
   let intervalId: NodeJS.Timeout | null;
   const frequency = Number(hzValue);
-  const duration = 5; // 10秒間再生
+  const duration = 10; // 10秒間再生
 
   const onClickStart = (gainValue: number) => {
     setTime(duration)
@@ -88,18 +88,12 @@ export const ExperimentPureToneFormPage = () => {
   
   const postPureToneData = async () => {
     if (!hzValue) return
-    const usersCollectionRef = collection(fireStore, 'users');
     const selectIndex = gainState.toString()
     const selectFreqHzObj = hzValueObj[hzValue]
-    const q = query(usersCollectionRef, where("id", "==", userInfo[0].id))
-    const querySnapShot = await getDocs(q)
-    querySnapShot.forEach((doc) => {
-      // setDoc(usersCollectionRef, doc.id)
-      console.log(doc.id, "=>", doc.data().age)
-    })
 
-    await addDoc(usersCollectionRef, {
-      name,
+    const collectionPath = doc(fireStore, 'users', userInfo[0].id, 'answer', 'puretone')
+    setDoc(collectionPath, {
+      id: userInfo[0].id,
       HzValue: hzValue,
       dB: selectFreqHzObj[selectIndex],
       appVolume: gainState,
