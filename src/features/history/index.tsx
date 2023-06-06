@@ -14,6 +14,8 @@ import { firebase } from '../../firebase';
 
 import { getDoc, doc } from "firebase/firestore";
 
+import { setLocalStorage, getLocalStorage } from '../../util/localStorage';
+
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -70,33 +72,29 @@ export const data = {
   ],
 };
 
-interface Answer {
-  id: string;
-  age: string;
-  sex: string;
-} 
+interface UserInfo {
+  userId: string
+  age: string
+  sex: string
+}
 
 export const HistoryPage = () => {
   // faceseatで入力したIDを取得
-  const userInfo = useRecoilState(userInfoAtom)
+  const userInfoJson = getLocalStorage('userInfo')
+  const userInfoParse = JSON.parse(userInfoJson as string) as UserInfo
   
   const { fireStore } = firebase
-  const [answer, setAnswer] = useState<Answer>({
-    id: '',
-    age: '',
-    sex: ''
-  })
+  const [userInfo, setUserInfo] = useState<UserInfo>(userInfoParse)
 
   const getHearingData = async () => {
-    const docRef = doc(fireStore, "users", userInfo[0].id)
+    const docRef = doc(fireStore, "users", userInfo.userId)
     const docSnap = await getDoc(docRef)
-    console.log(userInfo[0].id)
+    console.log(docSnap.data())
     if (!docSnap.data()) return
-    setAnswer(docSnap.data() as Answer)
-    console.log(answer)
+    setUserInfo(docSnap.data() as UserInfo)
   }
 
-  function convertToCSV(obj: Answer): string {
+  function convertToCSV(obj: UserInfo): string {
     const header = Object.keys(obj).join(",") + "\n";
     const values = Object.values(obj).join(",");
     return header + values;
@@ -111,8 +109,8 @@ export const HistoryPage = () => {
     link.click();
   }
    
-  if (!answer) return <></>
-  const csvData = convertToCSV(answer)
+  if (!userInfo) return <></>
+  const csvData = convertToCSV(userInfo)
 
   useEffect(() => {
     getHearingData()

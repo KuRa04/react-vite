@@ -1,6 +1,4 @@
 import { useState } from 'react';
-import { useRecoilState, useSetRecoilState } from 'recoil';
-import { userInfoAtom } from '../../util/userInfoAtom';
 import {
   Box,
   Stack,
@@ -28,8 +26,6 @@ interface UserInfo {
 }
 
 export const FaceFormPage = () => {
-  // const setUserInfo = useSetRecoilState(userInfoAtom)
-  const userInfo = useRecoilState(userInfoAtom)
   const userInfoJson = getLocalStorage('userInfo')
   const userInfoParse = JSON.parse(userInfoJson as string) as UserInfo
 
@@ -57,8 +53,8 @@ export const FaceFormPage = () => {
   }
 
   const postUserStatusData = () => {
-    setDoc(doc(fireStore, "users", userInfo[0].id), {
-      id: userInfo[0].id,
+    setDoc(doc(fireStore, "users", userId), {
+      userId,
       age,
       sex
     })
