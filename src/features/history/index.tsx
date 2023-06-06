@@ -86,7 +86,7 @@ interface UserInfo {
   userId: string
   age: string
   sex: string
-  bgnValue: string
+  bgn: string
 }
 
 interface TestPuretoneData {
@@ -118,7 +118,7 @@ export const HistoryPage = () => {
     userId: userInfo.userId,
     age: userInfo.age,
     sex: userInfo.sex,
-    bgnValue: userInfo.bgnValue,
+    bgn: userInfo.bgn,
     site: '',
     250: '',
     500: '',
@@ -156,7 +156,7 @@ export const HistoryPage = () => {
         userId: userInfo.userId,
         age: userInfo.age,
         sex: userInfo.sex,
-        bgnValue: userInfo.bgnValue,
+        bgn: userInfo.bgn,
         site: castPuretoneSnap.site,
         250: castPuretoneSnap.puretoneData[250],
         500: castPuretoneSnap.puretoneData[500],

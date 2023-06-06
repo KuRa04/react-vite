@@ -24,16 +24,21 @@ interface UserInfo {
   userId: string
   age: string
   sex: string
-  bgnValue: string
+  bgn: string
 }
 
 export const ReserveFormPage = () => {
-  
+  const userInfoObj = {
+    userId: '',
+    age: '',
+    sex: '',
+    bgn: '',
+  }
   const userInfoJson = getLocalStorage('userInfo') || ''
   console.log(userInfoJson)
-  const userInfoParse = JSON.parse(userInfoJson as string) as UserInfo
+  const userInfoParse = userInfoJson ? JSON.parse(userInfoJson as string) as UserInfo : userInfoObj
   
-  const [bgnValue, setBgnValue] = useState(userInfoParse.bgnValue || '')
+  const [bgn, setbgn] = useState(userInfoParse.bgn || '')
   const navigate = useNavigate();
   const { fireStore } = firebase
 
@@ -42,19 +47,19 @@ export const ReserveFormPage = () => {
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setBgnValue(e.target.value)
+    setbgn(e.target.value)
   }
 
   const postBgnData = () => {
-    if (!bgnValue) return
+    if (!bgn) return
     const docRef = doc(fireStore, 'users', userInfoParse.userId);
     // answerCollectionRef = doc(fireStore, "users", "", "Voice")
     updateDoc(docRef, {
-      bgn: bgnValue,
+      bgn: bgn,
       created_at: serverTimestamp(),
       updated_at: serverTimestamp()
     })
-    setLocalStorage('userInfo', JSON.stringify({...userInfoParse, bgnValue}))
+    setLocalStorage('userInfo', JSON.stringify({...userInfoParse, bgn}))
   }
 
   const context = new AudioContext();
@@ -108,7 +113,7 @@ export const ReserveFormPage = () => {
             <FormLabel htmlFor="background-noise" fontWeight={'bold'}>
               暗騒音レベル
             </FormLabel>
-            <Input id="background-noise" placeholder="db値 例：32.1" defaultValue={bgnValue} onChange={(e) => handleChange(e)}/>
+            <Input id="background-noise" placeholder="db値 例：32.1" defaultValue={bgn} onChange={(e) => handleChange(e)}/>
             <Button
                 onClick={() => {
                   postBgnData()
