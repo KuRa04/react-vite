@@ -42,6 +42,8 @@ export const VoiceFormPage = () => {
   const [audio, setAudio] = useState<HTMLAudioElement | null>(initialAudio);
 
   const goBack = () => {
+    if (!audio) return
+    audio.pause()
     navigate(-1)
   }
 
