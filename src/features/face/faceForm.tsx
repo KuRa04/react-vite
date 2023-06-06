@@ -27,9 +27,14 @@ interface UserInfo {
 }
 
 export const FaceFormPage = () => {
-  const userInfoJson = getLocalStorage('userInfo') || ''
-  console.log(userInfoJson)
-  const userInfoParse = JSON.parse(userInfoJson as string) as UserInfo
+  const userInfoObj = {
+    userId: '',
+    age: '',
+    sex: '',
+    bgn: '',
+  }
+  const userInfoJson = getLocalStorage('userInfo')
+  const userInfoParse = userInfoJson ? JSON.parse(userInfoJson as string) as UserInfo : userInfoObj
 
   const [userId, setUserId] = useState(userInfoParse.userId || '')
   const [age, setAge] = useState(userInfoParse.age || '')

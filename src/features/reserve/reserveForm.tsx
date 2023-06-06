@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Box,
   ButtonGroup,
@@ -54,7 +54,7 @@ export const ReserveFormPage = () => {
       created_at: serverTimestamp(),
       updated_at: serverTimestamp()
     })
-    setLocalStorage('userInfo', JSON.stringify({...userInfoParse, bgnValue},))
+    setLocalStorage('userInfo', JSON.stringify({...userInfoParse, bgnValue}))
   }
 
   const context = new AudioContext();
@@ -90,7 +90,6 @@ export const ReserveFormPage = () => {
     oscillator?.stop(0);
     oscillator = null;
   }
-
   return (
     <>
       <Box
