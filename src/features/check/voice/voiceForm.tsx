@@ -15,21 +15,36 @@ import {
 } from '@chakra-ui/react';
 
 import { firebase } from '../../../firebase';
-import { addDoc, updateDoc, doc, collection, serverTimestamp } from "firebase/firestore";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 
-import { useRecoilState } from 'recoil';
-import { userInfoAtom } from '../../../util/userInfoAtom';
+import { getLocalStorage } from '../../../util/localStorage';
+
+interface UserInfo {
+  userId: string
+  age: string
+  sex: string
+  bgn: string
+}
 
 export const VoiceFormPage = () => {
   const navigate = useNavigate();
   const [gainState, setGainState] = useState(0)
-  const userInfo = useRecoilState(userInfoAtom)
+  const [text, setText] = useState('')
+
+  const userInfoJson = getLocalStorage('userInfo')
+  const userInfoParse = JSON.parse(userInfoJson as string) as UserInfo
 
   const { fireStore } = firebase
 
   const search = useLocation().search;
   const query = new URLSearchParams(search);
-  const site = query.get('site')
+  const site = query.get('site') || ''
+  
+  const siteTranslate: {[key: string]: string} = {
+    'left': '左',
+    'right': '右',
+    'both': '両方'
+  };
 
 
   let randomIndex = Math.floor(Math.random() * wordVoices.length); // 配列のランダムなインデックスを生成
@@ -45,6 +60,10 @@ export const VoiceFormPage = () => {
     if (!audio) return
     audio.pause()
     navigate(-1)
+  }
+
+  const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setText(e.target.value)
   }
 
   const handleSelect = () => {
@@ -74,6 +93,7 @@ export const VoiceFormPage = () => {
     if (audio.ended && audio.volume <= 0.1) {
       audio.currentTime = 0;
       audio.volume += 0.01
+      setGainState(audio.volume)
       audio.play();
     }
     requestAnimationFrame(checkVoiceEnded);
@@ -84,17 +104,18 @@ export const VoiceFormPage = () => {
   const postVoiceData = () => {
     if (!audio) return
 
-    const collectionPath = doc(fireStore, 'users', userInfo[0].id, 'answer', 'voice')
-    updateDoc(collectionPath, {
-      id: userInfo[0].id,
+    const collectionPath = collection(fireStore, 'users', userInfoParse.userId, 'voice')
+    addDoc(collectionPath, {
+      id: userInfoParse.userId,
       site: site,
       appVolume: gainState,
+      selectedItem,
+      text,
       created_at: serverTimestamp(),
       updated_at: serverTimestamp()
     })
     handleSelect()
   }
-
 
   return (
     <>
@@ -108,7 +129,7 @@ export const VoiceFormPage = () => {
         as="form">
         <Box>
           <Heading as="h1" w="100%" textAlign={'left'} fontWeight="normal" mb="2%">
-            {`音声 ${site}`} 
+            {`音声 ${siteTranslate[site]}`} 
           </Heading>
           <Text as="p">
             チェック開始ボタンをタップして声が聴こえるまで待ってください
@@ -144,7 +165,7 @@ export const VoiceFormPage = () => {
               </Button>
               <Button
                 onClick={() => {
-                  postVoiceData()
+                  handleSelect()
                 }}
                 // isDisabled={step === 1}
                 colorScheme="teal"
@@ -160,13 +181,13 @@ export const VoiceFormPage = () => {
             <FormLabel htmlFor="word" fontWeight={'bold'}>
               聴こえた言葉
             </FormLabel>
-            <Input id="word" placeholder="あ" />
+            <Input id="word" placeholder="あ" onChange={(e) => handleTextChange(e)}/>
           </FormControl>
           <Button
             mt="2%"
             // isDisabled={step === 3}
             onClick={() => {
-              console.log("back")
+              postVoiceData()
             }}
             colorScheme="teal"
             variant="solid"

@@ -9,11 +9,6 @@ import { Link } from "react-router-dom";
 const Form1 = () => {
   const siteArray = ['左', '右', '両耳']
 
-  const siteTranslate: {[key: string]: string} = {
-    '左': 'left',
-    '右': 'right',
-    '両耳': 'both'
-  };
   return (
     <>
       <Box>
