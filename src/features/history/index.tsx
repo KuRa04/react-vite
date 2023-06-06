@@ -12,7 +12,7 @@ import { userInfoAtom } from '../../util/userInfoAtom';
 
 import { firebase } from '../../firebase';
 
-import { getDoc, doc } from "firebase/firestore";
+import { getDoc, getDocs, doc, collection } from "firebase/firestore";
 
 import { setLocalStorage, getLocalStorage } from '../../util/localStorage';
 
@@ -76,6 +76,13 @@ interface UserInfo {
   userId: string
   age: string
   sex: string
+  bgnValue: string
+}
+
+interface PuretoneData extends UserInfo {
+  db: number
+  hzValue: string
+  site: string
 }
 
 export const HistoryPage = () => {
@@ -88,8 +95,13 @@ export const HistoryPage = () => {
 
   const getHearingData = async () => {
     const docRef = doc(fireStore, "users", userInfo.userId)
+    const puretoneRef = collection(fireStore, "users", userInfo.userId, "puretone")
     const docSnap = await getDoc(docRef)
-    console.log(docSnap.data())
+    const puretoneSnap = await getDocs(puretoneRef)
+    puretoneSnap.forEach((doc) => {
+      console.log(doc.id, "=>", doc.data())
+    })
+    // console.log(docSnap.data())
     if (!docSnap.data()) return
     setUserInfo(docSnap.data() as UserInfo)
   }

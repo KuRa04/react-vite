@@ -8,6 +8,12 @@ import { Link } from "react-router-dom";
 
 const Form1 = () => {
   const siteArray = ['左', '右', '両耳']
+
+  const siteTranslate: {[key: string]: string} = {
+    '左': 'left',
+    '右': 'right',
+    '両耳': 'both'
+  };
   return (
     <>
       <Box>
@@ -45,6 +51,13 @@ const Form1 = () => {
 };
 
 export const VoicePage = () => {
+  const siteArray = ['左', '右', '両耳']
+
+  const siteTranslate: {[key: string]: string} = {
+    '左': 'left',
+    '右': 'right',
+    '両耳': 'both'
+  };
   return (
     <Box
       borderWidth="1px"
@@ -54,7 +67,36 @@ export const VoicePage = () => {
       p={6}
       m="10px auto"
       as="form">
-      <Form1 />
+      <Box>
+        <Heading as="h1" w="100%" textAlign={'left'} fontWeight="normal" mb="2%">
+          聴こえチェック 音声
+        </Heading>
+        <Text as="p">
+          語音をどの程度聴きとれるか調べる検査です。
+        </Text>
+        <Text as="p">
+          一音の単音節音声が流れます。 例：は
+        </Text>
+        <Text as="p" mt="2%">
+          イヤホン・ヘッドホンを着用してください。
+        </Text>
+        <Text as="p">
+          検査したい耳を選んで検査を開始してください。
+        </Text>
+      </Box>
+      <Box>
+        {siteArray.map((site, index) => {
+          return (
+            <Box key={`${site}-${index}`} mt="2%">
+              <Link to={`detail?site=${siteTranslate[site]}`}>
+                <Text color={'blue.400'}>
+                  {site}
+                </Text>
+              </Link>
+            </Box>
+          )
+        })}
+      </Box>
     </Box>
   );
 }

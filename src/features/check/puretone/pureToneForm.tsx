@@ -57,8 +57,14 @@ export const PureToneFormPage = () => {
 
   const search = useLocation().search;
   const query = new URLSearchParams(search);
-  const site = query.get('site')
+  const site = query.get('site') || ''
   const hzValue = query.get('hzValue')
+
+  const siteTranslate: {[key: string]: string} = {
+    'left': '左',
+    'right': '右',
+    'both': '両耳'
+  };
 
   const context = new AudioContext();
   let oscillator: OscillatorNode | null = null;
@@ -106,7 +112,7 @@ export const PureToneFormPage = () => {
   const postPureToneData = () => {
     if (!hzValue) return
     console.log("hoge")
-    const puretoneDocRef = doc(fireStore, 'users', userInfoParse.userId, "puretone", `${hzValue}`);
+    const puretoneDocRef = doc(fireStore, 'users', userInfoParse.userId, "puretone", `${hzValue}-${site}`);
     const selectIndex = initialState[index].toString()
     const selectFreqHzObj = hzValueObj[hzValue]
     setDoc(puretoneDocRef, {
@@ -145,7 +151,7 @@ export const PureToneFormPage = () => {
         as="form">
         <Box>
         <Heading as="h1" w="100%" textAlign={'left'} fontWeight="normal" mb="2%">
-          {`純音 ${hzValue}Hz ${site}`} 
+          {`純音 ${hzValue}Hz ${siteTranslate[site]}`} 
         </Heading>
         <Text as="p">
           チェック開始ボタンをタップして音が鳴るまで待ってください。
