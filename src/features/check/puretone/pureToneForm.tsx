@@ -11,7 +11,7 @@ import {
   Progress
 } from '@chakra-ui/react';
 import { firebase } from '../../../firebase';
-import { doc, setDoc, addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { doc, setDoc, addDoc, collection, serverTimestamp, getDoc } from "firebase/firestore";
 
 import { useRecoilState } from 'recoil';
 import { userInfoAtom } from '../../../util/userInfoAtom';
@@ -26,20 +26,31 @@ interface UserInfo {
   bgn: string
 }
 
+interface PuretoneData {
+  250: string,
+  500: string,
+  1000: string,
+  2000: string,
+  3000: string,
+  4000: string,
+  8000: string
+}
+
+interface TestPuretoneData {
+  site: string
+  puretoneData: PuretoneData
+}
+
 export const PureToneFormPage = () => {
-  const userInfo = useRecoilState(userInfoAtom)
-
-  const [bgn, setBgn] = useState()
-
   const navigate = useNavigate();
   const initialState = [0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1];
+  const userInfoJson = getLocalStorage('userInfo')
+  const userInfoParse = JSON.parse(userInfoJson as string) as UserInfo
 
   // const [gainState, setGainState] = useState<number[]>(initialState)
   const [index, setIndex] = useState<number>(0)
   const [isPlaying, setPlaying] = useState(false)
-
-  const userInfoJson = getLocalStorage('userInfo')
-  const userInfoParse = JSON.parse(userInfoJson as string) as UserInfo
+  const [pureToneData, setPuretoneData] = useState<PuretoneData>()
 
   const { fireStore } = firebase
 
@@ -65,6 +76,16 @@ export const PureToneFormPage = () => {
     'right': '右',
     'both': '両耳'
   };
+
+  const pureToneDataObj = {
+    '250': '',
+    '500': '',
+    '1000': '',
+    '2000': '',
+    '3000': '',
+    '4000': '',
+    '8000': ''
+  }
 
   const context = new AudioContext();
   let oscillator: OscillatorNode | null = null;
@@ -109,15 +130,34 @@ export const PureToneFormPage = () => {
     navigate(-1)
   }
 
-  const postPureToneData = () => {
+  //puretoneの初期値を代入するuseEffect
+  //firebaseを検索して初期値がなかったらlocalにあるobjectを代入
+
+  const getPureToneData = async () => {
+    const puretoneDocRef = doc(fireStore, 'users', userInfoParse.userId, "puretone", site);
+    const puretoneSnap = await getDoc(puretoneDocRef)
+    if (!puretoneSnap) {
+      setPuretoneData(pureToneDataObj)
+    } else {
+      const castPuretoneSnap = puretoneSnap.data() as TestPuretoneData
+      setPuretoneData(castPuretoneSnap.puretoneData)
+    }
+  }
+
+  const postPureToneData = async () => {
+    const castHzValue = Number(hzValue)
     if (!hzValue) return
-    const puretoneDocRef = doc(fireStore, 'users', userInfoParse.userId, "puretone", `${hzValue}-${site}`);
+    const puretoneDocRef = doc(fireStore, 'users', userInfoParse.userId, "puretone", site);
     const selectIndex = initialState[index].toString()
+    const puretoneSnap = await getDoc(puretoneDocRef)
+    if (!puretoneSnap) return
+    const castPuretoneSnap = puretoneSnap.data() as TestPuretoneData
     const selectFreqHzObj = hzValueObj[hzValue]
+
+    console.log(castPuretoneSnap)
     setDoc(puretoneDocRef, {
-      dB: selectFreqHzObj[selectIndex],
-      hzValue: hzValue,
       site,
+      puretoneData: {...castPuretoneSnap.puretoneData, [castHzValue]: `${selectFreqHzObj[selectIndex]}dB`},
       created_at: serverTimestamp(),
       updated_at: serverTimestamp()
     })
@@ -128,15 +168,9 @@ export const PureToneFormPage = () => {
     if (oscillator) {
       onStop()
     }
-    onPlay()
+    // onPlay()
+    getPureToneData()
   }, [index])
-
-  // const getHearingData = async () => {
-  //   const docRef = doc(fireStore, "users", userInfo[0].id)
-  //   const docSnap = await getDoc(docRef)
-  //   console.log(userInfo[0].id)
-  //   if (!docSnap.data()) return
-  // }
 
   return (
     <>
