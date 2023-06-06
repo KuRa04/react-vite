@@ -31,7 +31,8 @@ interface UserInfo {
 
 export const ReserveFormPage = () => {
   
-  const userInfoJson = getLocalStorage('userInfo')
+  const userInfoJson = getLocalStorage('userInfo') || ''
+  console.log(userInfoJson)
   const userInfoParse = JSON.parse(userInfoJson as string) as UserInfo
   
   const [bgnValue, setBgnValue] = useState(userInfoParse.bgnValue || '')

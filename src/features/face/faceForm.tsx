@@ -27,12 +27,13 @@ interface UserInfo {
 }
 
 export const FaceFormPage = () => {
-  const userInfoJson = getLocalStorage('userInfo')
+  const userInfoJson = getLocalStorage('userInfo') || ''
+  console.log(userInfoJson)
   const userInfoParse = JSON.parse(userInfoJson as string) as UserInfo
 
-  const [userId, setUserId] = useState(userInfoParse.userId)
-  const [age, setAge] = useState(userInfoParse.age)
-  const [sex, setSex] = useState(userInfoParse.sex)
+  const [userId, setUserId] = useState(userInfoParse.userId || '')
+  const [age, setAge] = useState(userInfoParse.age || '')
+  const [sex, setSex] = useState(userInfoParse.sex || '')
 
   const handleIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUserId(e.target.value)
