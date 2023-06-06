@@ -44,7 +44,7 @@ export const PureToneFormPage = () => {
   const context = new AudioContext();
   let oscillator: OscillatorNode | null = null;
   const frequency = Number(hzValue);
-  const duration = 2; // 2秒間再生
+  const duration = 10 // 2秒間再生
   // let intervalId;
   
 
@@ -64,18 +64,17 @@ export const PureToneFormPage = () => {
     if (!oscillator) return
     oscillator.start(0);
 
-    setInterval(() => {
-      oscillator?.stop(0);
-      oscillator = null;
-      setIndex((prevIndex) => prevIndex + 1)
-      onPlay();
-    }, (duration + 0.5) * 2000);
+    // setInterval(() => {
+    //   oscillator?.stop(0);
+    //   oscillator = null;
+    //   setIndex((prevIndex) => prevIndex + 1)
+    //   onPlay();
+    // }, (duration + 0.5) * 2000);
   }
 
   const onStop = () => {
-    console.log('sss')
     setPlaying(false)
-    oscillator?.stop(0);
+    oscillator?.stop();
     oscillator = null;
     // clearInterval(intervalId);
   }
