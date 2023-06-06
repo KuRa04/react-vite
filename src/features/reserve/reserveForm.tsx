@@ -16,10 +16,8 @@ import {
 import { useNavigate } from "react-router-dom";
 
 import { firebase } from '../../firebase';
-import { addDoc, setDoc, updateDoc, collection, doc, serverTimestamp } from "firebase/firestore";
+import { updateDoc, doc, serverTimestamp } from "firebase/firestore";
 
-import { useRecoilState } from 'recoil';
-import { userInfoAtom } from '../../util/userInfoAtom';
 import {  setLocalStorage, getLocalStorage } from '../../util/localStorage';
 
 interface UserInfo {
