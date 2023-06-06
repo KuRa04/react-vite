@@ -19,20 +19,34 @@ import { useNavigate } from "react-router-dom";
 
 import { firebase } from '../../firebase';
 import { setDoc, doc } from "firebase/firestore";
+import { setLocalStorage, getLocalStorage } from '../../util/localStorage';
+
+interface UserInfo {
+  userId: string
+  age: string
+  sex: string
+}
 
 export const FaceFormPage = () => {
-  const setUserInfo = useSetRecoilState(userInfoAtom)
+  // const setUserInfo = useSetRecoilState(userInfoAtom)
   const userInfo = useRecoilState(userInfoAtom)
+  const userInfoJson = getLocalStorage('userInfo')
+  const userInfoParse = JSON.parse(userInfoJson as string) as UserInfo
 
-  const [age, setAge] = useState('')
-  const [sex, setSex] = useState('')
+  const [userId, setUserId] = useState(userInfoParse.userId)
+  const [age, setAge] = useState(userInfoParse.age)
+  const [sex, setSex] = useState(userInfoParse.sex)
 
   const handleIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUserInfo({ id: e.target.value })
+    setUserId(e.target.value)
   }
 
   const handleAgeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAge(e.target.value)
+  }
+
+  const handleSexChange = (e: string) => {
+    setSex(e)
   }
 
   const navigate = useNavigate();
@@ -48,6 +62,7 @@ export const FaceFormPage = () => {
       age,
       sex
     })
+    setLocalStorage('userInfo', JSON.stringify({userId, age, sex}))
   }
 
   return (
@@ -67,19 +82,19 @@ export const FaceFormPage = () => {
           <FormLabel htmlFor="name" fontWeight={'bold'}>
             ID
           </FormLabel>
-          <Input id="name" placeholder="0000" onChange={(e) => handleIdChange(e)} defaultValue={userInfo[0].id}/>
+          <Input id="name" placeholder="0000" onChange={(e) => handleIdChange(e)} defaultValue={userId}/>
         </FormControl>
         <FormControl mt="2%">
           <FormLabel htmlFor="date-of-birth" fontWeight={'bold'}>
             年齢
           </FormLabel>
-          <Input id="date-of-birth" placeholder="20" onChange={(e) => handleAgeChange(e)} defaultValue={age}/>
+          <Input id="date-of-birth" placeholder="20" onChange={(e) => handleAgeChange(e)} defaultValue={age || ''}/>
         </FormControl>
         <FormControl mt="2%">
           <FormLabel htmlFor="" fontWeight={'bold'}>
             性別
           </FormLabel>
-          <RadioGroup onChange={setSex} value={sex} defaultValue={sex}>
+          <RadioGroup onChange={(e) => handleSexChange(e)} value={sex || ''} defaultValue={sex || ''}>
           <Stack direction='row'>
             <Radio value='男性'>男性</Radio>
             <Radio value='女性'>女性</Radio>
