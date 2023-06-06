@@ -7,10 +7,11 @@ import {
   Button,
   Heading,
   Text,
-  Flex
+  Flex,
+  Progress
 } from '@chakra-ui/react';
 import { firebase } from '../../../firebase';
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { doc, addDoc, collection, serverTimestamp } from "firebase/firestore";
 
 import { useRecoilState } from 'recoil';
 import { userInfoAtom } from '../../../util/userInfoAtom';
@@ -146,6 +147,7 @@ export const PureToneFormPage = () => {
           音が聴こえたら聴こえたボタンをタップしてください。
         </Text>
       </Box>
+      <Progress value={index} max={19}/>
         <ButtonGroup mt="2%" w="100%">
           <Flex w="100%" justifyContent="space-between">
             <Flex>
@@ -153,7 +155,6 @@ export const PureToneFormPage = () => {
                 onClick={() => {
                   countDown()
                 }}
-                isDisabled={isPlaying}
                 colorScheme="blue"
                 variant="solid"
                 mr="5%"
@@ -168,7 +169,8 @@ export const PureToneFormPage = () => {
                 }}
                 mr="5%"
                 colorScheme="red"
-                variant="solid">
+                variant="solid"
+                >
                 音量を上げる
               </Button>
               <Button
