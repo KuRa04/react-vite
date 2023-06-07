@@ -155,12 +155,18 @@ export const PureToneFormPage = () => {
     const puretoneDocRef = doc(fireStore, 'users', userInfoParse.userId, "puretone", site);
     const selectIndex = initialState[index].toString()
     const puretoneSnap = await getDoc(puretoneDocRef)
-    if (!puretoneSnap) return
-    const castPuretoneSnap = puretoneSnap.data() as TestPuretoneData
+    if (!puretoneSnap.data()) {
+      await setDoc(puretoneDocRef, {
+        site,
+        puretoneData: pureToneDataObj,
+        created_at: serverTimestamp(),
+        updated_at: serverTimestamp()
+      })  
+    } 
+    const castPuretoneSnap = puretoneSnap.data() as TestPuretoneData || pureToneDataObj
     const selectFreqHzObj = hzValueObj[hzValue]
 
-    console.log(castPuretoneSnap)
-    setDoc(puretoneDocRef, {
+    await setDoc(puretoneDocRef, {
       site,
       puretoneData: {...castPuretoneSnap.puretoneData, [castHzValue]: `${selectFreqHzObj[selectIndex]}dB`},
       created_at: serverTimestamp(),
