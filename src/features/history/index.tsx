@@ -139,9 +139,9 @@ export const HistoryPage = () => {
     '8000': ''
   }
 
-  const getHearingData = async () => {
+  const getHearingData = async (site: string) => {
     const docRef = doc(fireStore, "users", userInfo.userId)
-    const puretoneRef = doc(fireStore, "users", userInfo.userId, "puretone", "left")
+    const puretoneRef = doc(fireStore, "users", userInfo.userId, "puretone", site)
     const docSnap = await getDoc(docRef)
     const puretoneSnap = await getDoc(puretoneRef)
     if (!puretoneSnap.data() || !docSnap.data()) {
@@ -188,7 +188,7 @@ export const HistoryPage = () => {
   const csvData = convertToCSV(csvTestData)
 
   useEffect(() => {
-    getHearingData()
+    getHearingData('left')
   }, [])
 
   return (
@@ -208,13 +208,33 @@ export const HistoryPage = () => {
           <Line options={options} data={data} />
           <Button
             onClick={() => {
-              getHearingData()
+              getHearingData('left')
             }}
             // isDisabled={step === 1}
             colorScheme="teal"
             variant="solid"
             mr="5%">
-            履歴取得
+            履歴取得（左耳）
+          </Button>
+          <Button
+            onClick={() => {
+              getHearingData('right')
+            }}
+            // isDisabled={step === 1}
+            colorScheme="teal"
+            variant="solid"
+            mr="5%">
+            履歴取得（右耳）
+          </Button>
+          <Button
+            onClick={() => {
+              getHearingData('both')
+            }}
+            // isDisabled={step === 1}
+            colorScheme="teal"
+            variant="solid"
+            mr="5%">
+            履歴取得（両耳）
           </Button>
           <Button
             onClick={() => {
@@ -223,7 +243,7 @@ export const HistoryPage = () => {
             // isDisabled={step === 1}
             colorScheme="teal"
             variant="solid"
-            mr="5%">
+            >
             csvダウンロード
           </Button>
         </Box>
