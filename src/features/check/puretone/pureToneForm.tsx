@@ -179,7 +179,7 @@ export const PureToneFormPage = () => {
     if (oscillator) {
       onStop()
     }
-    // onPlay()
+    onPlay()
     getPureToneData()
   }, [index])
 
