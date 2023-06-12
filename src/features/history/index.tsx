@@ -2,19 +2,15 @@ import {
   Box,
   Button,
   Heading,
-  Text
 } from '@chakra-ui/react';
 
-import { useState, useEffect } from 'react';
-
-import { useRecoilState } from 'recoil';
-import { userInfoAtom } from '../../util/userInfoAtom';
+import { useState } from 'react';
 
 import { firebase } from '../../firebase';
 
-import { getDoc, getDocs, doc, collection } from "firebase/firestore";
+import { getDoc, doc } from "firebase/firestore";
 
-import { setLocalStorage, getLocalStorage } from '../../util/localStorage';
+import { getLocalStorage } from '../../util/localStorage';
 
 import {
   Chart as ChartJS,
@@ -27,7 +23,6 @@ import {
   Legend,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
-import { faker } from '@faker-js/faker';
 
 ChartJS.register(
   CategoryScale,
@@ -124,7 +119,7 @@ export const HistoryPage = () => {
   const updatePureToneData = {...pureToneDataObj, ...pureToneData}
   const pureToneDataArray = Object.values(updatePureToneData)
 
-const array = Array(11).fill(userInfo.bgn);
+  const array = Array(11).fill(userInfo.bgn);
 
    const data = {
     labels,
@@ -172,7 +167,6 @@ const array = Array(11).fill(userInfo.bgn);
         4000: castPuretoneSnap.puretoneData[4000],
         8000: castPuretoneSnap.puretoneData[8000]
       })
-      console.log(pureToneDataArray)
     }
   }
 
