@@ -53,7 +53,6 @@ export const options = {
 };
 
 const labels = ['250', '500', '1000', '2000', '3000', '4000', '8000'];
-const array = Array(11).fill(20.2);
 
 interface PuretoneData {
   250: number,
@@ -125,6 +124,8 @@ export const HistoryPage = () => {
   const updatePureToneData = {...pureToneDataObj, ...pureToneData}
   const pureToneDataArray = Object.values(updatePureToneData)
 
+const array = Array(11).fill(userInfo.bgn);
+
    const data = {
     labels,
     datasets: [
@@ -192,10 +193,6 @@ export const HistoryPage = () => {
    
   if (!csvTestData) return <></>
   const csvData = convertToCSV(csvTestData)
-
-  // useEffect(() => {
-  //   getHearingData('left')
-  // }, [])
 
   return (
     <>
