@@ -27,13 +27,13 @@ interface UserInfo {
 }
 
 interface PuretoneData {
-  250: string,
-  500: string,
-  1000: string,
-  2000: string,
-  3000: string,
-  4000: string,
-  8000: string
+  250: number,
+  500: number,
+  1000: number,
+  2000: number,
+  3000: number,
+  4000: number,
+  8000: number
 }
 
 interface TestPuretoneData {
@@ -78,13 +78,13 @@ export const PureToneFormPage = () => {
   };
 
   const pureToneDataObj = {
-    '250': '',
-    '500': '',
-    '1000': '',
-    '2000': '',
-    '3000': '',
-    '4000': '',
-    '8000': ''
+    '250': 0,
+    '500': 0,
+    '1000': 0,
+    '2000': 0,
+    '3000': 0,
+    '4000': 0,
+    '8000': 0
   }
 
   const context = new AudioContext();
@@ -168,7 +168,7 @@ export const PureToneFormPage = () => {
 
     await setDoc(puretoneDocRef, {
       site,
-      puretoneData: {...castPuretoneSnap.puretoneData, [castHzValue]: `${selectFreqHzObj[selectIndex]}dB`},
+      puretoneData: {...castPuretoneSnap.puretoneData, [castHzValue]: selectFreqHzObj[selectIndex]},
       created_at: serverTimestamp(),
       updated_at: serverTimestamp()
     })

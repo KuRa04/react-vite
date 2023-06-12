@@ -52,34 +52,17 @@ export const options = {
   },
 };
 
-const labels = ['250', '500', '1000', '2000', '3000', '4000', '8000', '10000', '12000', '14000', '16000'];
+const labels = ['250', '500', '1000', '2000', '3000', '4000', '8000'];
 const array = Array(11).fill(20.2);
-export const data = {
-  labels,
-  datasets: [
-    {
-      label: 'Dataset 1',
-      data: labels.map(() => faker.datatype.number({ min: 0, max: 80 })),
-      borderColor: 'rgb(255, 99, 132)',
-      backgroundColor: 'rgba(255, 99, 132, 0.5)',
-    },
-    {
-      label: '暗騒音',
-      data: array,
-      borderColor: 'rgb(53, 162, 235)',
-      backgroundColor: 'rgba(53, 162, 235, 0.5)',
-    },
-  ],
-};
 
 interface PuretoneData {
-  250: string,
-  500: string,
-  1000: string,
-  2000: string,
-  3000: string,
-  4000: string,
-  8000: string
+  250: number,
+  500: number,
+  1000: number,
+  2000: number,
+  3000: number,
+  4000: number,
+  8000: number
 }
 
 interface UserInfo {
@@ -96,13 +79,13 @@ interface TestPuretoneData {
 
 interface CsvData extends UserInfo {
   site: string,
-  250: string,
-  500: string,
-  1000: string,
-  2000: string,
-  3000: string,
-  4000: string,
-  8000: string
+  250: number,
+  500: number,
+  1000: number,
+  2000: number,
+  3000: number,
+  4000: number,
+  8000: number
 }
 
 export const HistoryPage = () => {
@@ -120,24 +103,46 @@ export const HistoryPage = () => {
     sex: userInfo.sex,
     bgn: userInfo.bgn,
     site: '',
-    250: '',
-    500: '',
-    1000: '',
-    2000: '',
-    3000: '',
-    4000: '',
-    8000: ''
+    250: 0,
+    500: 0,
+    1000: 0,
+    2000: 0,
+    3000: 0,
+    4000: 0,
+    8000: 0
   })
 
   const pureToneDataObj = {
-    '250': '',
-    '500': '',
-    '1000': '',
-    '2000': '',
-    '3000': '',
-    '4000': '',
-    '8000': ''
+    250: 0,
+    500: 0,
+    1000: 0,
+    2000: 0,
+    3000: 0,
+    4000: 0,
+    8000: 0
   }
+
+  const updatePureToneData = {...pureToneDataObj, ...pureToneData}
+  const pureToneDataArray = Object.values(updatePureToneData)
+
+   const data = {
+    labels,
+    datasets: [
+      {
+        label: 'Dataset 1',
+        data: pureToneDataArray,
+        borderColor: 'rgb(255, 99, 132)',
+        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+      },
+      {
+        label: '暗騒音',
+        data: array,
+        borderColor: 'rgb(53, 162, 235)',
+        backgroundColor: 'rgba(53, 162, 235, 0.5)',
+      },
+    ],
+  };
+
 
   const getHearingData = async (site: string) => {
     const docRef = doc(fireStore, "users", userInfo.userId)
@@ -166,6 +171,7 @@ export const HistoryPage = () => {
         4000: castPuretoneSnap.puretoneData[4000],
         8000: castPuretoneSnap.puretoneData[8000]
       })
+      console.log(pureToneDataArray)
     }
   }
 
@@ -187,9 +193,9 @@ export const HistoryPage = () => {
   if (!csvTestData) return <></>
   const csvData = convertToCSV(csvTestData)
 
-  useEffect(() => {
-    getHearingData('left')
-  }, [])
+  // useEffect(() => {
+  //   getHearingData('left')
+  // }, [])
 
   return (
     <>
