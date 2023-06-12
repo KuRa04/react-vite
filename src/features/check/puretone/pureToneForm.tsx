@@ -78,19 +78,19 @@ export const PureToneFormPage = () => {
   };
 
   const pureToneDataObj = {
-    '250': 0,
-    '500': 0,
-    '1000': 0,
-    '2000': 0,
-    '3000': 0,
-    '4000': 0,
-    '8000': 0
+    250: 0,
+    500: 0,
+    1000: 0,
+    2000: 0,
+    3000: 0,
+    4000: 0,
+    8000: 0
   }
 
   const context = new AudioContext();
   let oscillator: OscillatorNode | null = null;
   const frequency = Number(hzValue);
-  const duration = 10 // 2秒間再生
+  // const duration = 10 // 2秒間再生
   // let intervalId;
   
 
@@ -119,6 +119,7 @@ export const PureToneFormPage = () => {
   }
 
   const onStop = () => {
+    console.log(oscillator)
     setPlaying(false)
     oscillator?.stop();
     oscillator = null;
@@ -133,21 +134,24 @@ export const PureToneFormPage = () => {
   //puretoneの初期値を代入するuseEffect
   //firebaseを検索して初期値がなかったらlocalにあるobjectを代入
 
-  const getPureToneData = async () => {
-    const puretoneDocRef = doc(fireStore, 'users', userInfoParse.userId, "puretone", site);
-    try {
-      const puretoneSnap = await getDoc(puretoneDocRef)
-      if (!puretoneSnap) {
-        setPuretoneData(pureToneDataObj)
-      } else {
-        const castPuretoneSnap = puretoneSnap.data() as TestPuretoneData
-        if (!castPuretoneSnap.puretoneData) return
-        setPuretoneData(castPuretoneSnap.puretoneData)
-      }
-    } catch(error) {
-      console.log(error)  
-    }
-  }
+  // const getPureToneData = async () => {
+  //   const puretoneDocRef = doc(fireStore, 'users', userInfoParse.userId, "puretone", site);
+  //   try {
+  //     const puretoneSnap = await getDoc(puretoneDocRef)
+  //     if (!puretoneSnap) {
+  //       setPuretoneData(pureToneDataObj)
+  //       console.log('hoge')
+  //     } else {
+  //       const castPuretoneSnap = puretoneSnap.data() as TestPuretoneData
+  //       console.log('huga');
+  //       if (!castPuretoneSnap.puretoneData) return
+  //       setPuretoneData(castPuretoneSnap.puretoneData)
+  //       console.log('hoge-huga');
+  //     }
+  //   } catch(error) {
+  //     console.log(error)  
+  //   }
+  // }
 
   const postPureToneData = async () => {
     const castHzValue = Number(hzValue)
@@ -179,8 +183,8 @@ export const PureToneFormPage = () => {
     if (oscillator) {
       onStop()
     }
+    // getPureToneData()
     onPlay()
-    getPureToneData()
   }, [index])
 
   return (

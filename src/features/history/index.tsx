@@ -3,15 +3,10 @@ import {
   Button,
   Heading,
 } from '@chakra-ui/react';
-
 import { useState } from 'react';
-
 import { firebase } from '../../firebase';
-
 import { getDoc, doc } from "firebase/firestore";
-
 import { getLocalStorage } from '../../util/localStorage';
-
 import {
   Chart as ChartJS,
   CategoryScale,
