@@ -16,6 +16,8 @@ import { doc, setDoc, addDoc, collection, serverTimestamp, getDoc } from "fireba
 import { useRecoilState } from 'recoil';
 import { userInfoAtom } from '../../../util/userInfoAtom';
 
+import { pureToneDataObj } from '../../../util/commonItem';
+
 import { hzValueObj } from '../../../util/freqDataSets/haValueObj';
 import { getLocalStorage } from '../../../util/localStorage';
 
@@ -76,21 +78,6 @@ export const PureToneFormPage = () => {
     'right': '右',
     'both': '両耳'
   };
-
-  const pureToneDataObj = {
-    250: 0,
-    500: 0,
-    1000: 0,
-    2000: 0,
-    3000: 0,
-    4000: 0,
-    8000: 0,
-    9000: 0,
-    10000: 0,
-    12000: 0,
-    14000: 0,
-    16000: 0
-  }
 
   const context = new AudioContext();
   let oscillator: OscillatorNode | null = null;

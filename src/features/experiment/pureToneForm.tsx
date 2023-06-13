@@ -35,8 +35,7 @@ export const ExperimentPureToneFormPage = () => {
   const queryParams = new URLSearchParams(search);
   const hzValue = queryParams.get('hzValue')
 
-  const gainArray = Array.from({ length: 10 }, (_, i) => (i + 1) / gainInitialValue);
-  const gainRowArray = Array.from({ length: 10 }, (_, i) => (i + 1) / 10);
+  const gainArray = Array.from({ length: 11 }, (_, i) => gainInitialValue * i);
 
   // useStateで配列の初期値を変更できるようにする
 
@@ -86,7 +85,7 @@ export const ExperimentPureToneFormPage = () => {
     setGainInitialValue(Number(e.target.value))
   }
 
-  
+
 
   
   const postPureToneData = async () => {
