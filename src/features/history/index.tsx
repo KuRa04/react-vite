@@ -19,6 +19,8 @@ import {
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 
+import { pureToneDataObj } from '../../util/commonItem';
+
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -51,7 +53,11 @@ interface PuretoneData {
   2000: number,
   3000: number,
   4000: number,
-  8000: number
+  8000: number,
+  10000: number,
+  12000: number,
+  14000: number,
+  16000: number,
 }
 
 interface UserInfo {
@@ -67,14 +73,8 @@ interface TestPuretoneData {
 }
 
 interface CsvData extends UserInfo {
-  site: string,
-  250: number,
-  500: number,
-  1000: number,
-  2000: number,
-  3000: number,
-  4000: number,
-  8000: number
+  site: string
+  puretoneData: PuretoneData
 }
 
 export const HistoryPage = () => {
@@ -85,31 +85,15 @@ export const HistoryPage = () => {
   const { fireStore } = firebase
 
   const [userInfo, setUserInfo] = useState<UserInfo>(userInfoParse)
-  const [pureToneData, setPuretoneData] = useState<PuretoneData>()
+  const [pureToneData, setPuretoneData] = useState<PuretoneData>(pureToneDataObj)
   const [csvTestData, setCsvTextData] = useState<CsvData>({
     userId: userInfo.userId,
     age: userInfo.age,
     sex: userInfo.sex,
     bgn: userInfo.bgn,
     site: '',
-    250: 0,
-    500: 0,
-    1000: 0,
-    2000: 0,
-    3000: 0,
-    4000: 0,
-    8000: 0
+    puretoneData: pureToneDataObj
   })
-
-  const pureToneDataObj = {
-    250: 0,
-    500: 0,
-    1000: 0,
-    2000: 0,
-    3000: 0,
-    4000: 0,
-    8000: 0
-  }
 
   const updatePureToneData = {...pureToneDataObj, ...pureToneData}
   const pureToneDataArray = Object.values(updatePureToneData)
@@ -154,13 +138,7 @@ export const HistoryPage = () => {
         sex: userInfo.sex,
         bgn: userInfo.bgn,
         site: castPuretoneSnap.site,
-        250: castPuretoneSnap.puretoneData[250],
-        500: castPuretoneSnap.puretoneData[500],
-        1000: castPuretoneSnap.puretoneData[1000],
-        2000: castPuretoneSnap.puretoneData[2000],
-        3000: castPuretoneSnap.puretoneData[3000],
-        4000: castPuretoneSnap.puretoneData[4000],
-        8000: castPuretoneSnap.puretoneData[8000]
+        puretoneData: castPuretoneSnap.puretoneData
       })
     }
   }
