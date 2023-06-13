@@ -1,10 +1,11 @@
 import {
   Box,
+  Button,
   Heading,
   Text
 } from '@chakra-ui/react';
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Form1 = () => {
   const siteArray = ['左', '右', '両耳']
@@ -46,6 +47,7 @@ const Form1 = () => {
 };
 
 export const VoicePage = () => {
+  const navigate = useNavigate();
   const siteArray = ['左', '右', '両耳']
 
   const siteTranslate: {[key: string]: string} = {
@@ -53,6 +55,11 @@ export const VoicePage = () => {
     '右': 'right',
     '両耳': 'both'
   };
+
+  const goBack = () => {
+    navigate(-1)
+  }
+
   return (
     <Box
       borderWidth="1px"
@@ -92,6 +99,20 @@ export const VoicePage = () => {
           )
         })}
       </Box>
+      <Box mt="2%">
+          {/* <Text as="p" fontWeight={'bold'}>
+            暗騒音レベル
+          </Text> */}
+          <Button
+            // isDisabled={step === 3}
+            onClick={() => {
+              goBack()
+            }}
+            colorScheme="teal"
+            variant="outline">
+            戻る
+          </Button>
+        </Box>
     </Box>
   );
 }

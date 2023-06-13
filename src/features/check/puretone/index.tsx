@@ -1,14 +1,16 @@
 import {
   Box,
+  Button,
   HStack,
   Heading,
   Text
 } from '@chakra-ui/react';
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate} from "react-router-dom";
 
 export const PureTonePage = () => {
-  const siteArray = ['左', '右', '両耳']
+  const navigate = useNavigate();
+  const siteArray = ['左', '右', '両耳'];
   const hzValueArray = [250, 500, 1000, 2000, 3000, 4000, 6000, 8000, 9000, 10000, 12000, 14000, 16000]
 
   const siteTranslate: {[key: string]: string} = {
@@ -16,6 +18,10 @@ export const PureTonePage = () => {
     '右': 'right',
     '両耳': 'both'
   };
+
+  const goBack = () => {
+    navigate(-1)
+  }
 
   return (
     <>
@@ -61,6 +67,20 @@ export const PureTonePage = () => {
               </Box>
             )
           })}
+        </Box>
+        <Box mt="2%">
+          {/* <Text as="p" fontWeight={'bold'}>
+            暗騒音レベル
+          </Text> */}
+          <Button
+            // isDisabled={step === 3}
+            onClick={() => {
+              goBack()
+            }}
+            colorScheme="teal"
+            variant="outline">
+            戻る
+          </Button>
         </Box>
       </Box>
     </>
