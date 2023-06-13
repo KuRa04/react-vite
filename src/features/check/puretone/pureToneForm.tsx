@@ -84,7 +84,12 @@ export const PureToneFormPage = () => {
     2000: 0,
     3000: 0,
     4000: 0,
-    8000: 0
+    8000: 0,
+    9000: 0,
+    10000: 0,
+    12000: 0,
+    14000: 0,
+    16000: 0
   }
 
   const context = new AudioContext();
@@ -168,11 +173,12 @@ export const PureToneFormPage = () => {
       })  
     } 
     const castPuretoneSnap = puretoneSnap.data() as TestPuretoneData || pureToneDataObj
-    const selectFreqHzObj = hzValueObj[hzValue]
+    // const selectFreqHzObj = hzValueObj[hzValue]
 
     await setDoc(puretoneDocRef, {
       site,
-      puretoneData: {...castPuretoneSnap.puretoneData, [castHzValue]: selectFreqHzObj[selectIndex]},
+      // puretoneData: {...castPuretoneSnap.puretoneData, [castHzValue]: selectFreqHzObj[selectIndex]},
+      puretoneData: {...castPuretoneSnap.puretoneData, [castHzValue]: selectIndex},
       created_at: serverTimestamp(),
       updated_at: serverTimestamp()
     })
