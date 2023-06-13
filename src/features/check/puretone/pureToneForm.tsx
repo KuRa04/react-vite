@@ -136,28 +136,6 @@ export const PureToneFormPage = () => {
     navigate(-1)
   }
 
-  //puretoneの初期値を代入するuseEffect
-  //firebaseを検索して初期値がなかったらlocalにあるobjectを代入
-
-  // const getPureToneData = async () => {
-  //   const puretoneDocRef = doc(fireStore, 'users', userInfoParse.userId, "puretone", site);
-  //   try {
-  //     const puretoneSnap = await getDoc(puretoneDocRef)
-  //     if (!puretoneSnap) {
-  //       setPuretoneData(pureToneDataObj)
-  //       console.log('hoge')
-  //     } else {
-  //       const castPuretoneSnap = puretoneSnap.data() as TestPuretoneData
-  //       console.log('huga');
-  //       if (!castPuretoneSnap.puretoneData) return
-  //       setPuretoneData(castPuretoneSnap.puretoneData)
-  //       console.log('hoge-huga');
-  //     }
-  //   } catch(error) {
-  //     console.log(error)  
-  //   }
-  // }
-
   const postPureToneData = async () => {
     const castHzValue = Number(hzValue)
     if (!hzValue) return
