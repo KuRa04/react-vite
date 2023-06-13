@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useLocation } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 
 import {
   Box,
@@ -22,6 +22,7 @@ import { hzValueObj } from "../../util/freqDataSets/haValueObj";
 import Timer from "../../util/Timer";
 
 export const ExperimentPureToneFormPage = () => {
+  const navigate = useNavigate();
   const userInfo = useRecoilState(userInfoAtom)
   const { fireStore } = firebase
 
@@ -37,7 +38,9 @@ export const ExperimentPureToneFormPage = () => {
 
   const gainArray = Array.from({ length: 11 }, (_, i) => gainInitialValue * i);
 
-  // useStateで配列の初期値を変更できるようにする
+  const goBack = () => {
+    navigate(-1)
+  }
 
   const context = new AudioContext();
   let oscillator: OscillatorNode | null = null;
@@ -84,9 +87,6 @@ export const ExperimentPureToneFormPage = () => {
   const handleGainChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setGainInitialValue(Number(e.target.value))
   }
-
-
-
   
   const postPureToneData = async () => {
     if (!hzValue) return
@@ -209,6 +209,21 @@ export const ExperimentPureToneFormPage = () => {
             variant="solid"
             >
             聴こえた
+          </Button>
+        </Box>
+        <Box mt="4%">
+          {/* <Text as="p" fontWeight={'bold'}>
+            暗騒音レベル
+          </Text> */}
+          <Button
+            mt="2%"
+            // isDisabled={step === 3}
+            onClick={() => {
+              goBack()
+            }}
+            colorScheme="teal"
+            variant="outline">
+            戻る
           </Button>
         </Box>
       </Box>
