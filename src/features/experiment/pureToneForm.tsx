@@ -14,7 +14,7 @@ import {
 } from '@chakra-ui/react';
 
 import { firebase } from '../../firebase';
-import { getDocs, addDoc, setDoc, doc, collection, query, where, serverTimestamp } from "firebase/firestore";
+import { setDoc, doc, serverTimestamp } from "firebase/firestore";
 import { useRecoilState } from 'recoil';
 import { userInfoAtom } from '../../util/userInfoAtom';
 
@@ -29,12 +29,13 @@ export const ExperimentPureToneFormPage = () => {
   const [name, setName] = useState('')
   const [isPlaying, setPlaying] = useState(false)
   const [time, setTime] = useState(0)
+  const [gainInitialValue ,setGainInitialValue] = useState<number>(100)
 
   const search = useLocation().search;
   const queryParams = new URLSearchParams(search);
   const hzValue = queryParams.get('hzValue')
 
-  const gainArray = Array.from({ length: 9 }, (_, i) => (i + 1) / 100);
+  const gainArray = Array.from({ length: 10 }, (_, i) => (i + 1) / gainInitialValue);
   const gainRowArray = Array.from({ length: 10 }, (_, i) => (i + 1) / 10);
 
   // useStateで配列の初期値を変更できるようにする
@@ -81,8 +82,8 @@ export const ExperimentPureToneFormPage = () => {
       setPlaying(false)
   }
 
-  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setName(e.target.value)
+  const handleGainChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setGainInitialValue(Number(e.target.value))
   }
 
   
@@ -108,7 +109,6 @@ export const ExperimentPureToneFormPage = () => {
         borderWidth="1px"
         rounded="lg"
         shadow="1px 1px 3px rgba(0,0,0,0.3)"
-        maxWidth={800}
         p={6}
         m="10px auto"
         as="form">
@@ -124,11 +124,23 @@ export const ExperimentPureToneFormPage = () => {
         </Text>
 
         <FormControl mt="2%">
-          <FormLabel htmlFor="name" fontWeight={'bold'}>
-            名前
-          </FormLabel>
-          <Input id="name" placeholder="山田太郎" onChange={(e) => handleNameChange(e)}/>
-        </FormControl>
+            <FormLabel htmlFor="background-noise" fontWeight={'bold'}>
+              
+            </FormLabel>
+            <Input id="background-noise" placeholder="0.01" defaultValue={gainInitialValue} onChange={(e) => handleGainChange(e)}/>
+            {/* <Button
+                onClick={() => {
+                  postBgnData()
+                }}
+                // isDisabled={step === 1}
+                mt="2%"
+                colorScheme="teal"
+                variant="solid"
+                w="7rem"
+                mr="5%">
+                登録
+              </Button> */}
+          </FormControl>
       </Box>
       {isPlaying && <Timer time={time} isPlaying={isPlaying}/>}
         <ButtonGroup mt="2%" w="100%">
@@ -154,7 +166,7 @@ export const ExperimentPureToneFormPage = () => {
             </Flex>
           </Flex>
         </ButtonGroup> 
-        <Box mt="2%" >
+        {/* <Box mt="2%" >
           <Flex>
             {
               gainRowArray.map((item, index) => {
@@ -173,10 +185,9 @@ export const ExperimentPureToneFormPage = () => {
                 )
               })
               }
-            </Flex>
-          </Box>
+          </Flex>
+        </Box> */}
         <Box mt="2%">
-
           <Button
             onClick={() => {
               onClickStop()

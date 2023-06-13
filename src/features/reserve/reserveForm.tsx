@@ -35,7 +35,6 @@ export const ReserveFormPage = () => {
     bgn: '',
   }
   const userInfoJson = getLocalStorage('userInfo') || ''
-  console.log(userInfoJson)
   const userInfoParse = userInfoJson ? JSON.parse(userInfoJson as string) as UserInfo : userInfoObj
   
   const [bgn, setbgn] = useState(userInfoParse.bgn || '')
