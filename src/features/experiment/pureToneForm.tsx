@@ -30,13 +30,13 @@ export const ExperimentPureToneFormPage = () => {
   const [name, setName] = useState('')
   const [isPlaying, setPlaying] = useState(false)
   const [time, setTime] = useState(0)
-  const [gainInitialValue ,setGainInitialValue] = useState<number>(100)
+  const [gainInitialValue ,setGainInitialValue] = useState<number>(0.01)
 
   const search = useLocation().search;
   const queryParams = new URLSearchParams(search);
   const hzValue = queryParams.get('hzValue')
 
-  const gainArray = Array.from({ length: 11 }, (_, i) => gainInitialValue * i);
+  const gainArray = Array.from({ length: 10 }, (_, i) => Math.floor(gainInitialValue * (i + 1) * 10000) / 10000);
 
   const goBack = () => {
     navigate(-1)
@@ -126,9 +126,9 @@ export const ExperimentPureToneFormPage = () => {
 
         <FormControl mt="2%">
             <FormLabel htmlFor="background-noise" fontWeight={'bold'}>
-              
+              アプリ側の初期値（gain：0以上1以下 ）
             </FormLabel>
-            <Input id="background-noise" placeholder="0.01" defaultValue={gainInitialValue} onChange={(e) => handleGainChange(e)}/>
+            <Input width={300} id="background-noise" placeholder="0.01" defaultValue={gainInitialValue} onChange={(e) => handleGainChange(e)}/>
             {/* <Button
                 onClick={() => {
                   postBgnData()
@@ -167,27 +167,6 @@ export const ExperimentPureToneFormPage = () => {
             </Flex>
           </Flex>
         </ButtonGroup> 
-        {/* <Box mt="2%" >
-          <Flex>
-            {
-              gainRowArray.map((item, index) => {
-                return (
-                  <Button
-                    key={`button-${index}`}
-                    onClick={() => {
-                      onClickStart(item)
-                    }}
-                    // isDisabled={step === 1}
-                    colorScheme="teal"
-                    variant="solid"
-                    mr="2%">
-                    {item}
-                  </Button>    
-                )
-              })
-              }
-          </Flex>
-        </Box> */}
         <Box mt="2%">
           <Button
             onClick={() => {
@@ -211,7 +190,7 @@ export const ExperimentPureToneFormPage = () => {
             聴こえた
           </Button>
         </Box>
-        <Box mt="4%">
+        <Box>
           {/* <Text as="p" fontWeight={'bold'}>
             暗騒音レベル
           </Text> */}
