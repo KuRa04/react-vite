@@ -1,16 +1,20 @@
 import {
   Box,
+  Button,
   HStack,
   Heading,
   Text
 } from '@chakra-ui/react';
 
-import { Link } from "react-router-dom";
-import { hzValueArray } from '../../util/commonItem';
+import { Link, useNavigate } from "react-router-dom";
+import { hzValueArray, siteArray, siteTranslate } from '../../util/commonItem';
 
-const Form1 = () => {
-  // const handleClick = () => setShow(!show);
-  const siteArray = ['左', '右', '両耳']
+export const ExperimentPureTonePage = () => {
+  const navigate = useNavigate();
+  
+  const goBack = () => {
+    navigate(-1)
+  }
   return (
     <>
       <Box>
@@ -28,7 +32,6 @@ const Form1 = () => {
         </Text>
       </Box>
       <Box>
-        <>
           {siteArray.map((site, index) => {
             return (
               <Box key={`${site}-${index}`} mt="2%">
@@ -38,7 +41,7 @@ const Form1 = () => {
                 <HStack>
                   {hzValueArray.map((hzValue, index) => {
                     return (
-                      <Link key={`${hzValue}-${index}`} to={`detail?site=${site}&hzValue=${hzValue}`}>
+                      <Link key={`${hzValue}-${index}`} to={`detail?site=${siteTranslate[site]}&hzValue=${hzValue}`}>
                         <Text color={'blue.400'}>
                           {hzValue}Hz
                         </Text>
@@ -49,24 +52,21 @@ const Form1 = () => {
               </Box>
             )
           })}
-        </>
       </Box>
-    </>
-  );
-};
-
-export const ExperimentPureTonePage = () => {
-  return (
-    <>
-      <Box
-        borderWidth="1px"
-        rounded="lg"
-        shadow="1px 1px 3px rgba(0,0,0,0.3)"
-        p={6}
-        m="10px auto"
-        as="form">
-        <Form1 />
-      </Box>
+      <Box mt="2%">
+          {/* <Text as="p" fontWeight={'bold'}>
+            暗騒音レベル
+          </Text> */}
+          <Button
+            // isDisabled={step === 3}
+            onClick={() => {
+              goBack()
+            }}
+            colorScheme="teal"
+            variant="outline">
+            戻る
+          </Button>
+        </Box>
     </>
   );
 }

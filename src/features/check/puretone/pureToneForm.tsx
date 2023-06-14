@@ -11,37 +11,15 @@ import {
   Progress
 } from '@chakra-ui/react';
 import { firebase } from '../../../firebase';
-import { doc, setDoc, addDoc, collection, serverTimestamp, getDoc } from "firebase/firestore";
-
-import { useRecoilState } from 'recoil';
-import { userInfoAtom } from '../../../util/userInfoAtom';
+import { doc, setDoc, serverTimestamp, getDoc } from "firebase/firestore";
 
 import { pureToneDataObj } from '../../../util/commonItem';
 
+// 換算表で利用
 import { hzValueObj } from '../../../util/freqDataSets/haValueObj';
 import { getLocalStorage } from '../../../util/localStorage';
 
-interface UserInfo {
-  userId: string
-  age: string
-  sex: string
-  bgn: string
-}
-
-interface PuretoneData {
-  250: number,
-  500: number,
-  1000: number,
-  2000: number,
-  3000: number,
-  4000: number,
-  8000: number
-}
-
-interface TestPuretoneData {
-  site: string
-  puretoneData: PuretoneData
-}
+import { UserInfo, PuretoneData, TestPuretoneData } from '../../../types/type';
 
 export const PureToneFormPage = () => {
   const navigate = useNavigate();
