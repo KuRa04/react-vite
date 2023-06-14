@@ -116,12 +116,12 @@ export const PureToneFormPage = () => {
       })  
     } 
     const castPuretoneSnap = puretoneSnap.data() as TestPuretoneData || pureToneDataObj
-    // const selectFreqHzObj = hzValueObj[hzValue]
+    const selectFreqHzObj = hzValueObj[hzValue]
 
     await setDoc(puretoneDocRef, {
       site,
-      // puretoneData: {...castPuretoneSnap.puretoneData, [castHzValue]: selectFreqHzObj[selectIndex]},
-      puretoneData: {...castPuretoneSnap.puretoneData, [castHzValue]: selectIndex},
+      puretoneData: {...castPuretoneSnap.puretoneData, [castHzValue]: selectFreqHzObj[selectIndex]},
+      // puretoneData: {...castPuretoneSnap.puretoneData, [castHzValue]: selectIndex},
       created_at: serverTimestamp(),
       updated_at: serverTimestamp()
     })

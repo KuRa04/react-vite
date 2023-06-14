@@ -74,7 +74,17 @@ interface TestPuretoneData {
 
 interface CsvData extends UserInfo {
   site: string
-  puretoneData: PuretoneData
+  250: number
+  500: number
+  1000: number
+  2000: number
+  3000: number
+  4000: number
+  8000: number
+  10000: number
+  12000: number
+  14000: number
+  16000: number
 }
 
 export const HistoryPage = () => {
@@ -87,12 +97,14 @@ export const HistoryPage = () => {
   const [userInfo, setUserInfo] = useState<UserInfo>(userInfoParse)
   const [pureToneData, setPuretoneData] = useState<PuretoneData>(pureToneDataObj)
   const [csvTestData, setCsvTextData] = useState<CsvData>({
-    userId: userInfo.userId,
-    age: userInfo.age,
-    sex: userInfo.sex,
-    bgn: userInfo.bgn,
-    site: '',
-    puretoneData: pureToneDataObj
+    ...{
+      userId: userInfo.userId,
+      age: userInfo.age,
+      sex: userInfo.sex,
+      bgn: userInfo.bgn,
+      site: ''
+    },
+    ...pureToneDataObj
   })
 
   const updatePureToneData = {...pureToneDataObj, ...pureToneData}
@@ -138,7 +150,17 @@ export const HistoryPage = () => {
         sex: userInfo.sex,
         bgn: userInfo.bgn,
         site: castPuretoneSnap.site,
-        puretoneData: castPuretoneSnap.puretoneData
+        250: castPuretoneSnap.puretoneData[250],
+        500: castPuretoneSnap.puretoneData[500],
+        1000: castPuretoneSnap.puretoneData[1000],
+        2000: castPuretoneSnap.puretoneData[2000],
+        3000: castPuretoneSnap.puretoneData[3000],
+        4000: castPuretoneSnap.puretoneData[4000],
+        8000: castPuretoneSnap.puretoneData[8000],
+        10000: castPuretoneSnap.puretoneData[10000],
+        12000: castPuretoneSnap.puretoneData[12000],
+        14000: castPuretoneSnap.puretoneData[14000],
+        16000: castPuretoneSnap.puretoneData[16000],
       })
     }
   }
