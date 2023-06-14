@@ -13,7 +13,7 @@ import {
 import { firebase } from '../../../firebase';
 import { doc, setDoc, serverTimestamp, getDoc } from "firebase/firestore";
 
-import { pureToneDataObj } from '../../../util/commonItem';
+import { pureToneDataObj, initialGainState } from '../../../util/commonItem';
 
 // 換算表で利用
 import { hzValueObj } from '../../../util/freqDataSets/haValueObj';
@@ -23,11 +23,10 @@ import { UserInfo, PuretoneData, TestPuretoneData } from '../../../types/type';
 
 export const PureToneFormPage = () => {
   const navigate = useNavigate();
-  const initialState = [0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1];
   const userInfoJson = getLocalStorage('userInfo')
   const userInfoParse = JSON.parse(userInfoJson as string) as UserInfo
 
-  // const [gainState, setGainState] = useState<number[]>(initialState)
+  // const [gainState, setGainState] = useState<number[]>(initialGainState)
   const [index, setIndex] = useState<number>(0)
   const [isPlaying, setPlaying] = useState(false)
   const [pureToneData, setPuretoneData] = useState<PuretoneData>()
@@ -35,7 +34,7 @@ export const PureToneFormPage = () => {
   const { fireStore } = firebase
 
   const countUp = () => {
-    if (index >= 19) return
+    if (index >= 29) return
     onStop()
     setIndex((prevIndex) => prevIndex + 1)
   }
@@ -73,7 +72,7 @@ export const PureToneFormPage = () => {
     
     gainNode.gain.value = 0;
     gainNode.gain.setValueAtTime(0, context.currentTime);
-    gainNode.gain.linearRampToValueAtTime(initialState[index], context.currentTime + 0.1);
+    gainNode.gain.linearRampToValueAtTime(initialGainState[index], context.currentTime + 0.1);
     gainNode.connect(context.destination);
     
     oscillator.connect(gainNode);
@@ -105,7 +104,7 @@ export const PureToneFormPage = () => {
     const castHzValue = Number(hzValue)
     if (!hzValue) return
     const puretoneDocRef = doc(fireStore, 'users', userInfoParse.userId, "puretone", site);
-    const selectIndex = initialState[index].toString()
+    const selectIndex = initialGainState[index].toString()
     const puretoneSnap = await getDoc(puretoneDocRef)
     if (!puretoneSnap.data()) {
       await setDoc(puretoneDocRef, {
@@ -156,7 +155,7 @@ export const PureToneFormPage = () => {
           音が聴こえたら聴こえたボタンをタップしてください。
         </Text>
       </Box>
-      <Progress value={index} max={19}/>
+      <Progress value={index} max={29}/>
         <ButtonGroup mt="2%" w="100%">
           <Flex w="100%" justifyContent="space-between">
             <Flex>

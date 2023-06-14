@@ -44,7 +44,7 @@ export const options = {
   },
 };
 
-const labels = ['250', '500', '1000', '2000', '3000', '4000', '8000'];
+const labels = ['250', '500', '1000', '2000', '3000', '4000', '8000', '10000', '12000'];
 
 interface PuretoneData {
   250: number,
