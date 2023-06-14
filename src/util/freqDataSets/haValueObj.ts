@@ -5,7 +5,9 @@ import {
   freq2000HzDataSet,
   freq3000HzDataSet,
   freq4000HzDataSet,
-  freq8000HzDataSet
+  freq8000HzDataSet,
+  freq10000HzDataSet,
+  freq12000HzDataSet
 } from './freqDataSet'
 
 export const hzValueObj: {[key: string]: {[key: string]: number}} = {
@@ -15,5 +17,7 @@ export const hzValueObj: {[key: string]: {[key: string]: number}} = {
   '2000': freq2000HzDataSet,
   '3000': freq3000HzDataSet,
   '4000': freq4000HzDataSet,
-  '8000': freq8000HzDataSet
+  '8000': freq8000HzDataSet,
+  '10000': freq10000HzDataSet,
+  '12000': freq12000HzDataSet,
 }
