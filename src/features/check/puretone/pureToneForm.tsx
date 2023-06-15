@@ -78,7 +78,6 @@ export const PureToneFormPage = () => {
     
     const gainNode = context.createGain();
     
-    
     gainNode.gain.value = 0;
     console.log(gainNode.gain.value);
     gainNode.gain.setValueAtTime(0, context.currentTime);
@@ -137,8 +136,9 @@ export const PureToneFormPage = () => {
       created_at: serverTimestamp(),
       updated_at: serverTimestamp()
     })
-    window.alert("登録しました。")
     onStop()
+    window.alert("登録しました。")
+    navigate("/check/pure_tone")
   }
 
   useEffect(() => {
