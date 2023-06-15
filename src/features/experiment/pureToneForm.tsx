@@ -27,7 +27,6 @@ export const ExperimentPureToneFormPage = () => {
   const { fireStore } = firebase
 
   const [gainState, setGainState] = useState<number>(0.01)
-  const [name, setName] = useState('')
   const [isPlaying, setPlaying] = useState(false)
   const [time, setTime] = useState(0)
   const [gainInitialValue ,setGainInitialValue] = useState<number>(0.01)
@@ -44,7 +43,7 @@ export const ExperimentPureToneFormPage = () => {
 
   const context = new AudioContext();
   let oscillator: OscillatorNode | null = null;
-  let intervalId: NodeJS.Timeout | null;
+  // let intervalId: NodeJS.Timeout | null;
   const frequency = Number(hzValue);
   const duration = 10; // 10秒間再生
 

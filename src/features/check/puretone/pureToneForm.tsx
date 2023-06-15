@@ -19,17 +19,17 @@ import { pureToneDataObj, initialGainState } from '../../../util/commonItem';
 import { hzValueObj } from '../../../util/freqDataSets/haValueObj';
 import { getLocalStorage } from '../../../util/localStorage';
 
-import { UserInfo, PuretoneData, TestPuretoneData } from '../../../types/type';
+import { UserInfo, TestPuretoneData } from '../../../types/type';
 
 export const PureToneFormPage = () => {
   const navigate = useNavigate();
   const userInfoJson = getLocalStorage('userInfo')
   const userInfoParse = JSON.parse(userInfoJson as string) as UserInfo
 
-  // const [gainState, setGainState] = useState<number[]>(initialGainState)
   const [index, setIndex] = useState<number>(0)
-  const [isPlaying, setPlaying] = useState(false)
-  const [pureToneData, setPuretoneData] = useState<PuretoneData>()
+  // const [gainState, setGainState] = useState<number[]>(initialGainState)
+  // const [isPlaying, setPlaying] = useState(false)
+  // const [pureToneData, setPuretoneData] = useState<PuretoneData>()
 
   const { fireStore } = firebase
 
@@ -89,7 +89,6 @@ export const PureToneFormPage = () => {
 
   const onStop = () => {
     console.log(oscillator)
-    setPlaying(false)
     oscillator?.stop();
     oscillator = null;
     // clearInterval(intervalId);
