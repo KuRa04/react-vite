@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import {
   Box,
   ButtonGroup,
@@ -59,6 +59,7 @@ export const ReserveFormPage = () => {
       updated_at: serverTimestamp()
     })
     setLocalStorage('userInfo', JSON.stringify({...userInfoParse, bgn}))
+    window.alert("登録しました。")
   }
 
   const context = new AudioContext();
