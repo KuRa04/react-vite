@@ -65,7 +65,6 @@ export const PureToneFormPage = () => {
   const context = new AudioContext();
   const stereoPannerNode = context.createStereoPanner();
 
-  stereoPannerNode.pan.value = panObj[site]; // -1（左）から 1（右）の範囲で設定できます
   let oscillator: OscillatorNode | null = null;
   const frequency = Number(hzValue);
   // const duration = 10 // 2秒間再生
@@ -79,14 +78,17 @@ export const PureToneFormPage = () => {
     
     const gainNode = context.createGain();
     
+    
     gainNode.gain.value = 0;
+    console.log(gainNode.gain.value);
     gainNode.gain.setValueAtTime(0, context.currentTime);
     gainNode.gain.linearRampToValueAtTime(initialGainState[index], context.currentTime + 0.1);
-    gainNode.connect(context.destination);
     
-    oscillator.connect(stereoPannerNode);
+    stereoPannerNode.pan.value = panObj[site]; // -1（左）から 1（右）の範囲で設定できます
+    gainNode.connect(context.destination);
     stereoPannerNode.connect(context.destination);
     
+    oscillator.connect(stereoPannerNode);
     oscillator.connect(gainNode);
 
     if (!oscillator) return
@@ -136,6 +138,7 @@ export const PureToneFormPage = () => {
       created_at: serverTimestamp(),
       updated_at: serverTimestamp()
     })
+    window.alert("登録しました。")
     onStop()
   }
 

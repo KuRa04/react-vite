@@ -55,10 +55,6 @@ export const FaceFormPage = () => {
   const navigate = useNavigate();
   const { fireStore } = firebase
 
-  const goBack = () => {
-    navigate(-1)
-  }
-
   const postUserStatusData = () => {
     setDoc(doc(fireStore, "users", userId), {
       userId,
@@ -66,6 +62,8 @@ export const FaceFormPage = () => {
       sex
     })
     setLocalStorage('userInfo', JSON.stringify({userId, age, sex}))
+    window.alert("登録しました。")
+    navigate("/")
   }
 
   return (
@@ -143,15 +141,6 @@ export const FaceFormPage = () => {
               w="7rem"
               mr="5%">
               登録
-            </Button>
-            <Button
-              w="7rem"
-              onClick={() => {
-                goBack()
-              }}
-              colorScheme="teal"
-              variant="outline">
-              戻る
             </Button>
           </Flex>
         </Flex>
