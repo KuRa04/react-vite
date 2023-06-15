@@ -41,7 +41,7 @@ export const options = {
       display: true,
       text: 'Chart.js Line Chart',
     },
-  },
+  }
 };
 
 const labels = ['250', '500', '1000', '2000', '3000', '4000', '8000', '10000', '12000'];

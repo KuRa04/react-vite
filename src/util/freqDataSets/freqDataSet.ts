@@ -1,7 +1,7 @@
 export const freq250HzDataSet: { [key: string]: number } = {
-  '0': 0,
-  '0.001': 0,
-  '0.002': 0,
+  // '0': 0,
+  // '0.001': 0,
+  // '0.002': 0,
   '0.003': 1.2,
   '0.004': 3.67,
   '0.005': 5.6,
@@ -31,8 +31,8 @@ export const freq250HzDataSet: { [key: string]: number } = {
 };
 
 export const freq500HzDataSet: { [key: string]: number } = {
-  '0': 0,
-  '0.001': 0,
+  // '0': 0,
+  // '0.001': 0,
   '0.002': 3.4,
   '0.003': 5.9,
   '0.004': 7.6,
@@ -63,8 +63,8 @@ export const freq500HzDataSet: { [key: string]: number } = {
 };
 
 export const freq1000HzDataSet: { [key: string]: number } = {
-  '0': 0,
-  '0.001': 3,
+  // '0': 0,
+  // '0.001': 3,
   '0.002': 5.2,
   '0.003': 7.7,
   '0.004': 9.6,
@@ -95,8 +95,8 @@ export const freq1000HzDataSet: { [key: string]: number } = {
 };
 
 export const freq2000HzDataSet: { [key: string]: number } = {
-  '0': 0,
-  '0.001': 0,
+  // '0': 0,
+  // '0.001': 0,
   '0.002': 1.9,
   '0.003': 3.85,
   '0.004': 5.6,
@@ -127,8 +127,8 @@ export const freq2000HzDataSet: { [key: string]: number } = {
 };
 
 export const freq3000HzDataSet: { [key: string]: number } = {
-  '0': 0,
-  '0.001': 3.25,
+  // '0': 0,
+  // '0.001': 3.25,
   '0.002': 5.4,
   '0.003': 7.6,
   '0.004': 9.2,
@@ -159,8 +159,8 @@ export const freq3000HzDataSet: { [key: string]: number } = {
 };
 
 export const freq4000HzDataSet: { [key: string]: number } = {
-  '0': 0,
-  '0.001': 7.1,
+  // '0': 0,
+  // '0.001': 7.1,
   '0.002': 8.2,
   '0.003': 10.1,
   '0.004': 11.5,
@@ -191,8 +191,8 @@ export const freq4000HzDataSet: { [key: string]: number } = {
 };
 
 export const freq8000HzDataSet: { [key: string]: number } = {
-  '0': 0,
-  '0.001': 2.35,
+  // '0': 0,
+  // '0.001': 2.35,
   '0.002': 4.6,
   '0.003': 6.85,
   '0.004': 8.8,
@@ -223,8 +223,8 @@ export const freq8000HzDataSet: { [key: string]: number } = {
 };
 
 export const freq10000HzDataSet: { [key: string]: number } = {
-  '0': 0,
-  '0.001': 6.9,
+  // '0': 0,
+  // '0.001': 6.9,
   '0.002': 8.4,
   '0.003': 10.2,
   '0.004': 12.1,

@@ -50,13 +50,22 @@ export const PureToneFormPage = () => {
   const site = query.get('site') || ''
   const hzValue = query.get('hzValue')
 
-  const siteTranslate: {[key: string]: string} = {
+  const siteObj: {[key: string]: string} = {
     'left': '左',
     'right': '右',
     'both': '両耳'
   };
 
+  const panObj: {[key: string]: number} = {
+    'left': -1,
+    'right': 1,
+    'both': 0
+  };
+
   const context = new AudioContext();
+  const stereoPannerNode = context.createStereoPanner();
+
+  stereoPannerNode.pan.value = panObj[site]; // -1（左）から 1（右）の範囲で設定できます
   let oscillator: OscillatorNode | null = null;
   const frequency = Number(hzValue);
   // const duration = 10 // 2秒間再生
@@ -145,7 +154,7 @@ export const PureToneFormPage = () => {
         as="form">
         <Box>
         <Heading as="h1" w="100%" textAlign={'left'} fontWeight="normal" mb="2%">
-          {`純音 ${hzValue}Hz ${siteTranslate[site]}`} 
+          {`純音 ${hzValue}Hz ${siteObj[site]}`} 
         </Heading>
         <Text as="p">
           チェック開始ボタンをタップして音が鳴るまで待ってください。
