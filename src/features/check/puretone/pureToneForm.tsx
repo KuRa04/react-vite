@@ -84,7 +84,11 @@ export const PureToneFormPage = () => {
     gainNode.gain.linearRampToValueAtTime(initialGainState[index], context.currentTime + 0.1);
     gainNode.connect(context.destination);
     
+    oscillator.connect(stereoPannerNode);
+    stereoPannerNode.connect(context.destination);
+    
     oscillator.connect(gainNode);
+
     if (!oscillator) return
     oscillator.start(0);
 
