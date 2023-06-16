@@ -82,6 +82,7 @@ export const PureToneFormPage = () => {
     console.log(gainNode.gain.value);
     gainNode.gain.setValueAtTime(0, context.currentTime);
     gainNode.gain.linearRampToValueAtTime(initialGainState[index], context.currentTime + 0.1);
+    console.log(initialGainState[index])
     
     stereoPannerNode.pan.value = panObj[site]; // -1（左）から 1（右）の範囲で設定できます
     
