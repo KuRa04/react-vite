@@ -13,7 +13,7 @@ import {
 import { firebase } from '../../../firebase';
 import { doc, setDoc, serverTimestamp, getDoc } from "firebase/firestore";
 
-import { pureToneDataObj, initialGainState, translateEarToEnglish, switchPan } from '../../../util/commonItem';
+import { pureToneDataObj, gainStates, translateEarToEnglish, switchPan } from '../../../util/commonItem';
 
 // 換算表で利用
 import { frequencyDataSet } from '../../../util/freqDataSets/haValueObj';
@@ -37,7 +37,7 @@ export const PureToneFormPage = () => {
   const [index, setIndex] = useState<number>(0)
 
   const countUp = () => {
-    if (index >= initialGainState.length) return
+    if (index >= gainStates.length) return
     onStop()
     setIndex((prevIndex) => prevIndex + 1)
   }
@@ -47,12 +47,11 @@ export const PureToneFormPage = () => {
     onStop()
     setIndex((prevIndex) => prevIndex - 1)
   }
-
+  
+  let oscillator: OscillatorNode | null = null;
   const context = new AudioContext();
   const stereoPannerNode = context.createStereoPanner();
-
-  let oscillator: OscillatorNode | null = null;
-
+  
   const onPlay = () => {
     oscillator = context.createOscillator();
     oscillator.type = 'sine';
@@ -62,7 +61,7 @@ export const PureToneFormPage = () => {
     
     gainNode.gain.value = 0;
     gainNode.gain.setValueAtTime(0, context.currentTime);
-    gainNode.gain.linearRampToValueAtTime(initialGainState[index], context.currentTime + 0.1);
+    gainNode.gain.linearRampToValueAtTime(gainStates[index], context.currentTime + 0.1);
     
     stereoPannerNode.pan.value = switchPan(ear); // -1（左）から 1（右）の範囲で設定できます
     oscillator.connect(stereoPannerNode);
@@ -86,7 +85,7 @@ export const PureToneFormPage = () => {
   const postPureToneData = async () => {
     if (!frequency) return
     const puretoneDocRef = doc(fireStore, 'users', userInfoParse.userId, "puretone", translateEarToEnglish(ear));
-    const selectIndex = initialGainState[index].toString()
+    const selectGainState = gainStates[index].toString()
     const puretoneSnap = await getDoc(puretoneDocRef)
     if (!puretoneSnap.data()) {
       await setDoc(puretoneDocRef, {
@@ -101,7 +100,7 @@ export const PureToneFormPage = () => {
 
     await setDoc(puretoneDocRef, {
       ear,
-      puretoneData: {...castPuretoneSnap.puretoneData, [frequency]: selectFreqHzObj[selectIndex]},
+      puretoneData: {...castPuretoneSnap.puretoneData, [frequency]: selectFreqHzObj[selectGainState]},
       created_at: serverTimestamp(),
       updated_at: serverTimestamp()
     })
