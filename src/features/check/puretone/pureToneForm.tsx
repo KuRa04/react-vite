@@ -103,11 +103,11 @@ export const PureToneFormPage = () => {
     const selectGainState = gainStates[index].toString()
 
     const puretoneSnap = getPuretoneData()
-    const selectFreqHzObj = frequencyDataSet[frequency]
+    const selectFrequencyDataset = frequencyDataSet[frequency]
 
     await setDoc(puretoneDocRef, {
       ear,
-      puretoneData: {...(await puretoneSnap), [frequency]: selectFreqHzObj[selectGainState]},
+      puretoneData: {...(await puretoneSnap), [frequency]: selectFrequencyDataset[selectGainState]},
       created_at: serverTimestamp(),
       updated_at: serverTimestamp()
     })
