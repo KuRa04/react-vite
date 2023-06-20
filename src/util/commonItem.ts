@@ -31,12 +31,22 @@ export const siteTranslate: { [key: string]: string } = {
   両耳: 'bothEars',
 };
 
-export const translateEarToEanglish = (ears: string) => {
-  if (ears === '左耳') {
+export const translateEarToEnglish = (ear: string) => {
+  if (ear === '左耳') {
     return 'left';
-  } else if (ears === '右耳') {
+  } else if (ear === '右耳') {
     return 'right';
   } else {
     return 'both';
+  }
+};
+
+export const switchPan = (ear: string) => {
+  if (ear === '左耳') {
+    return -1;
+  } else if (ear === '右耳') {
+    return 1;
+  } else {
+    return 0;
   }
 };

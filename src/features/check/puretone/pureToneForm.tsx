@@ -13,7 +13,7 @@ import {
 import { firebase } from '../../../firebase';
 import { doc, setDoc, serverTimestamp, getDoc } from "firebase/firestore";
 
-import { pureToneDataObj, initialGainState, translateEarToEanglish } from '../../../util/commonItem';
+import { pureToneDataObj, initialGainState, translateEarToEnglish, switchPan } from '../../../util/commonItem';
 
 // 換算表で利用
 import { hzValueObj } from '../../../util/freqDataSets/haValueObj';
@@ -33,7 +33,6 @@ export const PureToneFormPage = () => {
   const userInfoJson = getLocalStorage('userInfo')
   const userInfoParse = JSON.parse(userInfoJson as string) as UserInfo
 
-
   const [index, setIndex] = useState<number>(0)
 
   const countUp = () => {
@@ -48,19 +47,10 @@ export const PureToneFormPage = () => {
     setIndex((prevIndex) => prevIndex - 1)
   }
 
-  const panObj: {[key: string]: number} = {
-    'left': -1,
-    'right': 1,
-    'both': 0
-  };
-
   const context = new AudioContext();
   const stereoPannerNode = context.createStereoPanner();
 
   let oscillator: OscillatorNode | null = null;
-  // const duration = 10 // 2秒間再生
-  // let intervalId;
-  
 
   const onPlay = () => {
     oscillator = context.createOscillator();
@@ -70,13 +60,10 @@ export const PureToneFormPage = () => {
     const gainNode = context.createGain();
     
     gainNode.gain.value = 0;
-    console.log(gainNode.gain.value);
     gainNode.gain.setValueAtTime(0, context.currentTime);
     gainNode.gain.linearRampToValueAtTime(initialGainState[index], context.currentTime + 0.1);
-    console.log(initialGainState[index])
     
-    stereoPannerNode.pan.value = panObj[translateEarToEanglish(ear)]; // -1（左）から 1（右）の範囲で設定できます
-    
+    stereoPannerNode.pan.value = switchPan(ear); // -1（左）から 1（右）の範囲で設定できます
     oscillator.connect(stereoPannerNode);
     stereoPannerNode.connect(gainNode);
     gainNode.connect(context.destination);
@@ -98,7 +85,7 @@ export const PureToneFormPage = () => {
 
   const postPureToneData = async () => {
     if (!frequency) return
-    const puretoneDocRef = doc(fireStore, 'users', userInfoParse.userId, "puretone", translateEarToEanglish(ear));
+    const puretoneDocRef = doc(fireStore, 'users', userInfoParse.userId, "puretone", translateEarToEnglish(ear));
     const selectIndex = initialGainState[index].toString()
     const puretoneSnap = await getDoc(puretoneDocRef)
     if (!puretoneSnap.data()) {
