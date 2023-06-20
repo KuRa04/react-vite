@@ -18,6 +18,7 @@ import { useNavigate } from "react-router-dom";
 import { firebase } from '../../firebase';
 import { setDoc, doc } from "firebase/firestore";
 import { setLocalStorage, getLocalStorage } from '../../util/localStorage';
+import { ROUTE_PATH } from '../../util/routes';
 
 interface UserInfo {
   userId: string
@@ -63,7 +64,7 @@ export const FaceFormPage = () => {
     })
     setLocalStorage('userInfo', JSON.stringify({userId, age, sex}))
     window.alert("登録しました。")
-    navigate("/")
+    navigate(ROUTE_PATH.HOME)
   }
 
   return (
