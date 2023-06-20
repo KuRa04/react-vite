@@ -16,7 +16,7 @@ import { doc, setDoc, serverTimestamp, getDoc } from "firebase/firestore";
 import { pureToneDataObj, initialGainState, translateEarToEnglish, switchPan } from '../../../util/commonItem';
 
 // 換算表で利用
-import { hzValueObj } from '../../../util/freqDataSets/haValueObj';
+import { frequencyDataSet } from '../../../util/freqDataSets/haValueObj';
 import { getLocalStorage } from '../../../util/localStorage';
 
 import { UserInfo, TestPuretoneData } from '../../../types/type';
@@ -97,7 +97,7 @@ export const PureToneFormPage = () => {
       })  
     } 
     const castPuretoneSnap = puretoneSnap.data() as TestPuretoneData || pureToneDataObj
-    const selectFreqHzObj = hzValueObj[frequency]
+    const selectFreqHzObj = frequencyDataSet[frequency]
 
     await setDoc(puretoneDocRef, {
       ear,

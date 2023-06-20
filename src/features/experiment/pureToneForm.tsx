@@ -18,7 +18,7 @@ import { setDoc, doc, serverTimestamp } from "firebase/firestore";
 import { useRecoilState } from 'recoil';
 import { userInfoAtom } from '../../util/userInfoAtom';
 
-import { hzValueObj } from "../../util/freqDataSets/haValueObj";
+import { frequencyDataSet } from "../../util/freqDataSets/haValueObj";
 import Timer from "../../util/Timer";
 
 export const ExperimentPureToneFormPage = () => {
@@ -90,7 +90,7 @@ export const ExperimentPureToneFormPage = () => {
   const postPureToneData = async () => {
     if (!hzValue) return
     const selectIndex = gainState.toString()
-    const selectFreqHzObj = hzValueObj[hzValue]
+    const selectFreqHzObj = frequencyDataSet[hzValue]
 
     const collectionPath = doc(fireStore, 'users', userInfo[0].id, 'answer', 'puretone')
     setDoc(collectionPath, {
