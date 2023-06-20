@@ -30,3 +30,14 @@ export const siteTranslate: { [key: string]: string } = {
   右: 'right',
   両耳: 'both',
 };
+
+
+export  const translateEar = (ears: string) => {
+  if (ears === '左耳') {
+    return 'left'
+  } else if (ears === '右耳') {
+    return 'right'
+  } else {
+    return 'both'
+  }
+}

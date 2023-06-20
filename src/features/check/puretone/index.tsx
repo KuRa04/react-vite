@@ -14,12 +14,6 @@ export const PureTonePage = () => {
   const navigate = useNavigate();
   const ears = ['左耳', '右耳', '両耳'];
 
-  const siteTranslate: {[key: string]: string} = {
-    '左': 'left',
-    '右': 'right',
-    '両耳': 'both'
-  };
-
   const goBack = () => {
     navigate(-1)
   }
@@ -57,7 +51,7 @@ export const PureTonePage = () => {
                 <HStack>
                   {frequencies.map((hzValue, index) => {
                     return (
-                      <Link key={`${hzValue}-${index}`} to={`detail?site=${siteTranslate[site]}&hzValue=${hzValue}`}>
+                      <Link key={`${hzValue}-${index}`} to={`detail?ear=${site}&hzValue=${hzValue}`}>
                         <Text color={'blue.400'}>
                           {hzValue}Hz
                         </Text>

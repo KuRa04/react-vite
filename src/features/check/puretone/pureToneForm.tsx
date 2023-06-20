@@ -13,7 +13,7 @@ import {
 import { firebase } from '../../../firebase';
 import { doc, setDoc, serverTimestamp, getDoc } from "firebase/firestore";
 
-import { pureToneDataObj, initialGainState } from '../../../util/commonItem';
+import { pureToneDataObj, initialGainState, translateEar } from '../../../util/commonItem';
 
 // 換算表で利用
 import { hzValueObj } from '../../../util/freqDataSets/haValueObj';
@@ -27,11 +27,13 @@ export const PureToneFormPage = () => {
   const navigate = useNavigate();
 
   const query = new URLSearchParams(search);
-  const site = query.get('site') || ''
+  const ear = query.get('ear') || ''
+  const earEnglish = translateEar(ear)
   const hzValue = query.get('hzValue')
   
   const userInfoJson = getLocalStorage('userInfo')
   const userInfoParse = JSON.parse(userInfoJson as string) as UserInfo
+
   
   const [index, setIndex] = useState<number>(0)
 
@@ -81,7 +83,7 @@ export const PureToneFormPage = () => {
     gainNode.gain.linearRampToValueAtTime(initialGainState[index], context.currentTime + 0.1);
     console.log(initialGainState[index])
     
-    stereoPannerNode.pan.value = panObj[site]; // -1（左）から 1（右）の範囲で設定できます
+    stereoPannerNode.pan.value = panObj[translateEar(ear)]; // -1（左）から 1（右）の範囲で設定できます
     
     oscillator.connect(stereoPannerNode);
     stereoPannerNode.connect(gainNode);
@@ -113,12 +115,12 @@ export const PureToneFormPage = () => {
   const postPureToneData = async () => {
     const castHzValue = Number(hzValue)
     if (!hzValue) return
-    const puretoneDocRef = doc(fireStore, 'users', userInfoParse.userId, "puretone", site);
+    const puretoneDocRef = doc(fireStore, 'users', userInfoParse.userId, "puretone", translateEar(ear));
     const selectIndex = initialGainState[index].toString()
     const puretoneSnap = await getDoc(puretoneDocRef)
     if (!puretoneSnap.data()) {
       await setDoc(puretoneDocRef, {
-        site,
+        ear,
         puretoneData: pureToneDataObj,
         created_at: serverTimestamp(),
         updated_at: serverTimestamp()
@@ -128,7 +130,7 @@ export const PureToneFormPage = () => {
     const selectFreqHzObj = hzValueObj[hzValue]
 
     await setDoc(puretoneDocRef, {
-      site,
+      ear,
       puretoneData: {...castPuretoneSnap.puretoneData, [castHzValue]: selectFreqHzObj[selectIndex]},
       // puretoneData: {...castPuretoneSnap.puretoneData, [castHzValue]: selectIndex},
       created_at: serverTimestamp(),
@@ -158,7 +160,7 @@ export const PureToneFormPage = () => {
         as="form">
         <Box>
         <Heading as="h1" w="100%" textAlign={'left'} fontWeight="normal" mb="2%">
-          {`純音 ${hzValue}Hz ${siteObj[site]}`} 
+          {`純音 ${hzValue}Hz ${ear}`} 
         </Heading>
         <Text as="p">
           チェック開始ボタンをタップして音が鳴るまで待ってください。
