@@ -82,28 +82,36 @@ export const PureToneFormPage = () => {
     navigate(-1)
   }
 
-  const postPureToneData = async () => {
+  const getPuretoneData = async () => {
+    const puretoneDocRef = doc(fireStore, 'users', userInfoParse.userId, "puretone", translateEarToEnglish(ear));
+    const puretoneSnap = await getDoc(puretoneDocRef)
+    
+    if (!puretoneSnap.data()) {
+      return {
+        puretoneData: puretoneDataObj,
+      }
+    } else {
+      const assertionPuretoneSnap = puretoneSnap.data() as TestPuretoneData
+      return await assertionPuretoneSnap.puretoneData
+    }
+  }
+
+  const postPuretoneData = async () => {
     if (!frequency) return
+    
     const puretoneDocRef = doc(fireStore, 'users', userInfoParse.userId, "puretone", translateEarToEnglish(ear));
     const selectGainState = gainStates[index].toString()
-    const puretoneSnap = await getDoc(puretoneDocRef)
-    if (!puretoneSnap.data()) {
-      await setDoc(puretoneDocRef, {
-        ear,
-        puretoneData: puretoneDataObj,
-        created_at: serverTimestamp(),
-        updated_at: serverTimestamp()
-      })  
-    } 
-    const assertionPuretoneSnap = puretoneSnap.data() as TestPuretoneData || puretoneDataObj
+
+    const puretoneSnap = getPuretoneData()
     const selectFreqHzObj = frequencyDataSet[frequency]
 
     await setDoc(puretoneDocRef, {
       ear,
-      puretoneData: {...assertionPuretoneSnap.puretoneData, [frequency]: selectFreqHzObj[selectGainState]},
+      puretoneData: {...(await puretoneSnap), [frequency]: selectFreqHzObj[selectGainState]},
       created_at: serverTimestamp(),
       updated_at: serverTimestamp()
     })
+ 
     onStop()
     window.alert("登録しました。")
     navigate(ROUTE_PATH.PURETONE)
@@ -166,7 +174,7 @@ export const PureToneFormPage = () => {
               <Button
                 onClick={() => {
                   console.log("onClick")
-                  postPureToneData()
+                  postPuretoneData()
                 }}
                 // isDisabled={step === 1}
                 colorScheme="teal"
