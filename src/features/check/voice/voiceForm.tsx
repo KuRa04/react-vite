@@ -87,7 +87,7 @@ export const VoiceFormPage = () => {
     if (!audio) return
     if (audio.ended && audio.volume <= 0.1) {
       audio.currentTime = 0;
-      audio.volume += 0.01
+      audio.volume += 0.001
       setGainState(audio.volume)
       audio.play();
     }
