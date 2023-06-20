@@ -28,12 +28,12 @@ export const PureToneFormPage = () => {
 
   const query = new URLSearchParams(search);
   const ear = query.get('ear') || ''
-  const hzValue = query.get('hzValue')
+  const frequency = query.get('frequency')
   
   const userInfoJson = getLocalStorage('userInfo')
   const userInfoParse = JSON.parse(userInfoJson as string) as UserInfo
 
-  
+
   const [index, setIndex] = useState<number>(0)
 
   const countUp = () => {
@@ -58,7 +58,6 @@ export const PureToneFormPage = () => {
   const stereoPannerNode = context.createStereoPanner();
 
   let oscillator: OscillatorNode | null = null;
-  const frequency = Number(hzValue);
   // const duration = 10 // 2秒間再生
   // let intervalId;
   
@@ -66,7 +65,7 @@ export const PureToneFormPage = () => {
   const onPlay = () => {
     oscillator = context.createOscillator();
     oscillator.type = 'sine';
-    oscillator.frequency.value = frequency;
+    oscillator.frequency.value = Number(frequency);
     
     const gainNode = context.createGain();
     
@@ -106,8 +105,8 @@ export const PureToneFormPage = () => {
   }
 
   const postPureToneData = async () => {
-    const castHzValue = Number(hzValue)
-    if (!hzValue) return
+    const castHzValue = Number(frequency)
+    if (!frequency) return
     const puretoneDocRef = doc(fireStore, 'users', userInfoParse.userId, "puretone", translateEarToEanglish(ear));
     const selectIndex = initialGainState[index].toString()
     const puretoneSnap = await getDoc(puretoneDocRef)
@@ -120,7 +119,7 @@ export const PureToneFormPage = () => {
       })  
     } 
     const castPuretoneSnap = puretoneSnap.data() as TestPuretoneData || pureToneDataObj
-    const selectFreqHzObj = hzValueObj[hzValue]
+    const selectFreqHzObj = hzValueObj[frequency]
 
     await setDoc(puretoneDocRef, {
       ear,
@@ -153,7 +152,7 @@ export const PureToneFormPage = () => {
         as="form">
         <Box>
         <Heading as="h1" w="100%" textAlign={'left'} fontWeight="normal" mb="2%">
-          {`純音 ${hzValue}Hz ${ear}`} 
+          {`純音 ${frequency}Hz ${ear}`} 
         </Heading>
         <Text as="p">
           チェック開始ボタンをタップして音が鳴るまで待ってください。

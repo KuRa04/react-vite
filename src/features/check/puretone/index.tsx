@@ -49,11 +49,11 @@ export const PureTonePage = () => {
                   {site}
                 </Text>
                 <HStack>
-                  {frequencies.map((hzValue, index) => {
+                  {frequencies.map((frequency, index) => {
                     return (
-                      <Link key={`${hzValue}-${index}`} to={`detail?ear=${site}&hzValue=${hzValue}`}>
+                      <Link key={`${frequency}-${index}`} to={`detail?ear=${site}&frequency=${frequency}`}>
                         <Text color={'blue.400'}>
-                          {hzValue}Hz
+                          {frequency}Hz
                         </Text>
                       </Link>
                     )  
