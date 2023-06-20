@@ -28,6 +28,8 @@ interface UserInfo {
 }
 
 export const FaceFormPage = () => {
+  const { fireStore } = firebase
+  const navigate = useNavigate();
   const userInfoObj = {
     userId: '',
     age: '',
@@ -52,10 +54,7 @@ export const FaceFormPage = () => {
   const handleSexChange = (e: string) => {
     setSex(e)
   }
-
-  const navigate = useNavigate();
-  const { fireStore } = firebase
-
+  
   const postUserStatusData = () => {
     setDoc(doc(fireStore, "users", userId), {
       userId,
