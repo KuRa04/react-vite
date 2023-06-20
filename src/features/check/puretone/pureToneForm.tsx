@@ -49,12 +49,6 @@ export const PureToneFormPage = () => {
     setIndex((prevIndex) => prevIndex - 1)
   }
 
-  const siteObj: {[key: string]: string} = {
-    'left': '左',
-    'right': '右',
-    'both': '両耳'
-  };
-
   const panObj: {[key: string]: number} = {
     'left': -1,
     'right': 1,
