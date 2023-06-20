@@ -36,7 +36,7 @@ export const PureToneFormPage = () => {
   const [index, setIndex] = useState<number>(0)
 
   const countUp = () => {
-    if (index >= 29) return
+    if (index >= initialGainState.length) return
     onStop()
     setIndex((prevIndex) => prevIndex + 1)
   }
