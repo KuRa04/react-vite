@@ -98,7 +98,6 @@ export const VoiceFormPage = () => {
 
   const postVoiceData = () => {
     if (!audio) return
-    console.log("aaaa")
 
     const collectionPath = collection(fireStore, 'users', userInfoParse.userId, 'voice')
     addDoc(collectionPath, {
