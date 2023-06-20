@@ -21,6 +21,7 @@ import { getLocalStorage } from '../../../util/localStorage';
 
 import { UserInfo, TestPuretoneData } from '../../../types/type';
 import { ROUTE_PATH } from '../../../util/routes';
+import { NavBar } from '../../components/navbar';
 
 export const PureToneFormPage = () => {
   const { fireStore } = firebase
@@ -126,6 +127,7 @@ export const PureToneFormPage = () => {
 
   return (
     <>
+      <NavBar />
       <Box
         borderWidth="1px"
         rounded="lg"

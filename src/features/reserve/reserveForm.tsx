@@ -19,6 +19,7 @@ import { firebase } from '../../firebase';
 import { updateDoc, doc, serverTimestamp } from "firebase/firestore";
 
 import {  setLocalStorage, getLocalStorage } from '../../util/localStorage';
+import { NavBar } from '../components/navbar';
 
 interface UserInfo {
   userId: string
@@ -97,6 +98,7 @@ export const ReserveFormPage = () => {
   }
   return (
     <>
+      <NavBar />
       <Box
         borderWidth="1px"
         rounded="lg"

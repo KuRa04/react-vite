@@ -4,4 +4,5 @@ export const ROUTE_PATH = {
   RESERVE: '/reserve',
   PURETONE: '/check/pure_tone',
   VOICE:'/check/voice',
+  HISTORY: '/history'
 }

@@ -9,6 +9,7 @@ import {
 import { Link, useNavigate} from "react-router-dom";
 
 import { frequencies, ears } from '../../../util/commonItem';
+import { NavBar } from '../../components/navbar';
 
 export const PureTonePage = () => {
   const navigate = useNavigate();
@@ -19,6 +20,7 @@ export const PureTonePage = () => {
 
   return (
     <>
+      <NavBar />
       <Box
         borderWidth="1px"
         rounded="lg"

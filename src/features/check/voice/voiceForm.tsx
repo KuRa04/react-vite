@@ -18,6 +18,7 @@ import { firebase } from '../../../firebase';
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 
 import { getLocalStorage } from '../../../util/localStorage';
+import { NavBar } from '../../components/navbar';
 
 interface UserInfo {
   userId: string
@@ -119,6 +120,7 @@ export const VoiceFormPage = () => {
 
   return (
     <>
+      <NavBar />
       <Box
         borderWidth="1px"
         rounded="lg"

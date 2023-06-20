@@ -19,6 +19,7 @@ import { firebase } from '../../firebase';
 import { setDoc, doc } from "firebase/firestore";
 import { setLocalStorage, getLocalStorage } from '../../util/localStorage';
 import { ROUTE_PATH } from '../../util/routes';
+import { NavBar } from '../components/navbar';
 
 interface UserInfo {
   userId: string
@@ -67,84 +68,87 @@ export const FaceFormPage = () => {
   }
 
   return (
-    <Box
-      borderWidth="1px"
-      rounded="lg"
-      shadow="1px 1px 3px rgba(0,0,0,0.3)"
-      maxWidth={800}
-      p={6}
-      m="10px auto"
-      as="form">
-      <Heading w="100%" textAlign={'center'} fontWeight={'normal'} mb={'2%'}>
-      フェイスシートの登録
-      </Heading>
-      <Box>
-        <FormControl mt="2%">
-          <FormLabel htmlFor="name" fontWeight={'bold'}>
-            ID
-          </FormLabel>
-          <Input id="name" placeholder="0000" onChange={(e) => handleIdChange(e)} defaultValue={userId}/>
-        </FormControl>
-        <FormControl mt="2%">
-          <FormLabel htmlFor="date-of-birth" fontWeight={'bold'}>
-            年齢
-          </FormLabel>
-          <Input id="date-of-birth" placeholder="20" onChange={(e) => handleAgeChange(e)} defaultValue={age || ''}/>
-        </FormControl>
+    <>
+      <NavBar />
+      <Box
+        borderWidth="1px"
+        rounded="lg"
+        shadow="1px 1px 3px rgba(0,0,0,0.3)"
+        maxWidth={800}
+        p={6}
+        m="10px auto"
+        as="form">
+        <Heading w="100%" textAlign={'center'} fontWeight={'normal'} mb={'2%'}>
+        フェイスシートの登録
+        </Heading>
+        <Box>
+          <FormControl mt="2%">
+            <FormLabel htmlFor="name" fontWeight={'bold'}>
+              ID
+            </FormLabel>
+            <Input id="name" placeholder="0000" onChange={(e) => handleIdChange(e)} defaultValue={userId}/>
+          </FormControl>
+          <FormControl mt="2%">
+            <FormLabel htmlFor="date-of-birth" fontWeight={'bold'}>
+              年齢
+            </FormLabel>
+            <Input id="date-of-birth" placeholder="20" onChange={(e) => handleAgeChange(e)} defaultValue={age || ''}/>
+          </FormControl>
+          <FormControl mt="2%">
+            <FormLabel htmlFor="" fontWeight={'bold'}>
+              性別
+            </FormLabel>
+            <RadioGroup onChange={(e) => handleSexChange(e)} value={sex || ''} defaultValue={sex || ''}>
+            <Stack direction='row'>
+              <Radio value='男性'>男性</Radio>
+              <Radio value='女性'>女性</Radio>
+              <Radio value='その他'>その他</Radio>
+            </Stack>
+          </RadioGroup>
+          </FormControl>
+        </Box>
         <FormControl mt="2%">
           <FormLabel htmlFor="" fontWeight={'bold'}>
-            性別
+            聴こえに関してあてはまるものにチェックしてください。
           </FormLabel>
-          <RadioGroup onChange={(e) => handleSexChange(e)} value={sex || ''} defaultValue={sex || ''}>
-          <Stack direction='row'>
-            <Radio value='男性'>男性</Radio>
-            <Radio value='女性'>女性</Radio>
-            <Radio value='その他'>その他</Radio>
+          <Stack spacing={5} bg={"gray.100"} padding={'16px'}>
+            <Checkbox colorScheme='green' defaultChecked>
+              テレビの音が大きいと言われる。
+            </Checkbox>
+            <Checkbox colorScheme='green' defaultChecked>
+              会議で相手の発言が聞き取りにくい。
+            </Checkbox>
+            <Checkbox colorScheme='green' defaultChecked>
+              聞き間違えることが多い。
+            </Checkbox>
+            <Checkbox colorScheme='green' defaultChecked>
+              会話が聞き取れず、聞き返してしまう。
+            </Checkbox>
+            <Checkbox colorScheme='green' defaultChecked>
+              病院などで呼ばれても気づかないことがある。
+            </Checkbox>
+            <Checkbox colorScheme='green' defaultChecked>
+              後ろから呼ばれても気づかない。
+            </Checkbox>
           </Stack>
-        </RadioGroup>
         </FormControl>
-      </Box>
-      <FormControl mt="2%">
-        <FormLabel htmlFor="" fontWeight={'bold'}>
-          聴こえに関してあてはまるものにチェックしてください。
-        </FormLabel>
-        <Stack spacing={5} bg={"gray.100"} padding={'16px'}>
-          <Checkbox colorScheme='green' defaultChecked>
-            テレビの音が大きいと言われる。
-          </Checkbox>
-          <Checkbox colorScheme='green' defaultChecked>
-            会議で相手の発言が聞き取りにくい。
-          </Checkbox>
-          <Checkbox colorScheme='green' defaultChecked>
-            聞き間違えることが多い。
-          </Checkbox>
-          <Checkbox colorScheme='green' defaultChecked>
-            会話が聞き取れず、聞き返してしまう。
-          </Checkbox>
-          <Checkbox colorScheme='green' defaultChecked>
-            病院などで呼ばれても気づかないことがある。
-          </Checkbox>
-          <Checkbox colorScheme='green' defaultChecked>
-            後ろから呼ばれても気づかない。
-          </Checkbox>
-        </Stack>
-      </FormControl>
-      <ButtonGroup mt="2%" w="100%">
-        <Flex w="100%" justifyContent="space-between">
-          <Flex>
-            <Button
-              onClick={() => {
-                postUserStatusData()
-              }}
-              colorScheme="teal"
-              variant="solid"
-              w="7rem"
-              mr="5%">
-              登録
-            </Button>
+        <ButtonGroup mt="2%" w="100%">
+          <Flex w="100%" justifyContent="space-between">
+            <Flex>
+              <Button
+                onClick={() => {
+                  postUserStatusData()
+                }}
+                colorScheme="teal"
+                variant="solid"
+                w="7rem"
+                mr="5%">
+                登録
+              </Button>
+            </Flex>
           </Flex>
-        </Flex>
-      </ButtonGroup>
-    </Box>
+        </ButtonGroup>
+      </Box>
+    </>
   );
 }

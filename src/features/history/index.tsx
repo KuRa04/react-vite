@@ -20,6 +20,7 @@ import {
 import { Line } from 'react-chartjs-2';
 
 import { puretoneDataObj } from '../../util/commonItem';
+import { NavBar } from '../components/navbar';
 
 ChartJS.register(
   CategoryScale,
@@ -185,6 +186,7 @@ export const HistoryPage = () => {
 
   return (
     <>
+      <NavBar />
       <Box
         borderWidth="1px"
         rounded="lg"
