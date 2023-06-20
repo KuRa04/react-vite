@@ -7,16 +7,10 @@ import {
 
 import { Link, useNavigate } from "react-router-dom";
 import { NavBar } from '../../components/navbar';
+import { ears } from '../../../util/commonItem';
 
 export const VoicePage = () => {
   const navigate = useNavigate();
-  const ears = ['左耳', '右耳', '両耳']
-
-  const siteTranslate: {[key: string]: string} = {
-    '左': 'left',
-    '右': 'right',
-    '両耳': 'both'
-  };
 
   const goBack = () => {
     navigate(-1)
@@ -51,12 +45,12 @@ export const VoicePage = () => {
           </Text>
         </Box>
         <Box>
-          {ears.map((site, index) => {
+          {ears.map((ear, index) => {
             return (
-              <Box key={`${site}-${index}`} mt="2%">
-                <Link to={`detail?site=${siteTranslate[site]}`}>
+              <Box key={`${ear}-${index}`} mt="2%">
+                <Link to={`detail?ear=${ear}`}>
                   <Text color={'blue.400'}>
-                    {site}
+                    {ear}
                   </Text>
                 </Link>
               </Box>

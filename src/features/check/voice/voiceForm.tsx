@@ -39,14 +39,7 @@ export const VoiceFormPage = () => {
 
   const search = useLocation().search;
   const query = new URLSearchParams(search);
-  const site = query.get('site') || ''
-  
-  const siteTranslate: {[key: string]: string} = {
-    'left': '左',
-    'right': '右',
-    'both': '両方'
-  };
-
+  const ear = query.get('ear') || ''
 
   let randomIndex = Math.floor(Math.random() * wordVoices.length); // 配列のランダムなインデックスを生成
   const initialAudio = new Audio(wordVoices[randomIndex])
@@ -108,7 +101,7 @@ export const VoiceFormPage = () => {
     const collectionPath = collection(fireStore, 'users', userInfoParse.userId, 'voice')
     addDoc(collectionPath, {
       id: userInfoParse.userId,
-      site: site,
+      site: ear,
       appVolume: gainState,
       selectedItem,
       text,
@@ -131,7 +124,7 @@ export const VoiceFormPage = () => {
         as="form">
         <Box>
           <Heading as="h1" w="100%" textAlign={'left'} fontWeight="normal" mb="2%">
-            {`音声 ${siteTranslate[site]}`} 
+            {`音声 ${ear}`} 
           </Heading>
           <Text as="p">
             チェック開始ボタンをタップして声が聴こえるまで待ってください
