@@ -1,4 +1,4 @@
-export const pureToneDataObj = {
+export const puretoneDataObj = {
   '250': 0,
   '500': 0,
   '1000': 0,

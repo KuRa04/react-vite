@@ -13,7 +13,7 @@ import {
 import { firebase } from '../../../firebase';
 import { doc, setDoc, serverTimestamp, getDoc } from "firebase/firestore";
 
-import { pureToneDataObj, gainStates, translateEarToEnglish, switchPan } from '../../../util/commonItem';
+import { puretoneDataObj, gainStates, translateEarToEnglish, switchPan } from '../../../util/commonItem';
 
 // 換算表で利用
 import { frequencyDataSet } from '../../../util/frequencyDataSets/frequencyDataSet';
@@ -90,12 +90,12 @@ export const PureToneFormPage = () => {
     if (!puretoneSnap.data()) {
       await setDoc(puretoneDocRef, {
         ear,
-        puretoneData: pureToneDataObj,
+        puretoneData: puretoneDataObj,
         created_at: serverTimestamp(),
         updated_at: serverTimestamp()
       })  
     } 
-    const assertionPuretoneSnap = puretoneSnap.data() as TestPuretoneData || pureToneDataObj
+    const assertionPuretoneSnap = puretoneSnap.data() as TestPuretoneData || puretoneDataObj
     const selectFreqHzObj = frequencyDataSet[frequency]
 
     await setDoc(puretoneDocRef, {
