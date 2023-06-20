@@ -41,16 +41,16 @@ export const PureTonePage = () => {
         </Text>
       </Box>
         <Box>
-          {ears.map((site, index) => {
+          {ears.map((ear, index) => {
             return (
-              <Box key={`${site}-${index}`} mt="2%">
+              <Box key={`${ear}-${index}`} mt="2%">
                 <Text as="p" fontWeight={'bold'}>
-                  {site}
+                  {ear}
                 </Text>
                 <HStack>
                   {frequencies.map((frequency, index) => {
                     return (
-                      <Link key={`${frequency}-${index}`} to={`detail?ear=${site}&frequency=${frequency}`}>
+                      <Link key={`${frequency}-${index}`} to={`detail?ear=${ear}&frequency=${frequency}`}>
                         <Text color={'blue.400'}>
                           {frequency}Hz
                         </Text>
