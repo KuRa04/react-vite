@@ -20,6 +20,7 @@ import { frequencyDataSet } from '../../../util/freqDataSets/haValueObj';
 import { getLocalStorage } from '../../../util/localStorage';
 
 import { UserInfo, TestPuretoneData } from '../../../types/type';
+import { ROUTE_PATH } from '../../../util/routes';
 
 export const PureToneFormPage = () => {
   const { fireStore } = firebase
@@ -73,7 +74,6 @@ export const PureToneFormPage = () => {
   }
 
   const onStop = () => {
-    console.log(oscillator)
     oscillator?.stop();
     oscillator = null;
   }
@@ -107,7 +107,7 @@ export const PureToneFormPage = () => {
     })
     onStop()
     window.alert("登録しました。")
-    navigate("/check/pure_tone")
+    navigate(ROUTE_PATH.PURETONE)
   }
 
   useEffect(() => {
