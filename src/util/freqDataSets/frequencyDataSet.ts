@@ -8,7 +8,7 @@ import {
   freq8000HzDataSet,
   freq10000HzDataSet,
   freq12000HzDataSet,
-} from './freqDataSet';
+} from './conversionGainToSoundPressure';
 
 export const frequencyDataSet: { [key: string]: { [key: string]: number } } = {
   '250': freq250HzDataSet,
