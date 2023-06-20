@@ -8,11 +8,10 @@ import {
 
 import { Link, useNavigate} from "react-router-dom";
 
-import { frequencies } from '../../../util/commonItem';
+import { frequencies, ears } from '../../../util/commonItem';
 
 export const PureTonePage = () => {
   const navigate = useNavigate();
-  const ears = ['左耳', '右耳', '両耳'];
 
   const goBack = () => {
     navigate(-1)

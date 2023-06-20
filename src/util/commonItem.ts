@@ -23,7 +23,7 @@ export const gainStates = [
   0.9, 1,
 ];
 
-export const ears = ['左', '右', '両耳'];
+export const ears = ['左耳', '右耳', '両耳'];
 
 export const siteTranslate: { [key: string]: string } = {
   左: 'leftEar',
