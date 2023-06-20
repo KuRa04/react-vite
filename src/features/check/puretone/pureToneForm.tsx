@@ -63,7 +63,7 @@ export const PureToneFormPage = () => {
     gainNode.gain.setValueAtTime(0, context.currentTime);
     gainNode.gain.linearRampToValueAtTime(gainStates[index], context.currentTime + 0.1);
     
-    stereoPannerNode.pan.value = switchPan(ear); // -1（左）から 1（右）の範囲で設定できます
+    stereoPannerNode.pan.value = switchPan(ear);
     oscillator.connect(stereoPannerNode);
     stereoPannerNode.connect(gainNode);
     gainNode.connect(context.destination);
