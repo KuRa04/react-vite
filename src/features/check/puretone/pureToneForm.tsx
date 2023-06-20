@@ -124,7 +124,6 @@ export const PureToneFormPage = () => {
     await setDoc(puretoneDocRef, {
       ear,
       puretoneData: {...castPuretoneSnap.puretoneData, [castHzValue]: selectFreqHzObj[selectIndex]},
-      // puretoneData: {...castPuretoneSnap.puretoneData, [castHzValue]: selectIndex},
       created_at: serverTimestamp(),
       updated_at: serverTimestamp()
     })
