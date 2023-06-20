@@ -19,7 +19,7 @@ import {
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 
-import { pureToneDataObj } from '../../util/commonItem';
+import { puretoneDataObj } from '../../util/commonItem';
 
 ChartJS.register(
   CategoryScale,
@@ -95,7 +95,7 @@ export const HistoryPage = () => {
   const { fireStore } = firebase
 
   const [userInfo, setUserInfo] = useState<UserInfo>(userInfoParse)
-  const [pureToneData, setPuretoneData] = useState<PuretoneData>(pureToneDataObj)
+  const [pureToneData, setPuretoneData] = useState<PuretoneData>(puretoneDataObj)
   const [csvTestData, setCsvTextData] = useState<CsvData>({
     ...{
       userId: userInfo.userId,
@@ -104,10 +104,10 @@ export const HistoryPage = () => {
       bgn: userInfo.bgn,
       site: ''
     },
-    ...pureToneDataObj
+    ...puretoneDataObj
   })
 
-  const updatePureToneData = {...pureToneDataObj, ...pureToneData}
+  const updatePureToneData = {...puretoneDataObj, ...pureToneData}
   const pureToneDataArray = Object.values(updatePureToneData)
 
   const array = Array(11).fill(userInfo.bgn);
@@ -137,7 +137,7 @@ export const HistoryPage = () => {
     const docSnap = await getDoc(docRef)
     const puretoneSnap = await getDoc(puretoneRef)
     if (!puretoneSnap.data() || !docSnap.data()) {
-      setPuretoneData(pureToneDataObj)
+      setPuretoneData(puretoneDataObj)
     } else {
       const castPuretoneSnap = puretoneSnap.data() as TestPuretoneData
       const castUserInfoSnap = docSnap.data() as UserInfo
