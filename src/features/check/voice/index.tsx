@@ -9,7 +9,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 export const VoicePage = () => {
   const navigate = useNavigate();
-  const siteArray = ['左', '右', '両耳']
+  const ears = ['左耳', '右耳', '両耳']
 
   const siteTranslate: {[key: string]: string} = {
     '左': 'left',
@@ -48,7 +48,7 @@ export const VoicePage = () => {
         </Text>
       </Box>
       <Box>
-        {siteArray.map((site, index) => {
+        {ears.map((site, index) => {
           return (
             <Box key={`${site}-${index}`} mt="2%">
               <Link to={`detail?site=${siteTranslate[site]}`}>

@@ -7,7 +7,7 @@ import {
 } from '@chakra-ui/react';
 
 import { Link, useNavigate } from "react-router-dom";
-import { frequencies, siteArray, siteTranslate } from '../../util/commonItem';
+import { frequencies, ears, siteTranslate } from '../../util/commonItem';
 
 export const ExperimentPureTonePage = () => {
   const navigate = useNavigate();
@@ -32,7 +32,7 @@ export const ExperimentPureTonePage = () => {
         </Text>
       </Box>
       <Box>
-          {siteArray.map((site, index) => {
+          {ears.map((site, index) => {
             return (
               <Box key={`${site}-${index}`} mt="2%">
                 <Text as="p" fontWeight={'bold'}>
