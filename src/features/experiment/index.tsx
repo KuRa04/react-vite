@@ -7,7 +7,7 @@ import {
 } from '@chakra-ui/react';
 
 import { Link, useNavigate } from "react-router-dom";
-import { hzValueArray, siteArray, siteTranslate } from '../../util/commonItem';
+import { frequencies, siteArray, siteTranslate } from '../../util/commonItem';
 
 export const ExperimentPureTonePage = () => {
   const navigate = useNavigate();
@@ -39,7 +39,7 @@ export const ExperimentPureTonePage = () => {
                   {site}
                 </Text>
                 <HStack>
-                  {hzValueArray.map((hzValue, index) => {
+                  {frequencies.map((hzValue, index) => {
                     return (
                       <Link key={`${hzValue}-${index}`} to={`detail?site=${siteTranslate[site]}&hzValue=${hzValue}`}>
                         <Text color={'blue.400'}>

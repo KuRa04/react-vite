@@ -8,7 +8,7 @@ import {
 
 import { Link, useNavigate} from "react-router-dom";
 
-import { hzValueArray } from '../../../util/commonItem';
+import { frequencies } from '../../../util/commonItem';
 
 export const PureTonePage = () => {
   const navigate = useNavigate();
@@ -55,7 +55,7 @@ export const PureTonePage = () => {
                   {site}
                 </Text>
                 <HStack>
-                  {hzValueArray.map((hzValue, index) => {
+                  {frequencies.map((hzValue, index) => {
                     return (
                       <Link key={`${hzValue}-${index}`} to={`detail?site=${siteTranslate[site]}&hzValue=${hzValue}`}>
                         <Text color={'blue.400'}>
