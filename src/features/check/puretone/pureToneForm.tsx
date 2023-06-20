@@ -83,20 +83,12 @@ export const PureToneFormPage = () => {
   
     if (!oscillator) return
     oscillator.start(0);
-
-    // setInterval(() => {
-    //   oscillator?.stop(0);
-    //   oscillator = null;
-    //   setIndex((prevIndex) => prevIndex + 1)
-    //   onPlay();
-    // }, (duration + 0.5) * 2000);
   }
 
   const onStop = () => {
     console.log(oscillator)
     oscillator?.stop();
     oscillator = null;
-    // clearInterval(intervalId);
   }
 
   const goBack = () => {
