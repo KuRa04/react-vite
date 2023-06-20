@@ -18,7 +18,7 @@ import { setDoc, doc, serverTimestamp } from "firebase/firestore";
 import { useRecoilState } from 'recoil';
 import { userInfoAtom } from '../../util/userInfoAtom';
 
-import { frequencyDataSet } from "../../util/freqDataSets/frequencyDataSet";
+import { frequencyDataSet } from "../../util/frequencyDataSets/frequencyDataSet";
 import Timer from "../../util/Timer";
 
 export const ExperimentPureToneFormPage = () => {

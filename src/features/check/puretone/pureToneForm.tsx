@@ -16,7 +16,7 @@ import { doc, setDoc, serverTimestamp, getDoc } from "firebase/firestore";
 import { pureToneDataObj, gainStates, translateEarToEnglish, switchPan } from '../../../util/commonItem';
 
 // 換算表で利用
-import { frequencyDataSet } from '../../../util/freqDataSets/frequencyDataSet';
+import { frequencyDataSet } from '../../../util/frequencyDataSets/frequencyDataSet';
 import { getLocalStorage } from '../../../util/localStorage';
 
 import { UserInfo, TestPuretoneData } from '../../../types/type';
