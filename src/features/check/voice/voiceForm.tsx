@@ -71,6 +71,7 @@ export const VoiceFormPage = () => {
     const newAudio = new Audio(selectedItem)
     newAudio.volume = 0; 
     setAudio(newAudio);
+    window.alert("聞こえた言葉を入力して登録してください。")
   };
 
   const onPlay = (audio: HTMLAudioElement) => {
@@ -97,6 +98,7 @@ export const VoiceFormPage = () => {
 
   const postVoiceData = () => {
     if (!audio) return
+    console.log("aaaa")
 
     const collectionPath = collection(fireStore, 'users', userInfoParse.userId, 'voice')
     addDoc(collectionPath, {
@@ -108,7 +110,6 @@ export const VoiceFormPage = () => {
       created_at: serverTimestamp(),
       updated_at: serverTimestamp()
     })
-    handleSelect()
   }
 
   return (
