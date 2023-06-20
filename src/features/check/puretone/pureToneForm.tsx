@@ -13,7 +13,7 @@ import {
 import { firebase } from '../../../firebase';
 import { doc, setDoc, serverTimestamp, getDoc } from "firebase/firestore";
 
-import { pureToneDataObj, initialGainState, translateEar } from '../../../util/commonItem';
+import { pureToneDataObj, initialGainState, translateEarToEanglish } from '../../../util/commonItem';
 
 // 換算表で利用
 import { hzValueObj } from '../../../util/freqDataSets/haValueObj';
@@ -28,7 +28,6 @@ export const PureToneFormPage = () => {
 
   const query = new URLSearchParams(search);
   const ear = query.get('ear') || ''
-  const earEnglish = translateEar(ear)
   const hzValue = query.get('hzValue')
   
   const userInfoJson = getLocalStorage('userInfo')
@@ -77,7 +76,7 @@ export const PureToneFormPage = () => {
     gainNode.gain.linearRampToValueAtTime(initialGainState[index], context.currentTime + 0.1);
     console.log(initialGainState[index])
     
-    stereoPannerNode.pan.value = panObj[translateEar(ear)]; // -1（左）から 1（右）の範囲で設定できます
+    stereoPannerNode.pan.value = panObj[translateEarToEanglish(ear)]; // -1（左）から 1（右）の範囲で設定できます
     
     oscillator.connect(stereoPannerNode);
     stereoPannerNode.connect(gainNode);
@@ -109,7 +108,7 @@ export const PureToneFormPage = () => {
   const postPureToneData = async () => {
     const castHzValue = Number(hzValue)
     if (!hzValue) return
-    const puretoneDocRef = doc(fireStore, 'users', userInfoParse.userId, "puretone", translateEar(ear));
+    const puretoneDocRef = doc(fireStore, 'users', userInfoParse.userId, "puretone", translateEarToEanglish(ear));
     const selectIndex = initialGainState[index].toString()
     const puretoneSnap = await getDoc(puretoneDocRef)
     if (!puretoneSnap.data()) {

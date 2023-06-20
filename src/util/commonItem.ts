@@ -26,18 +26,17 @@ export const initialGainState = [
 export const ears = ['左', '右', '両耳'];
 
 export const siteTranslate: { [key: string]: string } = {
-  左: 'left',
-  右: 'right',
-  両耳: 'both',
+  左: 'leftEar',
+  右: 'rightEar',
+  両耳: 'bothEars',
 };
 
-
-export  const translateEar = (ears: string) => {
+export const translateEarToEanglish = (ears: string) => {
   if (ears === '左耳') {
-    return 'left'
+    return 'left';
   } else if (ears === '右耳') {
-    return 'right'
+    return 'right';
   } else {
-    return 'both'
+    return 'both';
   }
-}
+};
