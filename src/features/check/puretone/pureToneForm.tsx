@@ -22,16 +22,18 @@ import { getLocalStorage } from '../../../util/localStorage';
 import { UserInfo, TestPuretoneData } from '../../../types/type';
 
 export const PureToneFormPage = () => {
+  const { fireStore } = firebase
+  const search = useLocation().search;
   const navigate = useNavigate();
+
+  const query = new URLSearchParams(search);
+  const site = query.get('site') || ''
+  const hzValue = query.get('hzValue')
+  
   const userInfoJson = getLocalStorage('userInfo')
   const userInfoParse = JSON.parse(userInfoJson as string) as UserInfo
-
+  
   const [index, setIndex] = useState<number>(0)
-  // const [gainState, setGainState] = useState<number[]>(initialGainState)
-  // const [isPlaying, setPlaying] = useState(false)
-  // const [pureToneData, setPuretoneData] = useState<PuretoneData>()
-
-  const { fireStore } = firebase
 
   const countUp = () => {
     if (index >= 29) return
@@ -44,11 +46,6 @@ export const PureToneFormPage = () => {
     onStop()
     setIndex((prevIndex) => prevIndex - 1)
   }
-
-  const search = useLocation().search;
-  const query = new URLSearchParams(search);
-  const site = query.get('site') || ''
-  const hzValue = query.get('hzValue')
 
   const siteObj: {[key: string]: string} = {
     'left': '左',
