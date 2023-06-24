@@ -1,11 +1,7 @@
-import {
-  Box,
-  Button,
-  Heading,
-} from '@chakra-ui/react';
+import { Box, Button, Heading } from '@chakra-ui/react';
 import { useState } from 'react';
 import { firebase } from '../../firebase';
-import { getDoc, doc } from "firebase/firestore";
+import { getDoc, doc } from 'firebase/firestore';
 import { getLocalStorage } from '../../util/localStorage';
 import {
   Chart as ChartJS,
@@ -21,6 +17,7 @@ import { Line } from 'react-chartjs-2';
 
 import { puretoneDataObj } from '../../util/commonItem';
 import { NavBar } from '../components/navbar';
+import { useFetchUserInfo } from '../../hooks/useFetchUserInfo';
 
 ChartJS.register(
   CategoryScale,
@@ -42,78 +39,85 @@ export const options = {
       display: true,
       text: 'Chart.js Line Chart',
     },
-  }
+  },
 };
 
-const labels = ['250', '500', '1000', '2000', '3000', '4000', '8000', '10000', '12000'];
+const labels = [
+  '250',
+  '500',
+  '1000',
+  '2000',
+  '3000',
+  '4000',
+  '8000',
+  '10000',
+  '12000',
+];
 
 interface PuretoneData {
-  250: number,
-  500: number,
-  1000: number,
-  2000: number,
-  3000: number,
-  4000: number,
-  8000: number,
-  10000: number,
-  12000: number,
-  14000: number,
-  16000: number,
+  250: number;
+  500: number;
+  1000: number;
+  2000: number;
+  3000: number;
+  4000: number;
+  8000: number;
+  10000: number;
+  12000: number;
+  14000: number;
+  16000: number;
 }
 
 interface UserInfo {
-  userId: string
-  age: string
-  sex: string
-  bgn: string
+  userId: string;
+  age: string;
+  sex: string;
+  bgn: string;
 }
 
 interface TestPuretoneData {
-  site: string
-  puretoneData: PuretoneData
+  site: string;
+  puretoneData: PuretoneData;
 }
 
 interface CsvData extends UserInfo {
-  site: string
-  250: number
-  500: number
-  1000: number
-  2000: number
-  3000: number
-  4000: number
-  8000: number
-  10000: number
-  12000: number
-  14000: number
-  16000: number
+  site: string;
+  250: number;
+  500: number;
+  1000: number;
+  2000: number;
+  3000: number;
+  4000: number;
+  8000: number;
+  10000: number;
+  12000: number;
+  14000: number;
+  16000: number;
 }
 
 export const HistoryPage = () => {
-  // faceseatで入力したIDを取得
-  const userInfoJson = getLocalStorage('userInfo')
-  const userInfoParse = JSON.parse(userInfoJson as string) as UserInfo
-  
-  const { fireStore } = firebase
-
-  const [userInfo, setUserInfo] = useState<UserInfo>(userInfoParse)
-  const [pureToneData, setPuretoneData] = useState<PuretoneData>(puretoneDataObj)
+  const { fireStore } = firebase;
+  const userInfoData = useFetchUserInfo();
+  const [userInfo, setUserInfo] = useState<UserInfo>(userInfoData);
+  const [pureToneData, setPuretoneData] =
+    useState<PuretoneData>(puretoneDataObj);
   const [csvTestData, setCsvTextData] = useState<CsvData>({
     ...{
       userId: userInfo.userId,
       age: userInfo.age,
       sex: userInfo.sex,
       bgn: userInfo.bgn,
-      site: ''
+      site: '',
     },
-    ...puretoneDataObj
-  })
+    ...puretoneDataObj,
+  });
 
-  const updatePureToneData = {...puretoneDataObj, ...pureToneData}
-  const pureToneDataArray = Object.values(updatePureToneData)
+  const updatePureToneData = { ...puretoneDataObj, ...pureToneData };
+  const pureToneDataArray = Object.values(updatePureToneData);
 
   const array = Array(11).fill(userInfo.bgn);
 
-   const data = {
+  const data = {
     labels,
     datasets: [
       {
@@ -131,20 +135,25 @@ export const HistoryPage = () => {
     ],
   };
 
-
   const getHearingData = async (site: string) => {
-    const docRef = doc(fireStore, "users", userInfo.userId)
-    const puretoneRef = doc(fireStore, "users", userInfo.userId, "puretone", site)
-    const docSnap = await getDoc(docRef)
-    const puretoneSnap = await getDoc(puretoneRef)
+    const docRef = doc(fireStore, 'users', userInfo.userId);
+    const puretoneRef = doc(
+      fireStore,
+      'users',
+      userInfo.userId,
+      'puretone',
+      site
+    );
+    const docSnap = await getDoc(docRef);
+    const puretoneSnap = await getDoc(puretoneRef);
     if (!puretoneSnap.data() || !docSnap.data()) {
-      setPuretoneData(puretoneDataObj)
+      setPuretoneData(puretoneDataObj);
     } else {
-      const castPuretoneSnap = puretoneSnap.data() as TestPuretoneData
-      const castUserInfoSnap = docSnap.data() as UserInfo
-      if (!castPuretoneSnap.puretoneData) return
-      setUserInfo(castUserInfoSnap)
-      setPuretoneData(castPuretoneSnap.puretoneData)
+      const castPuretoneSnap = puretoneSnap.data() as TestPuretoneData;
+      const castUserInfoSnap = docSnap.data() as UserInfo;
+      if (!castPuretoneSnap.puretoneData) return;
+      setUserInfo(castUserInfoSnap);
+      setPuretoneData(castPuretoneSnap.puretoneData);
       setCsvTextData({
         userId: userInfo.userId,
         age: userInfo.age,
@@ -162,27 +171,27 @@ export const HistoryPage = () => {
         12000: castPuretoneSnap.puretoneData[12000],
         14000: castPuretoneSnap.puretoneData[14000],
         16000: castPuretoneSnap.puretoneData[16000],
-      })
+      });
     }
-  }
+  };
 
   function convertToCSV(obj: CsvData): string {
-    const header = Object.keys(obj).join(",") + "\n";
-    const values = Object.values(obj).join(",");
+    const header = Object.keys(obj).join(',') + '\n';
+    const values = Object.values(obj).join(',');
     return header + values;
   }
-  
+
   function downloadCSV(data: string, filename: string) {
-    const csvData = new Blob([data], { type: "text/csv" });
+    const csvData = new Blob([data], { type: 'text/csv' });
     const csvUrl = URL.createObjectURL(csvData);
-    const link = document.createElement("a");
+    const link = document.createElement('a');
     link.href = csvUrl;
     link.download = filename;
     link.click();
   }
-   
-  if (!csvTestData) return <></>
-  const csvData = convertToCSV(csvTestData)
+
+  if (!csvTestData) return <></>;
+  const csvData = convertToCSV(csvTestData);
 
   return (
     <>
@@ -194,50 +203,60 @@ export const HistoryPage = () => {
         maxWidth={800}
         p={6}
         m="10px auto"
-        as="form">
-         <Box>
-          <Heading as="h1" w="100%" textAlign={'left'} fontWeight="normal" mb="2%">
+        as="form"
+      >
+        <Box>
+          <Heading
+            as="h1"
+            w="100%"
+            textAlign={'left'}
+            fontWeight="normal"
+            mb="2%"
+          >
             聴こえチェック履歴
           </Heading>
           <Line options={options} data={data} />
           <Button
             onClick={() => {
-              getHearingData('left')
+              getHearingData('left');
             }}
             // isDisabled={step === 1}
             colorScheme="teal"
             variant="solid"
-            mr="5%">
+            mr="5%"
+          >
             履歴取得（左耳）
           </Button>
           <Button
             onClick={() => {
-              getHearingData('right')
+              getHearingData('right');
             }}
             // isDisabled={step === 1}
             colorScheme="teal"
             variant="solid"
-            mr="5%">
+            mr="5%"
+          >
             履歴取得（右耳）
           </Button>
           <Button
             onClick={() => {
-              getHearingData('both')
+              getHearingData('both');
             }}
             // isDisabled={step === 1}
             colorScheme="teal"
             variant="solid"
-            mr="5%">
+            mr="5%"
+          >
             履歴取得（両耳）
           </Button>
           <Button
             onClick={() => {
-              downloadCSV(csvData, "data.csv");
+              downloadCSV(csvData, 'data.csv');
             }}
             // isDisabled={step === 1}
             colorScheme="teal"
             variant="solid"
-            >
+          >
             csvダウンロード
           </Button>
         </Box>
@@ -260,4 +279,4 @@ export const HistoryPage = () => {
       </Box>
     </>
   );
-}
+};

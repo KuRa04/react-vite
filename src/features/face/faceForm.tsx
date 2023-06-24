@@ -16,7 +16,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 
 import { firebase } from '../../firebase';
-import { setDoc, doc } from 'firebase/firestore';
+import { setDoc, doc, serverTimestamp } from 'firebase/firestore';
 import { setLocalStorage, getLocalStorage } from '../../util/localStorage';
 import { ROUTE_PATH } from '../../util/routes';
 import { NavBar } from '../components/navbar';
@@ -63,6 +63,8 @@ export const FaceFormPage = () => {
       userId,
       age,
       sex,
+      created_at: serverTimestamp(),
+      updated_at: serverTimestamp(),
     });
     setLocalStorage('userInfo', JSON.stringify({ userId, age, sex }));
     window.alert('登録しました。');

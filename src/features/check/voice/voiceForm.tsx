@@ -16,24 +16,15 @@ import {
 
 import { firebase } from '../../../firebase';
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
-
-import { getLocalStorage } from '../../../util/localStorage';
 import { NavBar } from '../../components/navbar';
-
-interface UserInfo {
-  userId: string;
-  age: string;
-  sex: string;
-  bgn: string;
-}
+import { useFetchUserInfo } from '../../../hooks/useFetchUserInfo';
 
 export const VoiceFormPage = () => {
   const navigate = useNavigate();
   const [gainState, setGainState] = useState(0);
   const [text, setText] = useState('');
 
-  const userInfoJson = getLocalStorage('userInfo');
-  const userInfoParse = JSON.parse(userInfoJson as string) as UserInfo;
+  const userInfo = useFetchUserInfo();
 
   const { fireStore } = firebase;
 
@@ -105,11 +96,11 @@ export const VoiceFormPage = () => {
     const collectionPath = collection(
       fireStore,
       'users',
-      userInfoParse.userId,
+      userInfo.userId,
       'voice'
     );
     addDoc(collectionPath, {
-      id: userInfoParse.userId,
+      id: userInfo.userId,
       site: ear,
       appVolume: gainState,
       selectedItem,
