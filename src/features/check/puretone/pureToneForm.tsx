@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from "react-router-dom"
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import {
   Box,
@@ -8,12 +8,17 @@ import {
   Heading,
   Text,
   Flex,
-  Progress
+  Progress,
 } from '@chakra-ui/react';
 import { firebase } from '../../../firebase';
-import { doc, setDoc, serverTimestamp, getDoc } from "firebase/firestore";
+import { doc, setDoc, serverTimestamp, getDoc } from 'firebase/firestore';
 
-import { puretoneDataObj, gainStates, translateEarToEnglish, switchPan } from '../../../util/commonItem';
+import {
+  puretoneDataObj,
+  gainStates,
+  translateEarToEnglish,
+  switchPan,
+} from '../../../util/commonItem';
 
 // 換算表で利用
 import { frequencyDataSet } from '../../../util/frequencyDataSets/frequencyDataSet';
@@ -24,30 +29,30 @@ import { ROUTE_PATH } from '../../../util/routes';
 import { NavBar } from '../../components/navbar';
 
 export const PureToneFormPage = () => {
-  const { fireStore } = firebase
+  const { fireStore } = firebase;
   const search = useLocation().search;
   const navigate = useNavigate();
 
   const query = new URLSearchParams(search);
-  const ear = query.get('ear') || ''
-  const frequency = query.get('frequency')
+  const ear = query.get('ear') || '';
+  const frequency = query.get('frequency');
 
-  const userInfoJson = getLocalStorage('userInfo')
-  const userInfoParse = JSON.parse(userInfoJson as string) as UserInfo
+  const userInfoJson = getLocalStorage('userInfo');
+  const userInfoParse = JSON.parse(userInfoJson as string) as UserInfo;
 
-  const [index, setIndex] = useState<number>(0)
+  const [index, setIndex] = useState<number>(0);
 
   const countUp = () => {
-    if (index >= gainStates.length) return // イコールいらないかも 1になるとバグる
-    onStop()
-    setIndex((prevIndex) => prevIndex + 1)
-  }
+    if (index >= gainStates.length) return;
+    onStop();
+    setIndex((prevIndex) => prevIndex + 1);
+  };
 
   const countDown = () => {
-    if (index <= 0) return
-    onStop()
-    setIndex((prevIndex) => prevIndex - 1)
-  }
+    if (index <= 0) return;
+    onStop();
+    setIndex((prevIndex) => prevIndex - 1);
+  };
 
   let oscillator: OscillatorNode | null = null;
   const context = new AudioContext();
@@ -58,73 +63,91 @@ export const PureToneFormPage = () => {
     oscillator.type = 'sine';
     oscillator.frequency.value = Number(frequency);
 
-    const gainNode = context.createGain(); // アプリ側の音量
+    const gainNode = context.createGain();
 
     gainNode.gain.value = 0;
     gainNode.gain.setValueAtTime(0, context.currentTime);
-    gainNode.gain.linearRampToValueAtTime(gainStates[index], context.currentTime + 0.1);
+    gainNode.gain.linearRampToValueAtTime(
+      gainStates[index],
+      context.currentTime + 0.1
+    );
 
     stereoPannerNode.pan.value = switchPan(ear);
     oscillator.connect(stereoPannerNode);
     stereoPannerNode.connect(gainNode);
     gainNode.connect(context.destination);
 
-    if (!oscillator) return
+    if (!oscillator) return;
     oscillator.start(0);
-  }
+  };
 
   const onStop = () => {
     oscillator?.stop();
     oscillator = null;
-  }
+  };
 
   const goBack = () => {
-    onStop()
-    navigate(-1)
-  }
+    onStop();
+    navigate(-1);
+  };
 
   const getPuretoneData = async () => {
-    const puretoneDocRef = doc(fireStore, 'users', userInfoParse.userId, "puretone", translateEarToEnglish(ear));
-    const puretoneSnap = await getDoc(puretoneDocRef)
+    const puretoneDocRef = doc(
+      fireStore,
+      'users',
+      userInfoParse.userId,
+      'puretone',
+      translateEarToEnglish(ear)
+    );
+    const puretoneSnap = await getDoc(puretoneDocRef);
 
     if (!puretoneSnap.data()) {
       return {
         puretoneData: puretoneDataObj,
-      }
+      };
     } else {
-      const assertionPuretoneSnap = puretoneSnap.data() as TestPuretoneData
-      return await assertionPuretoneSnap.puretoneData
+      const assertionPuretoneSnap = puretoneSnap.data() as TestPuretoneData;
+      return await assertionPuretoneSnap.puretoneData;
     }
-  }
+  };
 
   const postPuretoneData = async () => {
-    if (!frequency) return
+    if (!frequency) return;
 
-    const puretoneDocRef = doc(fireStore, 'users', userInfoParse.userId, "puretone", translateEarToEnglish(ear));
-    const selectGainState = gainStates[index].toString()
+    const puretoneDocRef = doc(
+      fireStore,
+      'users',
+      userInfoParse.userId,
+      'puretone',
+      translateEarToEnglish(ear)
+    );
+    const selectGainState = gainStates[index].toString();
 
-    const puretoneSnap = getPuretoneData()
-    const selectFrequencyDataset = frequencyDataSet[frequency]
+    const puretoneSnap = getPuretoneData();
+    const selectFrequencyDataset = frequencyDataSet[frequency];
 
     // puretonDataの下にpuretonDataができている？
     await setDoc(puretoneDocRef, {
       ear,
-      puretoneData: {...(await puretoneSnap), [frequency]: selectFrequencyDataset[selectGainState]},
+      puretoneData: {
+        ...(await puretoneSnap),
+        [frequency]: selectFrequencyDataset[selectGainState],
+      },
       created_at: serverTimestamp(),
-      updated_at: serverTimestamp()
-    })
+      updated_at: serverTimestamp(),
+    });
 
-    onStop()
-    window.alert("登録しました。")
-    navigate(ROUTE_PATH.PURETONE)
-  }
+    onStop();
+    window.alert('登録しました。');
+    navigate(ROUTE_PATH.PURETONE);
+  };
 
   useEffect(() => {
     if (oscillator) {
-      onStop()
+      onStop();
     }
-    onPlay()
-  }, [index])
+    onPlay();
+  }, [index]);
 
   return (
     <>
@@ -136,53 +159,58 @@ export const PureToneFormPage = () => {
         maxWidth={800}
         p={6}
         m="10px auto"
-        as="form">
+        as="form"
+      >
         <Box>
-        <Heading as="h1" w="100%" textAlign={'left'} fontWeight="normal" mb="2%">
-          {`純音 ${frequency}Hz ${ear}`}
-        </Heading>
-        <Text as="p">
-          チェック開始ボタンをタップして音が鳴るまで待ってください。
-        </Text>
-        <Text as="p">
-          音が聴こえたら聴こえたボタンをタップしてください。
-        </Text>
-      </Box>
-      <Progress value={index} max={29}/>
+          <Heading
+            as="h1"
+            w="100%"
+            textAlign={'left'}
+            fontWeight="normal"
+            mb="2%"
+          >
+            {`純音 ${frequency}Hz ${ear}`}
+          </Heading>
+          <Text as="p">
+            チェック開始ボタンをタップして音が鳴るまで待ってください。
+          </Text>
+          <Text as="p">音が聴こえたら聴こえたボタンをタップしてください。</Text>
+        </Box>
+        <Progress value={index} max={29} />
         <ButtonGroup mt="2%" w="100%">
           <Flex w="100%" justifyContent="space-between">
             <Flex>
               <Button
                 onClick={() => {
-                  countDown()
+                  countDown();
                 }}
                 colorScheme="blue"
                 variant="solid"
                 mr="5%"
                 disabled={index === 0}
-                >
+              >
                 音量を下げる
               </Button>
               <Button
                 // isDisabled={step === 3}
                 onClick={() => {
-                  countUp()
+                  countUp();
                 }}
                 mr="5%"
                 colorScheme="red"
                 variant="solid"
-                >
+              >
                 音量を上げる
               </Button>
               <Button
                 onClick={() => {
-                  console.log("onClick")
-                  postPuretoneData()
+                  console.log('onClick');
+                  postPuretoneData();
                 }}
                 // isDisabled={step === 1}
                 colorScheme="teal"
                 variant="solid"
-                >
+              >
                 聴こえた
               </Button>
             </Flex>
@@ -196,14 +224,15 @@ export const PureToneFormPage = () => {
             mt="2%"
             // isDisabled={step === 3}
             onClick={() => {
-              goBack()
+              goBack();
             }}
             colorScheme="teal"
-            variant="outline">
+            variant="outline"
+          >
             戻る
           </Button>
         </Box>
       </Box>
     </>
   );
-}
+};

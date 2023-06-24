@@ -10,22 +10,22 @@ import {
   Flex,
   FormControl,
   FormLabel,
-  Input
+  Input,
 } from '@chakra-ui/react';
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
 import { firebase } from '../../firebase';
-import { updateDoc, doc, serverTimestamp } from "firebase/firestore";
+import { updateDoc, doc, serverTimestamp } from 'firebase/firestore';
 
-import {  setLocalStorage, getLocalStorage } from '../../util/localStorage';
+import { setLocalStorage, getLocalStorage } from '../../util/localStorage';
 import { NavBar } from '../components/navbar';
 
 interface UserInfo {
-  userId: string
-  age: string
-  sex: string
-  bgn: string
+  userId: string;
+  age: string;
+  sex: string;
+  bgn: string;
 }
 
 export const ReserveFormPage = () => {
@@ -34,34 +34,36 @@ export const ReserveFormPage = () => {
     age: '',
     sex: '',
     bgn: '',
-  }
-  const userInfoJson = getLocalStorage('userInfo') || ''
-  const userInfoParse = userInfoJson ? JSON.parse(userInfoJson as string) as UserInfo : userInfoObj
+  };
+  const userInfoJson = getLocalStorage('userInfo') || '';
+  const userInfoParse = userInfoJson
+    ? (JSON.parse(userInfoJson as string) as UserInfo)
+    : userInfoObj;
 
-  const [bgn, setbgn] = useState(userInfoParse.bgn || '')
+  const [bgn, setbgn] = useState(userInfoParse.bgn || '');
   const navigate = useNavigate();
-  const { fireStore } = firebase
+  const { fireStore } = firebase;
 
   const goBack = () => {
-    navigate("/")
-  }
+    navigate('/');
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setbgn(e.target.value)
-  }
+    setbgn(e.target.value);
+  };
 
   const postBgnData = () => {
-    if (!bgn) return
+    if (!bgn) return;
     const docRef = doc(fireStore, 'users', userInfoParse.userId);
     // answerCollectionRef = doc(fireStore, "users", "", "Voice")
     updateDoc(docRef, {
       bgn: bgn,
       created_at: serverTimestamp(),
-      updated_at: serverTimestamp()
-    })
-    setLocalStorage('userInfo', JSON.stringify({...userInfoParse, bgn}))
-    window.alert("登録しました。")
-  }
+      updated_at: serverTimestamp(),
+    });
+    setLocalStorage('userInfo', JSON.stringify({ ...userInfoParse, bgn }));
+    window.alert('登録しました。');
+  };
 
   const context = new AudioContext();
   let oscillator: OscillatorNode | null = null;
@@ -83,7 +85,7 @@ export const ReserveFormPage = () => {
     gainNode.connect(context.destination);
 
     oscillator.connect(gainNode);
-    if (!oscillator) return
+    if (!oscillator) return;
     oscillator.start(0);
 
     setInterval(() => {
@@ -91,14 +93,13 @@ export const ReserveFormPage = () => {
       oscillator = null;
       onPlay();
     }, (duration + 0.5) * 2000);
-  }
+  };
 
   /** 仕様上使ってない */
   const onClickStop = () => {
     oscillator?.stop(0);
     oscillator = null;
-  }
-
+  };
   return (
     <>
       <NavBar />
@@ -109,42 +110,70 @@ export const ReserveFormPage = () => {
         maxWidth={800}
         p={6}
         m="10px auto"
-        as="form">
-          <Box>
-          <Heading as="h3" fontSize={'24px'} w="100%" textAlign={'left'} fontWeight="bold" mb="2%">
-          1. 暗騒音レベルの計測
+        as="form"
+      >
+        <Box>
+          <Heading
+            as="h3"
+            fontSize={'24px'}
+            w="100%"
+            textAlign={'left'}
+            fontWeight="bold"
+            mb="2%"
+          >
+            1. 暗騒音レベルの計測
           </Heading>
           <FormControl mt="2%">
             <FormLabel htmlFor="background-noise" fontWeight={'bold'}>
               暗騒音レベル
             </FormLabel>
-            <Input id="background-noise" placeholder="db値 例：32.1" defaultValue={bgn} onChange={(e) => handleChange(e)}/>
+            <Input
+              id="background-noise"
+              placeholder="db値 例：32.1"
+              defaultValue={bgn}
+              onChange={(e) => handleChange(e)}
+            />
             <Button
-                onClick={() => {
-                  postBgnData()
-                }}
-                // isDisabled={step === 1}
-                mt="2%"
-                colorScheme="teal"
-                variant="solid"
-                w="7rem"
-                mr="5%">
-                登録
-              </Button>
+              onClick={() => {
+                postBgnData();
+              }}
+              // isDisabled={step === 1}
+              mt="2%"
+              colorScheme="teal"
+              variant="solid"
+              w="7rem"
+              mr="5%"
+            >
+              登録
+            </Button>
           </FormControl>
         </Box>
         <Box mt="2%">
-          <Heading as="h3" fontSize={'24px'} w="100%" textAlign={'left'} fontWeight="bold" mb="2%">
-          2. キャリブレーション
+          <Heading
+            as="h3"
+            fontSize={'24px'}
+            w="100%"
+            textAlign={'left'}
+            fontWeight="bold"
+            mb="2%"
+          >
+            2. キャリブレーション
           </Heading>
           <Text as="p" fontWeight={'bold'}>
             以下の手順に従ってキャリブレーションを行ってください。
           </Text>
-          <Box bg={"gray.100"} mt={'2%'} padding={'16px'}>
+          <Box bg={'gray.100'} mt={'2%'} padding={'16px'}>
             <OrderedList>
-              <ListItem>使っているタブレット端末をヘッドフォンに接続してください。</ListItem>
-              <ListItem>開始ボタンをタップすると音（1 kHz の純音）が流れます。</ListItem>
-              <ListItem>SLA Liteを使って44 dBになるようにスピーカーのボリュームを調整してください。</ListItem>
+              <ListItem>
+                使っているタブレット端末をヘッドフォンに接続してください。
+              </ListItem>
+              <ListItem>
+                開始ボタンをタップすると音（1 kHz の純音）が流れます。
+              </ListItem>
+              <ListItem>
+                SLA Liteを使って44
+                dBになるようにスピーカーのボリュームを調整してください。
+              </ListItem>
               <ListItem>停止ボタンをタップすると音が止まります。</ListItem>
             </OrderedList>
           </Box>
@@ -154,23 +183,25 @@ export const ReserveFormPage = () => {
             <Flex>
               <Button
                 onClick={() => {
-                  onPlay()
+                  onPlay();
                 }}
                 // isDisabled={step === 1}
                 colorScheme="teal"
                 variant="solid"
                 w="7rem"
-                mr="5%">
+                mr="5%"
+              >
                 開始
               </Button>
               <Button
                 w="7rem"
                 // isDisabled={step === 3}
                 onClick={() => {
-                  onClickStop()
+                  onClickStop();
                 }}
                 colorScheme="teal"
-                variant="outline">
+                variant="outline"
+              >
                 停止
               </Button>
             </Flex>
@@ -184,7 +215,7 @@ export const ReserveFormPage = () => {
             mt="2%"
             // isDisabled={step === 3}
             onClick={() => {
-              goBack()
+              goBack();
             }}
             colorScheme="teal"
             variant="outline"
@@ -195,4 +226,4 @@ export const ReserveFormPage = () => {
       </Box>
     </>
   );
-}
+};
