@@ -44,7 +44,6 @@ export const ReserveFormPage = () => {
     // answerCollectionRef = doc(fireStore, "users", "", "Voice")
     updateDoc(docRef, {
       bgn: bgn,
-      created_at: serverTimestamp(),
       updated_at: serverTimestamp(),
     });
     setLocalStorage('userInfo', JSON.stringify({ ...userInfo, bgn }));
