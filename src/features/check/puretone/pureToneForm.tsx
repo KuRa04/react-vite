@@ -43,7 +43,7 @@ export const PureToneFormPage = () => {
   const [index, setIndex] = useState<number>(0);
 
   const countUp = () => {
-    if (index >= gainStates.length) return;
+    if (index >= (gainStates.length - 1)) return;
     onStop();
     setIndex((prevIndex) => prevIndex + 1);
   };
@@ -176,7 +176,7 @@ export const PureToneFormPage = () => {
           </Text>
           <Text as="p">音が聴こえたら聴こえたボタンをタップしてください。</Text>
         </Box>
-        <Progress value={index} max={29} />
+        <Progress value={index} max={gainStates.length - 1} />
         <ButtonGroup mt="2%" w="100%">
           <Flex w="100%" justifyContent="space-between">
             <Flex>
