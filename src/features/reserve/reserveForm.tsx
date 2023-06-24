@@ -18,50 +18,36 @@ import { useNavigate } from 'react-router-dom';
 import { firebase } from '../../firebase';
 import { updateDoc, doc, serverTimestamp } from 'firebase/firestore';
 
-import { setLocalStorage, getLocalStorage } from '../../util/localStorage';
+import { setLocalStorage } from '../../util/localStorage';
 import { NavBar } from '../components/navbar';
-
-interface UserInfo {
-  userId: string;
-  age: string;
-  sex: string;
-  bgn: string;
-}
+import { useFetchUserInfo } from '../../hooks/useFetchUserInfo';
+import { ROUTE_PATH } from '../../util/routes';
 
 export const ReserveFormPage = () => {
-  const userInfoObj = {
-    userId: '',
-    age: '',
-    sex: '',
-    bgn: '',
-  };
-  const userInfoJson = getLocalStorage('userInfo') || '';
-  const userInfoParse = userInfoJson
-    ? (JSON.parse(userInfoJson as string) as UserInfo)
-    : userInfoObj;
+  const userInfo = useFetchUserInfo();
 
-  const [bgn, setbgn] = useState(userInfoParse.bgn || '');
+  const [bgn, setBgn] = useState(userInfo.bgn || '');
   const navigate = useNavigate();
   const { fireStore } = firebase;
 
   const goBack = () => {
-    navigate('/');
+    navigate(ROUTE_PATH.HOME);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setbgn(e.target.value);
+    setBgn(e.target.value);
   };
 
   const postBgnData = () => {
     if (!bgn) return;
-    const docRef = doc(fireStore, 'users', userInfoParse.userId);
+    const docRef = doc(fireStore, 'users', userInfo.userId);
     // answerCollectionRef = doc(fireStore, "users", "", "Voice")
     updateDoc(docRef, {
       bgn: bgn,
       created_at: serverTimestamp(),
       updated_at: serverTimestamp(),
     });
-    setLocalStorage('userInfo', JSON.stringify({ ...userInfoParse, bgn }));
+    setLocalStorage('userInfo', JSON.stringify({ ...userInfo, bgn }));
     window.alert('登録しました。');
   };
 
@@ -69,7 +55,6 @@ export const ReserveFormPage = () => {
   let oscillator: OscillatorNode | null = null;
   const frequency = 1000;
   const duration = 1000; // 2秒間再生
-
 
   /** 仕様上使ってない */
   const onPlay = () => {

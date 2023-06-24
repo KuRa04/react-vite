@@ -22,11 +22,11 @@ import {
 
 // 換算表で利用
 import { frequencyDataSet } from '../../../util/frequencyDataSets/frequencyDataSet';
-import { getLocalStorage } from '../../../util/localStorage';
 
-import { UserInfo, TestPuretoneData } from '../../../types/type';
+import { TestPuretoneData } from '../../../types/type';
 import { ROUTE_PATH } from '../../../util/routes';
 import { NavBar } from '../../components/navbar';
+import { useFetchUserInfo } from '../../../hooks/useFetchUserInfo';
 
 export const PureToneFormPage = () => {
   const { fireStore } = firebase;
@@ -37,13 +37,11 @@ export const PureToneFormPage = () => {
   const ear = query.get('ear') || '';
   const frequency = query.get('frequency');
 
-  const userInfoJson = getLocalStorage('userInfo');
-  const userInfoParse = JSON.parse(userInfoJson as string) as UserInfo;
-
   const [index, setIndex] = useState<number>(0);
+  const userInfo = useFetchUserInfo();
 
   const countUp = () => {
-    if (index >= (gainStates.length - 1)) return;
+    if (index >= gainStates.length - 1) return;
     onStop();
     setIndex((prevIndex) => prevIndex + 1);
   };
@@ -95,7 +93,7 @@ export const PureToneFormPage = () => {
     const puretoneDocRef = doc(
       fireStore,
       'users',
-      userInfoParse.userId,
+      userInfo.userId,
       'puretone',
       translateEarToEnglish(ear)
     );
@@ -117,7 +115,7 @@ export const PureToneFormPage = () => {
     const puretoneDocRef = doc(
       fireStore,
       'users',
-      userInfoParse.userId,
+      userInfo.userId,
       'puretone',
       translateEarToEnglish(ear)
     );
