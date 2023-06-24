@@ -19,10 +19,18 @@ import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { NavBar } from '../../components/navbar';
 import { useFetchUserInfo } from '../../../hooks/useFetchUserInfo';
 
+const PLAY_STATUS = {
+  UN_PLAYED: 1, // 未再生
+  PLAYING: 2, // 再生中
+  STOP: 3, // 停止(聞こえていない)
+  HEARD: 4, // 聞こえた（音声は停止）
+};
+
 export const VoiceFormPage = () => {
   const navigate = useNavigate();
   const [gainState, setGainState] = useState(0);
   const [text, setText] = useState('');
+  const [playStatus, setPlayStatus] = useState(1);
 
   const userInfo = useFetchUserInfo();
 
@@ -53,7 +61,7 @@ export const VoiceFormPage = () => {
     setText(e.target.value);
   };
 
-  const handleSelect = () => {
+  const openTextForm = () => {
     if (!audio) return;
     audio.pause();
     while (wordVoices[randomIndex] === lastSelectedItem) {
@@ -65,14 +73,18 @@ export const VoiceFormPage = () => {
     const newAudio = new Audio(selectedItem);
     newAudio.volume = 0;
     setAudio(newAudio);
-    window.alert('聞こえた言葉を入力して登録してください。');
+    setPlayStatus(PLAY_STATUS.HEARD);
   };
 
-  const onPlay = (audio: HTMLAudioElement) => {
+  const onPlay = () => {
+    if (!audio) return;
+    setPlayStatus(PLAY_STATUS.PLAYING);
     audio.play();
   };
 
-  const onVoicePause = (audio: HTMLAudioElement) => {
+  const onPause = () => {
+    if (!audio) return;
+    setPlayStatus(PLAY_STATUS.STOP);
     audio.pause();
     audio.currentTime = 0;
   };
@@ -108,6 +120,12 @@ export const VoiceFormPage = () => {
       created_at: serverTimestamp(),
       updated_at: serverTimestamp(),
     });
+    window.alert('登録しました。');
+  };
+
+  // 音声チェックをやり直す
+  const cancelCheckingVoice = () => {
+    setPlayStatus(PLAY_STATUS.UN_PLAYED);
   };
 
   return (
@@ -143,75 +161,78 @@ export const VoiceFormPage = () => {
           <Flex w="100%" justifyContent="space-between">
             <Flex>
               <Button
-                onClick={() => {
-                  if (!audio) return;
-                  onPlay(audio);
-                }}
-                // isDisabled={step === 1}
+                onClick={() => onPlay()}
+                isDisabled={[PLAY_STATUS.PLAYING, PLAY_STATUS.HEARD].includes(
+                  playStatus
+                )}
                 colorScheme="teal"
                 variant="solid"
-                mr="5%"
+                mr="4"
               >
                 チェック開始
               </Button>
               <Button
-                // isDisabled={step === 3}
-                onClick={() => {
-                  if (!audio) return;
-                  onVoicePause(audio);
-                }}
-                mr="5%"
+                isDisabled={!(playStatus === PLAY_STATUS.PLAYING)}
+                onClick={() => onPause()}
+                mr="4"
                 colorScheme="teal"
                 variant="outline"
               >
-                キャンセル
+                停止
               </Button>
-              <Button
-                onClick={() => {
-                  handleSelect();
-                }}
-                // isDisabled={step === 1}
-                colorScheme="teal"
-                variant="solid"
-              >
-                聴こえた
-              </Button>
+              {!(playStatus === PLAY_STATUS.UN_PLAYED) && (
+                <Button
+                  onClick={() => openTextForm()}
+                  isDisabled={
+                    ![PLAY_STATUS.PLAYING, PLAY_STATUS.STOP].includes(
+                      playStatus
+                    )
+                  }
+                  colorScheme="teal"
+                  variant="solid"
+                >
+                  聴こえた
+                </Button>
+              )}
             </Flex>
           </Flex>
         </ButtonGroup>
-        <Box>
-          <FormControl mt="4%">
-            <FormLabel htmlFor="word" fontWeight={'bold'}>
-              聴こえた言葉
-            </FormLabel>
-            <Input
-              id="word"
-              placeholder="あ"
-              onChange={(e) => handleTextChange(e)}
-            />
-          </FormControl>
-          <Button
-            mt="2%"
-            // isDisabled={step === 3}
-            onClick={() => {
-              postVoiceData();
-            }}
-            colorScheme="teal"
-            variant="solid"
-          >
-            登録
-          </Button>
-        </Box>
+        {playStatus === PLAY_STATUS.HEARD && (
+          <Box>
+            <Text mt="4">聞こえた言葉を入力して登録してください。</Text>
+            <FormControl mt="2">
+              <FormLabel htmlFor="word" fontWeight={'bold'}>
+                聴こえた言葉
+              </FormLabel>
+              <Input
+                id="word"
+                placeholder="あ"
+                onChange={(e) => handleTextChange(e)}
+              />
+            </FormControl>
+            <Button
+              mt="4"
+              onClick={() => postVoiceData()}
+              colorScheme="teal"
+              variant="solid"
+            >
+              登録
+            </Button>
+            <Button
+              mt="4"
+              ml="4"
+              onClick={() => cancelCheckingVoice()}
+              colorScheme="teal"
+              variant="outline"
+            >
+              やり直す
+            </Button>
+          </Box>
+        )}
         <Box mt="4%">
-          {/* <Text as="p" fontWeight={'bold'}>
-            暗騒音レベル
-          </Text> */}
           <Button
             mt="2%"
-            // isDisabled={step === 3}
-            onClick={() => {
-              goBack();
-            }}
+            onClick={() => goBack()}
             colorScheme="teal"
             variant="outline"
           >

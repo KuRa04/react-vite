@@ -100,9 +100,7 @@ export const PureToneFormPage = () => {
     const puretoneSnap = await getDoc(puretoneDocRef);
 
     if (!puretoneSnap.data()) {
-      return {
-        puretoneData: puretoneDataObj,
-      };
+      return puretoneDataObj;
     } else {
       const assertionPuretoneSnap = puretoneSnap.data() as TestPuretoneData;
       return await assertionPuretoneSnap.puretoneData;
@@ -124,7 +122,6 @@ export const PureToneFormPage = () => {
     const puretoneSnap = getPuretoneData();
     const selectFrequencyDataset = frequencyDataSet[frequency];
 
-    // puretonDataの下にpuretonDataができている？
     await setDoc(puretoneDocRef, {
       ear,
       puretoneData: {
