@@ -69,7 +69,7 @@ export const VoiceFormPage = () => {
     setSelectedItem(wordVoices[randomIndex]); // stateにランダムに選択されたアイテムをセット
     setLastSelectedItem(wordVoices[randomIndex]); // 今回選択されたアイテムを前回選択されたアイテムとして保存
     const newAudio = new Audio(selectedItem)
-    newAudio.volume = 0; 
+    newAudio.volume = 0;
     setAudio(newAudio);
     window.alert("聞こえた言葉を入力して登録してください。")
   };
@@ -77,12 +77,13 @@ export const VoiceFormPage = () => {
   const onPlay = (audio: HTMLAudioElement) => {
     audio.play()
   }
- 
+
   const onVoicePause = (audio: HTMLAudioElement) => {
     audio.pause()
     audio.currentTime = 0
   }
-  
+
+  // 徐々に音量を上げる
   const checkVoiceEnded = () => {
     if (!audio) return
     if (audio.ended && audio.volume <= 0.1) {
@@ -124,7 +125,7 @@ export const VoiceFormPage = () => {
         as="form">
         <Box>
           <Heading as="h1" w="100%" textAlign={'left'} fontWeight="normal" mb="2%">
-            {`音声 ${ear}`} 
+            {`音声 ${ear}`}
           </Heading>
           <Text as="p">
             チェック開始ボタンをタップして声が聴こえるまで待ってください

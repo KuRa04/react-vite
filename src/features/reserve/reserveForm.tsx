@@ -37,7 +37,7 @@ export const ReserveFormPage = () => {
   }
   const userInfoJson = getLocalStorage('userInfo') || ''
   const userInfoParse = userInfoJson ? JSON.parse(userInfoJson as string) as UserInfo : userInfoObj
-  
+
   const [bgn, setbgn] = useState(userInfoParse.bgn || '')
   const navigate = useNavigate();
   const { fireStore } = firebase
@@ -67,20 +67,21 @@ export const ReserveFormPage = () => {
   let oscillator: OscillatorNode | null = null;
   const frequency = 1000;
   const duration = 1000; // 2秒間再生
-  
 
+
+  /** 仕様上使ってない */
   const onPlay = () => {
     oscillator = context.createOscillator();
     oscillator.type = 'sine';
     oscillator.frequency.value = frequency;
-    
+
     const gainNode = context.createGain();
-    
+
     gainNode.gain.value = 0;
     gainNode.gain.setValueAtTime(0, context.currentTime);
     gainNode.gain.linearRampToValueAtTime(0.01, context.currentTime + 0.1);
     gainNode.connect(context.destination);
-    
+
     oscillator.connect(gainNode);
     if (!oscillator) return
     oscillator.start(0);
@@ -92,10 +93,12 @@ export const ReserveFormPage = () => {
     }, (duration + 0.5) * 2000);
   }
 
+  /** 仕様上使ってない */
   const onClickStop = () => {
     oscillator?.stop(0);
     oscillator = null;
   }
+
   return (
     <>
       <NavBar />

@@ -31,14 +31,14 @@ export const PureToneFormPage = () => {
   const query = new URLSearchParams(search);
   const ear = query.get('ear') || ''
   const frequency = query.get('frequency')
-  
+
   const userInfoJson = getLocalStorage('userInfo')
   const userInfoParse = JSON.parse(userInfoJson as string) as UserInfo
 
   const [index, setIndex] = useState<number>(0)
 
   const countUp = () => {
-    if (index >= gainStates.length) return
+    if (index >= gainStates.length) return // イコールいらないかも 1になるとバグる
     onStop()
     setIndex((prevIndex) => prevIndex + 1)
   }
@@ -48,27 +48,27 @@ export const PureToneFormPage = () => {
     onStop()
     setIndex((prevIndex) => prevIndex - 1)
   }
-  
+
   let oscillator: OscillatorNode | null = null;
   const context = new AudioContext();
   const stereoPannerNode = context.createStereoPanner();
-  
+
   const onPlay = () => {
     oscillator = context.createOscillator();
     oscillator.type = 'sine';
     oscillator.frequency.value = Number(frequency);
-    
-    const gainNode = context.createGain();
-    
+
+    const gainNode = context.createGain(); // アプリ側の音量
+
     gainNode.gain.value = 0;
     gainNode.gain.setValueAtTime(0, context.currentTime);
     gainNode.gain.linearRampToValueAtTime(gainStates[index], context.currentTime + 0.1);
-    
+
     stereoPannerNode.pan.value = switchPan(ear);
     oscillator.connect(stereoPannerNode);
     stereoPannerNode.connect(gainNode);
     gainNode.connect(context.destination);
-  
+
     if (!oscillator) return
     oscillator.start(0);
   }
@@ -86,7 +86,7 @@ export const PureToneFormPage = () => {
   const getPuretoneData = async () => {
     const puretoneDocRef = doc(fireStore, 'users', userInfoParse.userId, "puretone", translateEarToEnglish(ear));
     const puretoneSnap = await getDoc(puretoneDocRef)
-    
+
     if (!puretoneSnap.data()) {
       return {
         puretoneData: puretoneDataObj,
@@ -99,20 +99,21 @@ export const PureToneFormPage = () => {
 
   const postPuretoneData = async () => {
     if (!frequency) return
-    
+
     const puretoneDocRef = doc(fireStore, 'users', userInfoParse.userId, "puretone", translateEarToEnglish(ear));
     const selectGainState = gainStates[index].toString()
 
     const puretoneSnap = getPuretoneData()
     const selectFrequencyDataset = frequencyDataSet[frequency]
 
+    // puretonDataの下にpuretonDataができている？
     await setDoc(puretoneDocRef, {
       ear,
       puretoneData: {...(await puretoneSnap), [frequency]: selectFrequencyDataset[selectGainState]},
       created_at: serverTimestamp(),
       updated_at: serverTimestamp()
     })
- 
+
     onStop()
     window.alert("登録しました。")
     navigate(ROUTE_PATH.PURETONE)
@@ -138,7 +139,7 @@ export const PureToneFormPage = () => {
         as="form">
         <Box>
         <Heading as="h1" w="100%" textAlign={'left'} fontWeight="normal" mb="2%">
-          {`純音 ${frequency}Hz ${ear}`} 
+          {`純音 ${frequency}Hz ${ear}`}
         </Heading>
         <Text as="p">
           チェック開始ボタンをタップして音が鳴るまで待ってください。
