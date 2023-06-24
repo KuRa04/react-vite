@@ -13,59 +13,61 @@ import {
   RadioGroup,
   Checkbox,
 } from '@chakra-ui/react';
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
 import { firebase } from '../../firebase';
-import { setDoc, doc } from "firebase/firestore";
+import { setDoc, doc } from 'firebase/firestore';
 import { setLocalStorage, getLocalStorage } from '../../util/localStorage';
 import { ROUTE_PATH } from '../../util/routes';
 import { NavBar } from '../components/navbar';
 
 interface UserInfo {
-  userId: string
-  age: string
-  sex: string
-  bgn: string
+  userId: string;
+  age: string;
+  sex: string;
+  bgn: string;
 }
 
 export const FaceFormPage = () => {
-  const { fireStore } = firebase
+  const { fireStore } = firebase;
   const navigate = useNavigate();
   const userInfoObj = {
     userId: '',
     age: '',
     sex: '',
     bgn: '',
-  }
-  const userInfoJson = getLocalStorage('userInfo')
-  const userInfoParse = userInfoJson ? JSON.parse(userInfoJson as string) as UserInfo : userInfoObj
+  };
+  const userInfoJson = getLocalStorage('userInfo');
+  const userInfoParse = userInfoJson
+    ? (JSON.parse(userInfoJson as string) as UserInfo)
+    : userInfoObj;
 
-  const [userId, setUserId] = useState(userInfoParse.userId || '')
-  const [age, setAge] = useState(userInfoParse.age || '')
-  const [sex, setSex] = useState(userInfoParse.sex || '')
+  const [userId, setUserId] = useState(userInfoParse.userId || '');
+  const [age, setAge] = useState(userInfoParse.age || '');
+  const [sex, setSex] = useState(userInfoParse.sex || '');
 
   const handleIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUserId(e.target.value)
-  }
+    setUserId(e.target.value);
+  };
 
   const handleAgeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setAge(e.target.value)
-  }
+    setAge(e.target.value);
+  };
 
   const handleSexChange = (e: string) => {
-    setSex(e)
-  }
-  
+    setSex(e);
+  };
+
   const postUserStatusData = () => {
-    setDoc(doc(fireStore, "users", userId), {
+    setDoc(doc(fireStore, 'users', userId), {
       userId,
       age,
-      sex
-    })
-    setLocalStorage('userInfo', JSON.stringify({userId, age, sex}))
-    window.alert("登録しました。")
-    navigate(ROUTE_PATH.HOME)
-  }
+      sex,
+    });
+    setLocalStorage('userInfo', JSON.stringify({ userId, age, sex }));
+    window.alert('登録しました。');
+    navigate(ROUTE_PATH.HOME);
+  };
 
   return (
     <>
@@ -77,57 +79,72 @@ export const FaceFormPage = () => {
         maxWidth={800}
         p={6}
         m="10px auto"
-        as="form">
+        as="form"
+      >
         <Heading w="100%" textAlign={'center'} fontWeight={'normal'} mb={'2%'}>
-        フェイスシートの登録
+          フェイスシートの登録
         </Heading>
         <Box>
           <FormControl mt="2%">
             <FormLabel htmlFor="name" fontWeight={'bold'}>
               ID
             </FormLabel>
-            <Input id="name" placeholder="0000" onChange={(e) => handleIdChange(e)} defaultValue={userId}/>
+            <Input
+              id="name"
+              placeholder="0000"
+              onChange={(e) => handleIdChange(e)}
+              defaultValue={userId}
+            />
           </FormControl>
           <FormControl mt="2%">
             <FormLabel htmlFor="date-of-birth" fontWeight={'bold'}>
               年齢
             </FormLabel>
-            <Input id="date-of-birth" placeholder="20" onChange={(e) => handleAgeChange(e)} defaultValue={age || ''}/>
+            <Input
+              id="date-of-birth"
+              placeholder="20"
+              onChange={(e) => handleAgeChange(e)}
+              defaultValue={age || ''}
+            />
           </FormControl>
           <FormControl mt="2%">
             <FormLabel htmlFor="" fontWeight={'bold'}>
               性別
             </FormLabel>
-            <RadioGroup onChange={(e) => handleSexChange(e)} value={sex || ''} defaultValue={sex || ''}>
-            <Stack direction='row'>
-              <Radio value='男性'>男性</Radio>
-              <Radio value='女性'>女性</Radio>
-              <Radio value='その他'>その他</Radio>
-            </Stack>
-          </RadioGroup>
+            <RadioGroup
+              onChange={(e) => handleSexChange(e)}
+              value={sex || ''}
+              defaultValue={sex || ''}
+            >
+              <Stack direction="row">
+                <Radio value="男性">男性</Radio>
+                <Radio value="女性">女性</Radio>
+                <Radio value="その他">その他</Radio>
+              </Stack>
+            </RadioGroup>
           </FormControl>
         </Box>
         <FormControl mt="2%">
           <FormLabel htmlFor="" fontWeight={'bold'}>
             聴こえに関してあてはまるものにチェックしてください。
           </FormLabel>
-          <Stack spacing={5} bg={"gray.100"} padding={'16px'}>
-            <Checkbox colorScheme='green' defaultChecked>
+          <Stack spacing={5} bg={'gray.100'} padding={'16px'}>
+            <Checkbox colorScheme="green" defaultChecked>
               テレビの音が大きいと言われる。
             </Checkbox>
-            <Checkbox colorScheme='green' defaultChecked>
+            <Checkbox colorScheme="green" defaultChecked>
               会議で相手の発言が聞き取りにくい。
             </Checkbox>
-            <Checkbox colorScheme='green' defaultChecked>
+            <Checkbox colorScheme="green" defaultChecked>
               聞き間違えることが多い。
             </Checkbox>
-            <Checkbox colorScheme='green' defaultChecked>
+            <Checkbox colorScheme="green" defaultChecked>
               会話が聞き取れず、聞き返してしまう。
             </Checkbox>
-            <Checkbox colorScheme='green' defaultChecked>
+            <Checkbox colorScheme="green" defaultChecked>
               病院などで呼ばれても気づかないことがある。
             </Checkbox>
-            <Checkbox colorScheme='green' defaultChecked>
+            <Checkbox colorScheme="green" defaultChecked>
               後ろから呼ばれても気づかない。
             </Checkbox>
           </Stack>
@@ -137,12 +154,13 @@ export const FaceFormPage = () => {
             <Flex>
               <Button
                 onClick={() => {
-                  postUserStatusData()
+                  postUserStatusData();
                 }}
                 colorScheme="teal"
                 variant="solid"
                 w="7rem"
-                mr="5%">
+                mr="5%"
+              >
                 登録
               </Button>
             </Flex>
@@ -151,4 +169,4 @@ export const FaceFormPage = () => {
       </Box>
     </>
   );
-}
+};
