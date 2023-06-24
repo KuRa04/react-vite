@@ -273,17 +273,9 @@ export const PureToneFormPage = () => {
         </Box>
       </Box>
       <Modal
-        closeOnOverlayClick={false}
         size="3xl"
-        isOpen={Boolean(checkingDialogData.isOpen)}
-        onClose={() =>
-          setCheckingDialogData({
-            frequency: -1,
-            isOpen: false,
-            isHeard: false,
-            volume: 0,
-          })
-        }
+        isOpen={checkingDialogData.isOpen}
+        onClose={closeCheckingDialog}
       >
         <ModalOverlay />
         <ModalContent>
