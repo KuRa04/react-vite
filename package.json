@@ -13,7 +13,7 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@chakra-ui/icons": "^2.0.18",
+    "@chakra-ui/icons": "^2.0.19",
     "@chakra-ui/react": "^2.5.5",
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
@@ -25,7 +25,7 @@
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.43.9",
-    "react-icons": "^4.8.0",
+    "react-icons": "^4.10.1",
     "react-router-dom": "^6.10.0",
     "recoil": "^0.7.7",
     "styled-components": "^5.3.9"

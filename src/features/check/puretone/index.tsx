@@ -41,6 +41,17 @@ export const PureTonePage = () => {
         <Box>
           {ears.map((ear, index) => {
             return (
+              <Box key={index} mt="4">
+                <Link to={`detail?ear=${ear}`}>
+                  <Text color={'blue.400'}>{ear}</Text>
+                </Link>
+              </Box>
+            );
+          })}
+        </Box>
+        {/* <Box>
+          {ears.map((ear, index) => {
+            return (
               <Box key={`${ear}-${index}`} mt="2%">
                 <Text as="p" fontWeight={'bold'}>
                   {ear}
@@ -60,19 +71,9 @@ export const PureTonePage = () => {
               </Box>
             );
           })}
-        </Box>
+        </Box> */}
         <Box mt="2%">
-          {/* <Text as="p" fontWeight={'bold'}>
-            暗騒音レベル
-          </Text> */}
-          <Button
-            // isDisabled={step === 3}
-            onClick={() => {
-              goBack();
-            }}
-            colorScheme="teal"
-            variant="outline"
-          >
+          <Button onClick={() => goBack()} colorScheme="teal" variant="outline">
             戻る
           </Button>
         </Box>
