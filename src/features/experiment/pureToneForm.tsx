@@ -102,7 +102,7 @@ export const ExperimentPureToneFormPage = () => {
       'answer',
       'puretone'
     );
-    setDoc(collectionPath, {
+    await setDoc(collectionPath, {
       id: userInfo[0].id,
       HzValue: hzValue,
       dB: selectFreqHzObj[selectIndex],
