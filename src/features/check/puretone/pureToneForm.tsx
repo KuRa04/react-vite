@@ -246,6 +246,7 @@ export const PureToneFormPage = () => {
                     </Td>
                     <Td>
                       <Checkbox
+                        isDisabled
                         isChecked={data.isHeard}
                         onChange={(e) => updateChecked(e, data)}
                       ></Checkbox>
