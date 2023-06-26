@@ -7,7 +7,7 @@ import {
   frequency4000HzVolume1DataSet,
   frequency8000HzVolume1DataSet,
   frequency10000HzVolume1DataSet,
-  freq12000HzDataSet,
+  // freq12000HzDataSet,
 } from './conversionGainToSoundPressure';
 
 export const frequencyDataSet: { [key: string]: { [key: string]: number } } = {
@@ -18,6 +18,6 @@ export const frequencyDataSet: { [key: string]: { [key: string]: number } } = {
   '3000': frequency3000HzVolume1DataSet,
   '4000': frequency4000HzVolume1DataSet,
   '8000': frequency8000HzVolume1DataSet,
-  '10000': frequency10000HzVolume1DataSet,
-  '12000': freq12000HzDataSet,
+  '10000': frequency10000HzVolume1DataSet
+  // '12000': freq12000HzDataSet,
 };
