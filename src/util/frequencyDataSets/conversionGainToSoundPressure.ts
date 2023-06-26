@@ -1,4 +1,4 @@
-export const freq250HzDataSet: { [key: string]: number } = {
+export const frequency250HzVolume1DataSet: { [key: string]: number } = {
   '0': 0,
   '0.001': 1.7,
   '0.002': 6.87,
@@ -30,7 +30,7 @@ export const freq250HzDataSet: { [key: string]: number } = {
   '1.0': 59.3,
 };
 
-export const freq500HzDataSet: { [key: string]: number } = {
+export const frequency500HzVolume1DataSet: { [key: string]: number } = {
   '0': 0,
   '0.001': 1.05,
   '0.002': 5.8,
@@ -62,7 +62,7 @@ export const freq500HzDataSet: { [key: string]: number } = {
   '1.0': 58.6,
 };
 
-export const freq1000HzDataSet: { [key: string]: number } = {
+export const frequency1000HzVolume1DataSet: { [key: string]: number } = {
   '0': 0,
   '0.001': -0.35,
   '0.002': 4.6,
@@ -94,7 +94,7 @@ export const freq1000HzDataSet: { [key: string]: number } = {
   '1.0': 57,
 };
 
-export const freq2000HzDataSet: { [key: string]: number } = {
+export const frequency2000HzVolume1DataSet: { [key: string]: number } = {
   '0': 0,
   '0.001': -2.65,
   '0.002': -0.65,
@@ -126,7 +126,7 @@ export const freq2000HzDataSet: { [key: string]: number } = {
   '1.0': 49,
 };
 
-export const freq3000HzDataSet: { [key: string]: number } = {
+export const frequency3000HzVolume1DataSet: { [key: string]: number } = {
   '0': 0,
   '0.001': 2.05,
   '0.002': 4.2,
@@ -155,10 +155,10 @@ export const freq3000HzDataSet: { [key: string]: number } = {
   '0.7': 48.7,
   '0.8': 49.8,
   '0.9': 50.9,
-  '1.0': 51.8
+  '1.0': 51.8,
 };
 
-export const freq4000HzDataSet: { [key: string]: number } = {
+export const frequency4000HzVolume1DataSet: { [key: string]: number } = {
   '0': 0,
   '0.001': 2.6,
   '0.002': 6.25,
@@ -187,10 +187,10 @@ export const freq4000HzDataSet: { [key: string]: number } = {
   '0.7': 53.2,
   '0.8': 54.4,
   '0.9': 55.4,
-  '1.0': 56.3
-}
+  '1.0': 56.3,
+};
 
-export const freq8000HzDataSet: { [key: string]: number } = {
+export const frequency8000HzVolume1DataSet: { [key: string]: number } = {
   '0': 0,
   '0.001': 3.45,
   '0.002': 5.7,
@@ -219,10 +219,10 @@ export const freq8000HzDataSet: { [key: string]: number } = {
   '0.7': 51.9,
   '0.8': 53.1,
   '0.9': 54.1,
-  '1.0': 55
+  '1.0': 55,
 };
 
-export const freq10000HzDataSet: { [key: string]: number } = {
+export const frequency10000HzVolume1DataSet: { [key: string]: number } = {
   // '0': 0,
   // '0.001': 6.9,
   '0.002': 8.4,
@@ -253,6 +253,16 @@ export const freq10000HzDataSet: { [key: string]: number } = {
   '0.9': 53.57,
   '1': 54.53,
 };
+
+//  volume1 End
+
+//  volume2 Start
+
+//  volume2 End
+
+//  volume3 Start
+
+//  volume3 End
 
 export const freq12000HzDataSet: { [key: string]: number } = {
   '0': 0,
