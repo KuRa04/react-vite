@@ -258,7 +258,7 @@ export const PureToneFormPage = () => {
           </Table>
         </TableContainer>
         <Box mt="2%">
-          <Button zIndex={99999} onClick={() => postPuretoneData()}>
+          <Button onClick={() => postPuretoneData()}>
             以上の内容で登録
           </Button>
         </Box>
