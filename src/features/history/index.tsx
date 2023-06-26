@@ -141,7 +141,7 @@ export const HistoryPage = () => {
       {
         label: '暗騒音',
         data: array,
-        borderColor: 'zrgb(248,180,0)',
+        borderColor: 'rgb(248,180,0)',
         backgroundColor: 'rgba(248,180,0, 0.5)',
       },
     ],
