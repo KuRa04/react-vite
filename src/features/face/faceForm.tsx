@@ -58,8 +58,8 @@ export const FaceFormPage = () => {
     setSex(e);
   };
 
-  const postUserStatusData = () => {
-    setDoc(doc(fireStore, 'users', userId), {
+  const postUserStatusData = async () => {
+    await setDoc(doc(fireStore, 'users', userId), {
       userId,
       age,
       sex,
