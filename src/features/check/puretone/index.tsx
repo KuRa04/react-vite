@@ -35,7 +35,7 @@ export const PureTonePage = () => {
           <Text as="p">純音をどの程度聴きとれるか調べる検査です。</Text>
           <Text as="p">イヤホン・ヘッドホンを着用してください。</Text>
           <Text as="p">
-            検査したい耳，周波数を選んで検査を開始してください。
+            検査したい耳を選んで検査を開始してください。
           </Text>
         </Box>
         <Box>

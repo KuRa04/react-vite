@@ -155,7 +155,6 @@ export const HistoryPage = () => {
       userInfoData.userId,
       'puretone'
     );
-    // console.log(fireStore)
     const querySnapshot = await getDocs(puretoneCollectionRef);
     querySnapshot.forEach((doc) => {
       if (doc.data().ear === 'left') {
@@ -176,10 +175,8 @@ export const HistoryPage = () => {
           both: doc.data().puretoneData,
         }));
       }
-      console.log(doc.id, '=>', doc.data().created_at.seconds);
     });
 
-    console.log(hearingData);
     // const docRef = doc(fireStore, 'users', userInfo.userId);
     // const puretoneRef = doc(
     //   fireStore,
