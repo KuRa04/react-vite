@@ -1,4 +1,4 @@
-import { Box, Button, Heading } from '@chakra-ui/react';
+import { Box, ButtonGroup, Button, Heading } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { firebase } from '../../firebase';
 import { getDocs, getDoc, collection, doc } from 'firebase/firestore';
@@ -95,8 +95,8 @@ export const HistoryPage = () => {
   const [hearingData, setHearingData] = useState({
     left: puretoneDataObj,
     right: puretoneDataObj,
-    both: puretoneDataObj
-  })
+    both: puretoneDataObj,
+  });
 
   const [userInfo, setUserInfo] = useState<UserInfo>(userInfoData);
   const [pureToneData, setPuretoneData] =
@@ -148,7 +148,7 @@ export const HistoryPage = () => {
   };
 
   const getHearingData = async () => {
-    console.log(fireStore)
+    console.log(fireStore);
     const puretoneCollectionRef = collection(
       fireStore,
       'users',
@@ -156,28 +156,31 @@ export const HistoryPage = () => {
       'puretone'
     );
     // console.log(fireStore)
-    const querySnapshot = await getDocs(puretoneCollectionRef)
+    const querySnapshot = await getDocs(puretoneCollectionRef);
     querySnapshot.forEach((doc) => {
       if (doc.data().ear === 'left') {
         setHearingData((prev) => ({
-          ...prev, left: doc.data().puretoneData
-        }))
+          ...prev,
+          left: doc.data().puretoneData,
+        }));
       }
       if (doc.data().ear === 'right') {
         setHearingData((prev) => ({
-          ...prev, right: doc.data().puretoneData
-        }))
+          ...prev,
+          right: doc.data().puretoneData,
+        }));
       }
       if (doc.data().ear === 'both') {
         setHearingData((prev) => ({
-          ...prev, both: doc.data().puretoneData
-        }))
+          ...prev,
+          both: doc.data().puretoneData,
+        }));
       }
-      console.log(doc.id, "=>", doc.data().created_at.seconds)
-    })
+      console.log(doc.id, '=>', doc.data().created_at.seconds);
+    });
 
-    console.log(hearingData)
-       // const docRef = doc(fireStore, 'users', userInfo.userId);
+    console.log(hearingData);
+    // const docRef = doc(fireStore, 'users', userInfo.userId);
     // const puretoneRef = doc(
     //   fireStore,
     //   'users',
@@ -257,49 +260,29 @@ export const HistoryPage = () => {
             聴こえチェック履歴
           </Heading>
           <Line options={options} data={data} />
-          <Button
-            onClick={() => {
-              getHearingData();
-            }}
-            // isDisabled={step === 1}
-            colorScheme="teal"
-            variant="solid"
-            mr="5%"
-          >
-            履歴取得（左耳）
-          </Button>
-          <Button
-            onClick={() => {
-              getHearingData();
-            }}
-            // isDisabled={step === 1}
-            colorScheme="teal"
-            variant="solid"
-            mr="5%"
-          >
-            履歴取得（右耳）
-          </Button>
-          <Button
-            onClick={() => {
-              getHearingData();
-            }}
-            // isDisabled={step === 1}
-            colorScheme="teal"
-            variant="solid"
-            mr="5%"
-          >
-            履歴取得（両耳）
-          </Button>
-          <Button
-            onClick={() => {
-              downloadCSV(csvData, 'data.csv');
-            }}
-            // isDisabled={step === 1}
-            colorScheme="teal"
-            variant="solid"
-          >
-            csvダウンロード
-          </Button>
+          <ButtonGroup display={'flex'}justifyContent={'center'}>
+            <Button
+              onClick={() => {
+                getHearingData();
+              }}
+              // isDisabled={step === 1}
+              colorScheme="teal"
+              variant="solid"
+              mr="5%"
+            >
+              履歴取得
+            </Button>
+            <Button
+              onClick={() => {
+                downloadCSV(csvData, 'data.csv');
+              }}
+              // isDisabled={step === 1}
+              colorScheme="teal"
+              variant="solid"
+            >
+              csvダウンロード
+            </Button>
+          </ButtonGroup>
         </Box>
         <Box>
           {/* {
