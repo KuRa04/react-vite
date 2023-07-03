@@ -14,6 +14,7 @@ import { ExperimentPureToneFormPage } from './features/experiment/pureToneForm';
 import { HomePage } from './features/home';
 
 function App() {
+  console.log(import.meta.env.MODE);
   return (
     <RecoilRoot>
       <BrowserRouter>

@@ -26,11 +26,11 @@ jobs:
           npm run lint
           npm run test
 
-      - run: npm run build prod
+      - run: npm run build dev
 
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_SAMPLE_REACT_VITE }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_SAMPLE_HEAR_CHECK }}'
           channelId: live
-          projectId: sample-react-vite
+          projectId: hear-check
