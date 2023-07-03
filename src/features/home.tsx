@@ -13,7 +13,6 @@ export const HomePage = () => {
         m="10px auto"
         as="form"
       >
-      <h1>Vite + React ({import.meta.env.MODE})</h1>  
         <Box>
           <OrderedList color={'blue.400'}>
             <ListItem>
