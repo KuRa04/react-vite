@@ -166,7 +166,7 @@ export const ExperimentPureToneFormPage = () => {
         <ButtonGroup mt="2%" w="100%">
           <Flex w="100%" justifyContent="space-between">
             <Flex>
-              {gainArray.map((item, index) => {
+              {/* {gainArray.map((item, index) => {
                 return (
                   <Button
                     key={`button-${index}`}
@@ -181,7 +181,19 @@ export const ExperimentPureToneFormPage = () => {
                     {item}
                   </Button>
                 );
-              })}
+              })} */}
+                  <Button
+                    key={`button`}
+                    onClick={() => {
+                      onClickStart(gainInitialValue);
+                    }}
+                    // isDisabled={step === 1}
+                    colorScheme="teal"
+                    variant="solid"
+                    mr="2%"
+                  >
+                    {gainInitialValue}
+                  </Button>
             </Flex>
           </Flex>
         </ButtonGroup>
